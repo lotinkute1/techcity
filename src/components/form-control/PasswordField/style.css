@@ -1,0 +1,18 @@
+.MuiFormLabel-root {
+  font-size: 14px !important;
+}
+.MuiFormHelperText-root.Mui-error {
+  font-size: 12px !important;
+}
+.MuiOutlinedInput-input {
+  padding: 20px 14px !important;
+}
+.MuiInputBase-input{
+  font-size: 14px !important;
+}
+/* p.MuiFormHelperText-root.Mui-error {
+  padding: 0 14px;
+} */
+/* .MuiInputBase-root {
+  margin: 0 !important;
+} */
