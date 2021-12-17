@@ -8,6 +8,8 @@ import store from "./app/store";
 import "./assets/css/index.css";
 import "./assets/css/itemsSlides.css";
 import "./assets/css/slides.css";
+import  "./assets/js/index.js";
+import  "./assets/js/slides";
 
 
 ReactDOM.render(
