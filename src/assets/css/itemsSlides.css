@@ -1,0 +1,75 @@
+.main-carousel{
+  border-radius: 5px;
+  overflow: hidden;
+}
+.flickity-prev-next-button {
+    width: 40px;
+    height: 40px;
+    background:#fed80079 ;
+    color: rgba(255, 255, 255, 0.8);
+    transition: color .3s,background .3s;
+}
+.flickity-prev-next-button.next{
+  right: 2px;
+  border-radius: 25px 0 0 25px;
+}
+.flickity-prev-next-button.previous{
+  left:1px;
+  border-radius:0 25px 25px 0;
+}
+.flickity-prev-next-button:hover {
+    color: white;
+    background:#fed700 ;
+    /* background: transparent; */
+}
+.flickity-prev-next-button:disabled {
+    display: none;
+}
+.carousel {
+    background: #EEE;
+}
+  /* carousel-cell tại trang chủ */
+  .carousel-cell {
+    width: 24%;
+    
+    margin-right: 15px;
+    /* background: #8C8; */
+    border-radius: 5px;
+    counter-increment: carousel-cell;
+  }
+  /* carousel-cell tại trang chi tiết */
+  .item-img-info.carousel-cell{
+    width: 100%;
+    
+    margin-right: 10px;
+    /* background: #8C8; */
+    border-radius: 5px;
+    
+  }
+  
+  .carousel-cell.is-selected {
+    /* background: #ED2; */
+  }
+  
+  /* cell number */
+  /* .carousel-cell:before {
+    display: block;
+    text-align: center;
+    content: counter(carousel-cell);
+    line-height: 200px;
+    font-size: 80px;
+    color: white;
+  } */
+  .carousel-main{
+    background-color: transparent;
+    border: 1px solid #cecece;
+    border-radius: 5px;
+    margin-bottom:10px;
+  }
+  .carousel.carousel-nav{
+    background-color: transparent;
+  }
+  .carousel-nav .carousel-cell{
+    margin-right: 5px;
+    border: 1px solid #cecece;
+  }
