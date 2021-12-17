@@ -1,5 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { LinearProgress, makeStyles } from "@material-ui/core";
+import {  makeStyles } from "@mui/styles";
+import { LinearProgress } from "@mui/material";
 import PropTypes from "prop-types";
 import React from "react";
 import { useForm } from "react-hook-form";

@@ -5,7 +5,8 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import InputField from "../../../../components/form-control/InputField";
 import PasswordField from "../../../../components/form-control/PasswordField";
-import { LinearProgress, makeStyles } from "@material-ui/core";
+import {  makeStyles } from "@mui/styles";
+import { LinearProgress } from "@mui/material";
 
 LoginForm.propTypes = {
   onSubmit: PropTypes.func,
