@@ -10,12 +10,8 @@ function App() {
     <div className="wrapper">
       <Header/>
       <Main/>
-      
     </div>
-
-    
   );
-  
 }
 
 export default App;

@@ -59,7 +59,7 @@ function PasswordField(props) {
                 value={value}
                 onBlur={onBlur}
                 onChange={onChange}
-                label={`${label}ddddd`}
+                label={`${label}`}
               />
             </FormControl>
             <FormHelperText margin="dense" error={invalid}>

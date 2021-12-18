@@ -129,14 +129,14 @@ function RegisterForm({
               </p>
             </div>
             <div className="auth-form__controls">
-              <button onClick={handleCloseRegister} className="btn btn--normal">
+              <button onClick={handleCloseRegister} className="btn-2 btn-2--normal">
                 TRỞ LẠI
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
                 // onClick={handleCloseRegister}
-                className="btn btn--primary"
+                className="btn-2 btn-2--primary"
               >
                 ĐĂNG KÍ
               </button>

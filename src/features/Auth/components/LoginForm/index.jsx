@@ -98,13 +98,13 @@ function LoginForm({
               </div>
             </div>
             <div className="auth-form__controls">
-              <button onClick={handleCloseLogin} className="btn btn--normal">
+              <button onClick={handleCloseLogin} className="btn-2 btn-2--normal">
                 TRỞ LẠI
               </button>
               <button
                 disabled={isSubmitting}
                 type="submit"
-                className="btn btn--primary"
+                className="btn-2 btn-2--primary"
               >
                 ĐĂNG NHẬP
               </button>
