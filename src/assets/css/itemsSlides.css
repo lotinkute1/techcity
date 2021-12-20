@@ -28,6 +28,8 @@
 .carousel {
     background: #EEE;
 }
+  /*  */
+  
   /* carousel-cell tại trang chủ */
   .carousel-cell {
     width: 24%;
@@ -73,3 +75,14 @@
     margin-right: 5px;
     border: 1px solid #cecece;
   }
+  /*custom css cua banner */
+  .banner .carousel-cell{
+    width: 100%;
+    height: 353px;
+  }
+  .banner .flickity-page-dots{
+    bottom:8px;
+  }
+  .banner .dot{
+    background-color: var(--yellow-main);
+}

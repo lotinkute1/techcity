@@ -512,7 +512,11 @@ input {
 
 .section.shop-info {}
 
-.banner {}
+.banner {
+    overflow: hidden;
+    border-radius:5px;
+}
+
 
 .section.ad {
     overflow: hidden;
