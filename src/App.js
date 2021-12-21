@@ -1,16 +1,19 @@
 
 import './App.css';
 import Header from "./components/Header2/index";
-import Main from './components/Main/Main';
+import ShowAllProduct from './features/ShowAllProduct';
+import Supplier from './features/Supplier';
 
 function App() {
   
 
   return (
-    <div className="wrapper">
+    <div>
+      <div className="wrapper">
       <Header/>
-      <Main/>
-      
+      <Supplier/>
+    </div>
+    
     </div>
 
     
