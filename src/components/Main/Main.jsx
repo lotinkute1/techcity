@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import slide1 from "../../assets/images/slides/slide1.webp";
 import slide2 from "../../assets/images/slides/slide2.webp";
 import slide3 from "../../assets/images/slides/slide3.webp";
 import slide4 from "../../assets/images/slides/slide4.webp";
 import adsImage from "../../assets/images/ads/ad1.jpg";
-import "../../assets/js/index";
+// import "../../assets/js/index";
+import {getData} from "../../app/mainSlice";
+
 export default function Main() {
+  // const data = useSelector(state => state.main.data)
+  const dispatch = useDispatch();
+  // const [mainData,setMainData]= useState(...data);
+  // console.log(mainData);
+  useEffect(() => {
+    dispatch(getData());
+  }, [])
   return (
     <div id="main">
       <div className="scroll-top">
