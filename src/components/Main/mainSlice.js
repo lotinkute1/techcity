@@ -8,13 +8,6 @@ const mainSlice = createSlice({
     reducers: {
         getData: function (state) {
             console.log("ket noi redux ok nha");
-            // onValue(dbRef, (snapshot) => {
-            //     let temp = [];
-            //     snapshot.forEach((item) => {
-            //       temp.push(item.val())
-            //     })
-            //     console.log(temp);
-            // })
         },
     }
 })

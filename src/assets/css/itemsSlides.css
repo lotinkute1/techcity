@@ -10,12 +10,12 @@
     transition: color .3s,background .3s;
 }
 .flickity-prev-next-button.next{
-  right: 2px;
-  border-radius: 25px 0 0 25px;
+  right: 10px;
+  border-radius: 25px;
 }
 .flickity-prev-next-button.previous{
-  left:1px;
-  border-radius:0 25px 25px 0;
+  left:10px;
+  border-radius:25px;
 }
 .flickity-prev-next-button:hover {
     color: white;
@@ -32,12 +32,11 @@
   
   /* carousel-cell tại trang chủ */
   .carousel-cell {
-    width: 24%;
-    
+    width: 100%;
     margin-right: 15px;
     /* background: #8C8; */
     border-radius: 5px;
-    counter-increment: carousel-cell;
+
   }
   /* carousel-cell tại trang chi tiết */
   .item-img-info.carousel-cell{
@@ -67,6 +66,7 @@
     border: 1px solid #cecece;
     border-radius: 5px;
     margin-bottom:10px;
+    
   }
   .carousel.carousel-nav{
     background-color: transparent;
@@ -85,4 +85,22 @@
   }
   .banner .dot{
     background-color: var(--yellow-main);
+}
+
+
+/* SLICK FRAMEWORK */
+.slick-next,.slick-prev{
+  width: 30px;
+  z-index: 999;
+}
+.slick-prev{
+  left: -13px;
+}
+.slick-next{
+  right: -13px;
+}
+
+.slick-next:before,.slick-prev:before{
+  color: var(--yellow-main);
+  font-size: 30px;
 }

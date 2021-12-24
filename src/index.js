@@ -8,7 +8,6 @@ import store from "./app/store";
 import "./assets/css/index.css";
 import "./assets/css/itemsSlides.css";
 import { BrowserRouter } from "react-router-dom";
-
 ReactDOM.render(
   <BrowserRouter>
     <React.StrictMode>
