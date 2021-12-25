@@ -2,7 +2,7 @@ import React from "react";
 import NumberFormat from "react-number-format";
 export default function ItemCard(props) {
   return (
-    <div className="carousel-item">
+    <div className="carousel-box">
       <a href="./product_info.html" alt="" className="carousel-item__image">
         <img src={props.productImage} alt="" />
       </a>

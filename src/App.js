@@ -12,7 +12,7 @@ function App() {
   return (
     <div className="wrapper">
       <Header/>
-      <ShowAllProduct/>
+      <Router/>
       <Footer/>
     </div>
 

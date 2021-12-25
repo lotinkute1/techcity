@@ -3,8 +3,8 @@ import  "./style.css";
 import logo from "../../assets/images/logo-web.png";
 export default function Header() {
   return (
-    <header id="header" className="">
-      <div className="header-wrapper">
+    <div id="" className="header">
+      <div className="div-wrapper">
         <div className="header-top">
           <div className="header-top-wrapper">
             <div className="header__logo">
@@ -262,6 +262,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-    </header>
+    </div>
   );
 }

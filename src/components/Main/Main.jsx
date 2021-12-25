@@ -9,7 +9,7 @@ import ItemsCarousel from "../ItemsCarousel/ItemsCarousel"
 import GetProductsData from "../../api/GetProductsData";
 import Flickity from "flickity";
 import {getData} from "./mainSlice";
-
+import "../../assets/js/index"
 export default function Main() {
   const data=GetProductsData();
   // console.log(data[]);
