@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import slide1 from "../../assets/images/slides/slide1.webp";
-import slide2 from "../../assets/images/slides/slide2.webp";
-import slide3 from "../../assets/images/slides/slide3.webp";
-import slide4 from "../../assets/images/slides/slide4.webp";
+
 import adsImage from "../../assets/images/ads/ad1.jpg";
 import ItemsCarousel from "../ItemsCarousel/ItemsCarousel"
 import GetProductsData from "../../api/GetProductsData";
@@ -11,6 +8,7 @@ import GetProductsData from "../../api/GetProductsData";
 
 import Flickity from "flickity";
 import {getData} from "./mainSlice";
+import Banner from "../Banner/Banner";
 
 export default function Main() {
   const data=GetProductsData();
@@ -34,7 +32,7 @@ export default function Main() {
       </div>
       <div className="content">
 
-        <section className="section banner">
+        {/* <section className="section banner">
           <div className="carousel" data-flickity='{"autoPlay": 5000}'>
             <div className="carousel-cell">
               <a href="/#">
@@ -57,8 +55,8 @@ export default function Main() {
               </a>
             </div>
           </div>
-        </section>
-        
+        </section> */}
+        <Banner/>
         
         <ItemsCarousel categoryID="" itemData={data} title="Sản phẩm nổi bật"/>
         {/* <ItemsCarousel title="Điện thoại"/> */}
