@@ -3,7 +3,8 @@ import './style.css'
 class ShowAllProduct extends Component {
     render() {
         return (
-                  <div className="show-all">
+            <section className='section'>
+               <div className="show-all">
   <div className="container allproduct">
     <div className="row product-filter py-3">
       <h5><a href style={{color: 'rgba(128, 128, 128, 0.637) !important'}}>TRANG CHỦ</a> / CỬA HÀNG</h5>
@@ -256,6 +257,7 @@ class ShowAllProduct extends Component {
     </div>
   </div>
 </div>
+            </section>
 
         );
     }
