@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="wrapper">
       <Header/>
-      <Supplier/>
+      <Router/>
       <Footer/>
     </div>
 

@@ -8,6 +8,7 @@ import GetProductsData from "../../api/GetProductsData";
 
 import Flickity from "flickity";
 import {getData} from "./mainSlice";
+import Banner from "../Banner/Banner";
 export default function Main() {
   const data=GetProductsData();
   // console.log(data[]);
@@ -30,6 +31,7 @@ export default function Main() {
       </div>
       <div className="content">
         {/* banner comp */}
+        <Banner/>
         
         
         <ItemsCarousel categoryID="" itemData={data} title="Sản phẩm nổi bật"/>
