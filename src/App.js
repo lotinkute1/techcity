@@ -5,7 +5,8 @@ import Header from "./components/Header2/index";
 import Router from './features/Router/Router';
 import firebase from './features/Firebase/Firebase';
 import ShowAllProduct from './features/ShowAllProduct';
-
+import Payment from './features/Payment';
+import "./assets/js/index";
 function App() {
   
 

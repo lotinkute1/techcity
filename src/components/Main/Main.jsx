@@ -7,11 +7,10 @@ import slide4 from "../../assets/images/slides/slide4.webp";
 import adsImage from "../../assets/images/ads/ad1.jpg";
 import ItemsCarousel from "../ItemsCarousel/ItemsCarousel"
 import GetProductsData from "../../api/GetProductsData";
-import "../../assets/js/index";
+
 
 import Flickity from "flickity";
 import {getData} from "./mainSlice";
-import "../../assets/js/index"
 export default function Main() {
   const data=GetProductsData();
   // console.log(data[]);
