@@ -50,7 +50,9 @@ export default function ItemsCarousel(props) {
       >
         {renderItems}
       </div> */}
-      <Slider {...settings}>{renderItems}</Slider>
+      <Slider {...settings}>
+        {renderItems}
+      </Slider>
     </section>
   );
 }

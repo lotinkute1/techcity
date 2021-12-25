@@ -25,7 +25,7 @@ document.addEventListener(
       ".quantily-wrapper .btn-option:first-child"
     );
     const quantilyInputOp = document.querySelector(".quantily-options__number");
-    if (increQuantilyBtnOp || decreQuantilyBtnOp || quantilyInputOp) {
+    if (increQuantilyBtnOp && decreQuantilyBtnOp && quantilyInputOp) {
       increQuantilyBtnOp.onclick = () => {
         let numberOption = Number(quantilyInputOp.value);
         if (numberOption < 999) {

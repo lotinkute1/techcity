@@ -1,15 +1,16 @@
 import React from "react";
 import NumberFormat from "react-number-format";
+import { Link } from "react-router-dom";
 export default function ItemCard(props) {
   return (
     <div className="carousel-box">
-      <a href="./product_info.html" alt="" className="carousel-item__image">
+      <Link to="/product_info.html" alt="" className="carousel-item__image">
         <img src={props.productImage} alt="" />
-      </a>
+      </Link>
       <div className="carousel-item__bot-wrapper">
-        <a href="./product_info.html" className="carousel-item__title">
+        <Link to="/product_info" className="carousel-item__title">
           <h3 className="text-wrap">{props.productName}</h3>
-        </a>
+        </Link>
         <div className="carousel-item__raiting">
           <div className="raiting-starts">
             <i className="fas fa-star" />

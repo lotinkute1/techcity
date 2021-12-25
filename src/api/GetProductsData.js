@@ -30,6 +30,7 @@ function GetProductsData(categoryID = "") {
                 id: item.key,
                 ...item.val(),
               });
+              console.log(item.key);
             }
           });
           setProData(temp);
