@@ -33,7 +33,7 @@ export default function ItemsCarousel(props) {
       )
     }
   });
-  
+
   return (
     <section className="section items">
       <div className="section-title">
@@ -50,7 +50,9 @@ export default function ItemsCarousel(props) {
       >
         {renderItems}
       </div> */}
-      <Slider {...settings}>{renderItems}</Slider>
+      <Slider {...settings}>
+        {renderItems}
+      </Slider>
     </section>
   );
 }

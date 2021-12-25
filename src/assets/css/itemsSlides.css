@@ -81,6 +81,9 @@
     width: 100%;
     height: 353px;
   }
+  .items .carousel-cell{
+    width:19%;
+  }
   .banner .flickity-page-dots{
     bottom:8px;
   }

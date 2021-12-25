@@ -7,6 +7,8 @@ import slide4 from "../../assets/images/slides/slide4.webp";
 import adsImage from "../../assets/images/ads/ad1.jpg";
 import ItemsCarousel from "../ItemsCarousel/ItemsCarousel"
 import GetProductsData from "../../api/GetProductsData";
+import "../../assets/js/index";
+
 import Flickity from "flickity";
 import {getData} from "./mainSlice";
 
@@ -73,9 +75,7 @@ export default function Main() {
         <ItemsCarousel categoryID="ctgr02" itemData={data} title="máy tính sách tay"/>
         <ItemsCarousel categoryID="ctgr03" itemData={data} title="máy tính bảng"/>
         <ItemsCarousel categoryID="ctgr06" itemData={data} title="Đồng hồ thông minh"/>
-        {/* <ItemsCarousel categoryID="ctgr02" title="máy tính sách tay"/> */}
-        {/* <ItemsCarousel categoryID="ctgr03" title="máy tính bảng"/> */}
-        {/* <ItemsCarousel categoryID="ctgr03" title="Đồng hồ thông minh"/> */}
+        
         
       </div>
     </div>

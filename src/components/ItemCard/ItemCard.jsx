@@ -3,7 +3,7 @@ import NumberFormat from "react-number-format";
 import { Link } from "react-router-dom";
 export default function ItemCard(props) {
   return (
-    <div className="carousel-item">
+    <div className="carousel-box">
       <Link to="/product_info" alt="" className="carousel-item__image">
         <img src={props.productImage} alt="" />
       </Link>

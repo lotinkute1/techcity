@@ -1,6 +1,3 @@
-
-
-
 document.addEventListener(
   "DOMContentLoaded",
   function () {
@@ -10,11 +7,13 @@ document.addEventListener(
     const header = document.querySelector("#header");
 
     function hideElement() {
-      if (window.pageYOffset <= 0) scrollTop.classList.add("hidden");
-      else scrollTop.classList.remove("hidden");
+      if (scrollTop && header) {
+        if (window.pageYOffset <= 0) scrollTop.classList.add("hidden");
+        else scrollTop.classList.remove("hidden");
 
-      if (window.pageYOffset >= 175) header.classList.add("hidden-header");
-      else header.classList.remove("hidden-header");
+        if (window.pageYOffset >= 175) header.classList.add("hidden-header");
+        else header.classList.remove("hidden-header");
+      }
     }
     hideElement();
     window.addEventListener("scroll", hideElement);
@@ -27,7 +26,7 @@ document.addEventListener(
       ".quantily-wrapper .btn-option:first-child"
     );
     const quantilyInputOp = document.querySelector(".quantily-options__number");
-    if (increQuantilyBtnOp || decreQuantilyBtnOp || quantilyInputOp) {
+    if (increQuantilyBtnOp && decreQuantilyBtnOp && quantilyInputOp) {
       increQuantilyBtnOp.onclick = () => {
         let numberOption = Number(quantilyInputOp.value);
         if (numberOption < 999) {
