@@ -4,6 +4,7 @@ import Footer from './components/Footer/Footer';
 import Header from "./components/Header2/index";
 import Router from './features/Router/Router';
 import firebase from './features/Firebase/Firebase';
+import ShowAllProduct from './features/ShowAllProduct';
 
 function App() {
   
@@ -11,7 +12,7 @@ function App() {
   return (
     <div className="wrapper">
       <Header/>
-      <Router/>
+      <ShowAllProduct/>
       <Footer/>
     </div>
 
