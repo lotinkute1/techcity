@@ -3,7 +3,8 @@ import './style.css'
 class Supplier extends Component {
     render() {
         return (
-            <div className="full-supp">
+           <section className='section'>
+              <div className="full-supp">
   <div className="supplier">
     <div className="container pt-4">
       <div className="row">
@@ -164,6 +165,7 @@ class Supplier extends Component {
     </div>
   </div>
 </div>
+           </section>
 
         );
     }

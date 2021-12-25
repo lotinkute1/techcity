@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-
+import './style.css'
 class Payment extends Component {
     render() {
         return (
-            <div>
-                <main role="main" style="padding-top: 150px;"> 
+          
+               <section className='section'>
+                  <main role="main" className='payment'> 
   <div className="container mt-4">
     <form className="needs-validation" name="frmthanhtoan" method="post" action="#">
       <input type="hidden" name="kh_tendangnhap" defaultValue="dnpcuong" />
@@ -20,9 +21,9 @@ class Payment extends Component {
             <span className="badge badge-secondary badge-pill">2</span>
           </h4>
           <ul className="list-group mb-3">
-            <input type="hidden" name="sanphamgiohang[1][sp_ma]" defaultValue={2} />
-            <input type="hidden" name="sanphamgiohang[1][gia]" defaultValue={11800000.00} />
-            <input type="hidden" name="sanphamgiohang[1][soluong]" defaultValue={2} />
+            <input type="hidden" name="sanphamgiohang[1][sp_ma]"  />
+            <input type="hidden" name="sanphamgiohang[1][gia]"  />
+            <input type="hidden" name="sanphamgiohang[1][soluong]"  />
             <li className="list-group-item d-flex justify-content-between lh-condensed">
               <div>
                 <h6 className="my-0">Apple Ipad 4 Wifi 16GB</h6>
@@ -30,8 +31,8 @@ class Payment extends Component {
               </div>
               <span className="text-muted">23600000</span>
             </li>
-            <input type="hidden" name="sanphamgiohang[2][sp_ma]" defaultValue={4} />
-            <input type="hidden" name="sanphamgiohang[2][gia]" defaultValue={14990000.00} />
+            <input  name="sanphamgiohang[2][sp_ma]"  />
+            <input type="hidden" name="sanphamgiohang[2][gia]"  />
             <input type="hidden" name="sanphamgiohang[2][soluong]" defaultValue={8} />
             <li className="list-group-item d-flex justify-content-between lh-condensed">
               <div>
@@ -57,7 +58,7 @@ class Payment extends Component {
           <div className="row">
             <div className="col-md-12">
               <label htmlFor="kh_ten">Họ tên</label>
-              <input type="text" className="form-control" name="kh_ten" id="kh_ten" defaultValue="Dương Nguyễn Phú Cường" />
+              <input type="text" className="form-control" name="kh_ten" id="kh_ten" defaultValue="Nguyễn Đình Tín" />
             </div>
             <div className="col-md-12">
               <label htmlFor="kh_gioitinh">Giới tính</label>
@@ -65,7 +66,7 @@ class Payment extends Component {
             </div>
             <div className="col-md-12">
               <label htmlFor="kh_diachi">Địa chỉ</label>
-              <input type="text" className="form-control" name="kh_diachi" id="kh_diachi" defaultValue="130 Xô Viết Nghệ Tỉnh" />
+              <input type="text" className="form-control" name="kh_diachi" id="kh_diachi" defaultValue="130 Duy Tân" />
             </div>
             <div className="col-md-12">
               <label htmlFor="kh_dienthoai">Điện thoại</label>
@@ -73,11 +74,11 @@ class Payment extends Component {
             </div>
             <div className="col-md-12">
               <label htmlFor="kh_email">Email</label>
-              <input type="text" className="form-control" name="kh_email" id="kh_email" defaultValue="phucuong@ctu.edu.vn" />
+              <input type="text" className="form-control" name="kh_email" id="kh_email" defaultValue="tinn@ctu.edu.vn" />
             </div>
             <div className="col-md-12">
               <label htmlFor="kh_ngaysinh">Ngày sinh</label>
-              <input type="text" className="form-control" name="kh_ngaysinh" id="kh_ngaysinh" defaultValue="11/6/1989" />
+              <input type="text" className="form-control" name="kh_ngaysinh" id="kh_ngaysinh" defaultValue="11/6/2000" />
             </div>
             <div className="col-md-12">
               <label htmlFor="kh_cmnd">CMND</label>
@@ -108,8 +109,9 @@ class Payment extends Component {
   </div>
 
 </main>
+               </section>
 
-            </div>
+      
         );
     }
 }

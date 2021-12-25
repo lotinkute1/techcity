@@ -7,13 +7,14 @@ import firebase from './features/Firebase/Firebase';
 import ShowAllProduct from './features/ShowAllProduct';
 import Payment from './features/Payment';
 import "./assets/js/index";
+import Supplier from './features/Supplier';
 function App() {
   
 
   return (
     <div className="wrapper">
       <Header/>
-      <Router/>
+      <Supplier/>
       <Footer/>
     </div>
 
