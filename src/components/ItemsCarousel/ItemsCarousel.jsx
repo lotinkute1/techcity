@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Slider from "react-slick";
 import ItemCard from "../ItemCard/ItemCard";
-import {sliderSetting1} from "../settings/slickSetting"
+import {sliderItemsCrouselSetting} from "../settings/slickSetting"
 // import GetProductsData from "../../api/GetProductsData";
 export default function ItemsCarousel(props) {
   //   const itemData = GetProductsData(props.categoryID) || [];
@@ -39,7 +39,7 @@ export default function ItemsCarousel(props) {
       >
         {renderItems}
       </div> */}
-      <Slider {...sliderSetting1}>
+      <Slider {...sliderItemsCrouselSetting}>
         {renderItems}
       </Slider>
     </section>

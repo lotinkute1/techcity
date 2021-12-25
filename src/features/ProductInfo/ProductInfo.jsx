@@ -1,6 +1,9 @@
 import React from "react";
+import GetProductsDatatData from "../../api/GetProductsData";
+import ItemsCarousel from "../../components/ItemsCarousel/ItemsCarousel";
 
 export default function ProductInfo() {
+  const productData = GetProductsDatatData();
   return (
     <main id="main">
       <div className="scroll-top">
@@ -181,7 +184,10 @@ export default function ProductInfo() {
           <div className="shop-info__left-content">
             <div className="shop-info__ava">
               <a href="/#">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAe1BMVEX///8ODg4AAAAICAjh4eF9fX0zMzNOTk7X19cqKiphYWGsrKwKCgr7+/vm5uZ0dHS8vLzu7u5DQ0OdnZ3Nzc1TU1OTk5O/v7+GhoZJSUl5eXlYWFi2trZmZmbx8fEmJiZubm45OTkeHh4YGBjIyMijo6Ourq6YmJiDg4OqYIa4AAAEDUlEQVR4nO3cWWOiMBQFYLmIomLdWxds1S76/3/hAC4VSpxOPc690vM985AjCTcJkVqNiIiIiIiIiIiIiIiIiIiIiIiIiIiIiOiXCTtBoN2GGxr3JPGi3Yyb6bdEIs/zX7UbciNhQ8RLSUO7KbexO+RLEja123ILz41jviThXLs1N1CXz4CevGs3B68uvneWMNRuD9xzLmAk2u3Ba5110UoOwyAXsIKdNCwEbGk3CK5RSNjXbhBavxCwehOaVtVH4bgQsHorp16+UlTvMVNLl0snvgy02wOXKxW+1LXbg9c5n3FXMWCyKjwbg9Xroon2adlbwadoZnHYuJBh5ergwUL8dHdtMdZuyM2s5HUYxM/azaDvCePRNAge4wsDrt4Jmpuk067b0/jOKsfgvSmf2nG35JqnbL9b/CiK9pfN3/57O3/qLY33WdnTAMtC68OdSG4Ct79sVPZTmDNuSH79sC8P0fZU4LudRjHeKaT9ncVuuyTffhIqs04y2Ab9pTguyTK2jA/Isbvx6Y3cc1+RXfShHeKSUWnn+0cy1Y7hFly+Pd+OaHbKCgqYRHzUjlJuiwqYRDRZGp9wAZPHjcHC+Ix4yBwDvlgsGU1gH11qhynTBwa0WS1yrwSvC2jzQfoOu4Wy085SDnYLZaIdpRysUvgWy0RqApvNmCz1aS1EBWxrR3H4gCW0ug2+BCWUlXYSF9SEzewL4QfQLfQ32klcULXC6GymhlsYitm3GT1UQqPVHrZwijztIE4bzKRUZtpBnEDFwubCN4NK2NMO4lT5GQ0soeFeCko41A7iBBqHhg98+6iJt9mKv678rG1R+Zk36p2T3dOmI9gmhsXXFSnYXqLV3eBaHbfhbfVpikto9f02qlzYHYk7XEKjj1Pky0Ob/2QbIF/h2zz3BdrH2EfsaKcpMwXeRE9G2nFKvCET2tzOAB41SSMaPKC4gt5ET2RqbXaD7aZZRmtLKWw39QzuD0OfplnCWDtSAW59cUxobSDWZuBnjb2KgTx86dl84f0KnLl5staOU6IDnbk9accpgzueaPXMAvAmmisVB7CRaPb7ZrhdRaPn92A10fDHv0CHo+RBO4jbIyKiuVVFTuv6iFY3FA8A/dTqpvDR1Yf2Zasd4W+uPPJt+LjCUfeqyVskd/A1gvCam2i31p+7Yn5q9C9PX/z4vb4stJv+Xc6z+5GffUXBFdD+U+akXRIx+zbEZjZptuTL9xTuLmDJwegk1Co+zjcH/d7Xv+Wb/b+MQ6fwZYxh8fOI8TqXUUy+cbroYSL7ypgOvXnZTCxcHbpr2n/bhtcTTmGQfSdi03N+3bLbn6/TS5rbe8yX6Q6s/lWLiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIfq8/tzAurNL1lJsAAAAASUVORK5CYII=" alt="" />
+                <img
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAe1BMVEX///8ODg4AAAAICAjh4eF9fX0zMzNOTk7X19cqKiphYWGsrKwKCgr7+/vm5uZ0dHS8vLzu7u5DQ0OdnZ3Nzc1TU1OTk5O/v7+GhoZJSUl5eXlYWFi2trZmZmbx8fEmJiZubm45OTkeHh4YGBjIyMijo6Ourq6YmJiDg4OqYIa4AAAEDUlEQVR4nO3cWWOiMBQFYLmIomLdWxds1S76/3/hAC4VSpxOPc690vM985AjCTcJkVqNiIiIiIiIiIiIiIiIiIiIiIiIiIiIiOiXCTtBoN2GGxr3JPGi3Yyb6bdEIs/zX7UbciNhQ8RLSUO7KbexO+RLEja123ILz41jviThXLs1N1CXz4CevGs3B68uvneWMNRuD9xzLmAk2u3Ba5110UoOwyAXsIKdNCwEbGk3CK5RSNjXbhBavxCwehOaVtVH4bgQsHorp16+UlTvMVNLl0snvgy02wOXKxW+1LXbg9c5n3FXMWCyKjwbg9Xroon2adlbwadoZnHYuJBh5ergwUL8dHdtMdZuyM2s5HUYxM/azaDvCePRNAge4wsDrt4Jmpuk067b0/jOKsfgvSmf2nG35JqnbL9b/CiK9pfN3/57O3/qLY33WdnTAMtC68OdSG4Ct79sVPZTmDNuSH79sC8P0fZU4LudRjHeKaT9ncVuuyTffhIqs04y2Ab9pTguyTK2jA/Isbvx6Y3cc1+RXfShHeKSUWnn+0cy1Y7hFly+Pd+OaHbKCgqYRHzUjlJuiwqYRDRZGp9wAZPHjcHC+Ix4yBwDvlgsGU1gH11qhynTBwa0WS1yrwSvC2jzQfoOu4Wy085SDnYLZaIdpRysUvgWy0RqApvNmCz1aS1EBWxrR3H4gCW0ug2+BCWUlXYSF9SEzewL4QfQLfQ32klcULXC6GymhlsYitm3GT1UQqPVHrZwijztIE4bzKRUZtpBnEDFwubCN4NK2NMO4lT5GQ0soeFeCko41A7iBBqHhg98+6iJt9mKv678rG1R+Zk36p2T3dOmI9gmhsXXFSnYXqLV3eBaHbfhbfVpikto9f02qlzYHYk7XEKjj1Pky0Ob/2QbIF/h2zz3BdrH2EfsaKcpMwXeRE9G2nFKvCET2tzOAB41SSMaPKC4gt5ET2RqbXaD7aZZRmtLKWw39QzuD0OfplnCWDtSAW59cUxobSDWZuBnjb2KgTx86dl84f0KnLl5staOU6IDnbk9accpgzueaPXMAvAmmisVB7CRaPb7ZrhdRaPn92A10fDHv0CHo+RBO4jbIyKiuVVFTuv6iFY3FA8A/dTqpvDR1Yf2Zasd4W+uPPJt+LjCUfeqyVskd/A1gvCam2i31p+7Yn5q9C9PX/z4vb4stJv+Xc6z+5GffUXBFdD+U+akXRIx+zbEZjZptuTL9xTuLmDJwegk1Co+zjcH/d7Xv+Wb/b+MQ6fwZYxh8fOI8TqXUUy+cbroYSL7ypgOvXnZTCxcHbpr2n/bhtcTTmGQfSdi03N+3bLbn6/TS5rbe8yX6Q6s/lWLiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIfq8/tzAurNL1lJsAAAAASUVORK5CYII="
+                  alt=""
+                />
               </a>
             </div>
             <div className="shop-info__info">
@@ -279,7 +285,10 @@ export default function ProductInfo() {
             {/* comment */}
             <div className="comments__comment">
               <div className="comment__ava">
-                <img src="./assets/images/avatest.jfif" alt="" />
+                <img
+                  src="https://scontent.fhan2-3.fna.fbcdn.net/v/t1.6435-1/p320x320/184357069_1631277223738759_263572131023011701_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=7206a8&_nc_ohc=9-dgjOIhmfkAX-dYycP&tn=lFI0VGOfIpxrWGC-&_nc_ht=scontent.fhan2-3.fna&oh=00_AT-nRt3IjQsd19nOU0agm0JIL5vl-C7e2mOotrAQXPySEQ&oe=61EC2E82"
+                  alt=""
+                />
               </div>
               <div className="comment__main">
                 <div className="comment__name">Huydeptrai1</div>
@@ -306,7 +315,10 @@ export default function ProductInfo() {
             {/* comment */}
             <div className="comments__comment">
               <div className="comment__ava">
-                <img src="./assets/images/avatest.jfif" alt=""  />
+                <img
+                  src="https://scontent.fhan2-3.fna.fbcdn.net/v/t1.6435-1/p320x320/184357069_1631277223738759_263572131023011701_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=7206a8&_nc_ohc=9-dgjOIhmfkAX-dYycP&tn=lFI0VGOfIpxrWGC-&_nc_ht=scontent.fhan2-3.fna&oh=00_AT-nRt3IjQsd19nOU0agm0JIL5vl-C7e2mOotrAQXPySEQ&oe=61EC2E82"
+                  alt=""
+                />
               </div>
               <div className="comment__main">
                 <div className="comment__name">Huydeptrai2</div>
@@ -333,7 +345,10 @@ export default function ProductInfo() {
             {/* comment */}
             <div className="comments__comment">
               <div className="comment__ava">
-                <img src="./assets/images/avatest.jfif" alt=""  />
+                <img
+                  src="https://scontent.fhan2-3.fna.fbcdn.net/v/t1.6435-1/p320x320/184357069_1631277223738759_263572131023011701_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=7206a8&_nc_ohc=9-dgjOIhmfkAX-dYycP&tn=lFI0VGOfIpxrWGC-&_nc_ht=scontent.fhan2-3.fna&oh=00_AT-nRt3IjQsd19nOU0agm0JIL5vl-C7e2mOotrAQXPySEQ&oe=61EC2E82"
+                  alt=""
+                />
               </div>
               <div className="comment__main">
                 <div className="comment__name">Huydeptrai3</div>
@@ -376,419 +391,14 @@ export default function ProductInfo() {
           </div>
         </section>
         {/* sản phẩm liên quan */}
-        <section className="section items">
-          <div className="section-title">
-            <h2>Sản phẩm liên quan</h2>
-            <div>
-              <a href="/#">
-                xem tất cả <i className="fas fa-angle-double-right" />
-              </a>
-            </div>
-          </div>
-          <div
-            className="main-carousel"
-            data-flickity='{ "groupCells": true,"contain": true, "pageDots": false,"adaptiveHeight": true,"autoPlay": 3000 }'
-          >
-            <div className="carousel-cell">
-              <div className="carousel-item">
-                <a
-                  href="./product_info.html"
-                  alt=""
-                  className="carousel-item__image"
-                >
-                  <img
-                    src="https://philong.com.vn/media/product/250-26811-3.jpg"
-                    alt=""
-                  />
-                </a>
-                <div className="carousel-item__bot-wrapper">
-                  <a
-                    href="./product_info.html"
-                    className="carousel-item__title"
-                  >
-                    <h3 className="text-wrap">
-                      LAPTOP ASUS TUF GAMING FX516PM - HN002W
-                    </h3>
-                  </a>
-                  <div className="carousel-item__raiting">
-                    <div className="raiting-starts">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star-half-alt" />
-                      <i className="far fa-star" />
-                    </div>
-                  </div>
-                  <div className="carousel-item__price">
-                    <span>
-                      32.990.000 <span>₫</span>
-                    </span>
-                    <span>
-                      <i className="fas fa-truck" />
-                    </span>
-                  </div>
-                  <div className="carousel-item__add-to-cart">
-                    <div className="btn btn-buy">Thêm vào giỏ</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="carousel-cell">
-              <div className="carousel-item">
-                <a
-                  href="./product_info.html"
-                  alt=""
-                  className="carousel-item__image"
-                >
-                  <img
-                    src="https://philong.com.vn/media/product/250-26811-3.jpg"
-                    alt=""
-                  />
-                </a>
-                <div className="carousel-item__bot-wrapper">
-                  <a
-                    href="./product_info.html"
-                    className="carousel-item__title"
-                  >
-                    <h3 className="text-wrap">
-                      LAPTOP ASUS TUF GAMING FX516PM - HN002W
-                    </h3>
-                  </a>
-                  <div className="carousel-item__raiting">
-                    <div className="raiting-starts">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star-half-alt" />
-                      <i className="far fa-star" />
-                    </div>
-                  </div>
-                  <div className="carousel-item__price">
-                    <span>
-                      32.990.000 <span>₫</span>
-                    </span>
-                    <span>
-                      <i className="fas fa-truck" />
-                    </span>
-                  </div>
-                  <div className="carousel-item__add-to-cart">
-                    <div className="btn btn-buy">Thêm vào giỏ</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="carousel-cell">
-              <div className="carousel-item">
-                <a
-                  href="./product_info.html"
-                  alt=""
-                  className="carousel-item__image"
-                >
-                  <img
-                    src="https://philong.com.vn/media/product/250-26811-3.jpg"
-                    alt=""
-                  />
-                </a>
-                <div className="carousel-item__bot-wrapper">
-                  <a
-                    href="./product_info.html"
-                    className="carousel-item__title"
-                  >
-                    <h3 className="text-wrap">
-                      LAPTOP ASUS TUF GAMING FX516PM - HN002W
-                    </h3>
-                  </a>
-                  <div className="carousel-item__raiting">
-                    <div className="raiting-starts">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star-half-alt" />
-                      <i className="far fa-star" />
-                    </div>
-                  </div>
-                  <div className="carousel-item__price">
-                    <span>
-                      32.990.000 <span>₫</span>
-                    </span>
-                    <span>
-                      <i className="fas fa-truck" />
-                    </span>
-                  </div>
-                  <div className="carousel-item__add-to-cart">
-                    <div className="btn btn-buy">Thêm vào giỏ</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="carousel-cell">
-              <div className="carousel-item">
-                <a
-                  href="./product_info.html"
-                  alt=""
-                  className="carousel-item__image"
-                >
-                  <img
-                    src="https://philong.com.vn/media/product/250-26811-3.jpg"
-                    alt=""
-                  />
-                </a>
-                <div className="carousel-item__bot-wrapper">
-                  <a
-                    href="./product_info.html"
-                    className="carousel-item__title"
-                  >
-                    <h3 className="text-wrap">
-                      LAPTOP ASUS TUF GAMING FX516PM - HN002W
-                    </h3>
-                  </a>
-                  <div className="carousel-item__raiting">
-                    <div className="raiting-starts">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star-half-alt" />
-                      <i className="far fa-star" />
-                    </div>
-                  </div>
-                  <div className="carousel-item__price">
-                    <span>
-                      32.990.000 <span>₫</span>
-                    </span>
-                    <span>
-                      <i className="fas fa-truck" />
-                    </span>
-                  </div>
-                  <div className="carousel-item__add-to-cart">
-                    <div className="btn btn-buy">Thêm vào giỏ</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="carousel-cell">
-              <div className="carousel-item">
-                <a
-                  href="./product_info.html"
-                  alt=""
-                  className="carousel-item__image"
-                >
-                  <img
-                    src="https://philong.com.vn/media/product/250-26811-3.jpg"
-                    alt=""
-                  />
-                </a>
-                <div className="carousel-item__bot-wrapper">
-                  <a
-                    href="./product_info.html"
-                    className="carousel-item__title"
-                  >
-                    <h3 className="text-wrap">
-                      LAPTOP ASUS TUF GAMING FX516PM - HN002W
-                    </h3>
-                  </a>
-                  <div className="carousel-item__raiting">
-                    <div className="raiting-starts">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star-half-alt" />
-                      <i className="far fa-star" />
-                    </div>
-                  </div>
-                  <div className="carousel-item__price">
-                    <span>
-                      32.990.000 <span>₫</span>
-                    </span>
-                    <span>
-                      <i className="fas fa-truck" />
-                    </span>
-                  </div>
-                  <div className="carousel-item__add-to-cart">
-                    <div className="btn btn-buy">Thêm vào giỏ</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="carousel-cell">
-              <div className="carousel-item">
-                <a
-                  href="./product_info.html"
-                  alt=""
-                  className="carousel-item__image"
-                >
-                  <img
-                    src="https://philong.com.vn/media/product/250-26811-3.jpg"
-                    alt=""
-                  />
-                </a>
-                <div className="carousel-item__bot-wrapper">
-                  <a
-                    href="./product_info.html"
-                    className="carousel-item__title"
-                  >
-                    <h3 className="text-wrap">
-                      LAPTOP ASUS TUF GAMING FX516PM - HN002W
-                    </h3>
-                  </a>
-                  <div className="carousel-item__raiting">
-                    <div className="raiting-starts">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star-half-alt" />
-                      <i className="far fa-star" />
-                    </div>
-                  </div>
-                  <div className="carousel-item__price">
-                    <span>
-                      32.990.000 <span>₫</span>
-                    </span>
-                    <span>
-                      <i className="fas fa-truck" />
-                    </span>
-                  </div>
-                  <div className="carousel-item__add-to-cart">
-                    <div className="btn btn-buy">Thêm vào giỏ</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="carousel-cell">
-              <div className="carousel-item">
-                <a
-                  href="./product_info.html"
-                  alt=""
-                  className="carousel-item__image"
-                >
-                  <img
-                    src="https://philong.com.vn/media/product/250-26811-3.jpg"
-                    alt=""
-                  />
-                </a>
-                <div className="carousel-item__bot-wrapper">
-                  <a
-                    href="./product_info.html"
-                    className="carousel-item__title"
-                  >
-                    <h3 className="text-wrap">
-                      LAPTOP ASUS TUF GAMING FX516PM - HN002W
-                    </h3>
-                  </a>
-                  <div className="carousel-item__raiting">
-                    <div className="raiting-starts">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star-half-alt" />
-                      <i className="far fa-star" />
-                    </div>
-                  </div>
-                  <div className="carousel-item__price">
-                    <span>
-                      32.990.000 <span>₫</span>
-                    </span>
-                    <span>
-                      <i className="fas fa-truck" />
-                    </span>
-                  </div>
-                  <div className="carousel-item__add-to-cart">
-                    <div className="btn btn-buy">Thêm vào giỏ</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="carousel-cell">
-              <div className="carousel-item">
-                <a
-                  href="./product_info.html"
-                  alt=""
-                  className="carousel-item__image"
-                >
-                  <img
-                    src="https://philong.com.vn/media/product/250-26811-3.jpg"
-                    alt=""
-                  />
-                </a>
-                <div className="carousel-item__bot-wrapper">
-                  <a
-                    href="./product_info.html"
-                    className="carousel-item__title"
-                  >
-                    <h3 className="text-wrap">
-                      LAPTOP ASUS TUF GAMING FX516PM - HN002W
-                    </h3>
-                  </a>
-                  <div className="carousel-item__raiting">
-                    <div className="raiting-starts">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star-half-alt" />
-                      <i className="far fa-star" />
-                    </div>
-                  </div>
-                  <div className="carousel-item__price">
-                    <span>
-                      32.990.000 <span>₫</span>
-                    </span>
-                    <span>
-                      <i className="fas fa-truck" />
-                    </span>
-                  </div>
-                  <div className="carousel-item__add-to-cart">
-                    <div className="btn btn-buy">Thêm vào giỏ</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="carousel-cell">
-              <div className="carousel-item">
-                <a
-                  href="./product_info.html"
-                  alt=""
-                  className="carousel-item__image"
-                >
-                  <img
-                    src="https://philong.com.vn/media/product/250-26811-3.jpg"
-                    alt=""
-                  />
-                </a>
-                <div className="carousel-item__bot-wrapper">
-                  <a
-                    href="./product_info.html"
-                    className="carousel-item__title"
-                  >
-                    <h3 className="text-wrap">
-                      LAPTOP ASUS TUF GAMING FX516PM - HN002W
-                    </h3>
-                  </a>
-                  <div className="carousel-item__raiting">
-                    <div className="raiting-starts">
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star" />
-                      <i className="fas fa-star-half-alt" />
-                      <i className="far fa-star" />
-                    </div>
-                  </div>
-                  <div className="carousel-item__price">
-                    <span>
-                      32.990.000 <span>₫</span>
-                    </span>
-                    <span>
-                      <i className="fas fa-truck" />
-                    </span>
-                  </div>
-                  <div className="carousel-item__add-to-cart">
-                    <div className="btn btn-buy">Thêm vào giỏ</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+
+        <ItemsCarousel
+          categoryID=""
+          itemData={productData}
+          title="sản phẩm liên quan"
+        />
         {/* banner quản cáo */}
-        <section className="section ad">
+        <section className="section ads">
           <div>
             <a
               title="ads"

@@ -1,8 +1,8 @@
 import React from "react";
-import slide1 from "../../assets/images/slides/slide1.webp";
-import slide2 from "../../assets/images/slides/slide2.webp";
-import slide3 from "../../assets/images/slides/slide3.webp";
-import slide4 from "../../assets/images/slides/slide4.webp";
+// import slide1 from "../../assets/images/slides/slide1.webp";
+// import slide2 from "../../assets/images/slides/slide2.webp";
+// import slide3 from "../../assets/images/slides/slide3.webp";
+// import slide4 from "../../assets/images/slides/slide4.webp";
 import GetDiscountsData from "../../api/GetDiscountsData";
 import Slider from "react-slick";
 import {sliderBannerSetting} from "../settings/slickSetting"

@@ -31,36 +31,12 @@ export default function Main() {
         </span>
       </div>
       <div className="content">
-
-        {/* <section className="section banner">
-          <div className="carousel" data-flickity='{"autoPlay": 5000}'>
-            <div className="carousel-cell">
-              <a href="/#">
-                <img src={slide1} alt=""></img>
-              </a>
-            </div>
-            <div className="carousel-cell">
-              <a href="/#">
-                <img src={slide2} alt=""></img>
-              </a>
-            </div>
-            <div className="carousel-cell">
-              <a href="/#">
-                <img src={slide3} alt=""></img>
-              </a>
-            </div>
-            <div className="carousel-cell">
-              <a href="/#">
-                <img src={slide4} alt=""></img>
-              </a>
-            </div>
-          </div>
-        </section> */}
+        {/* banner comp */}
         <Banner/>
         
         <ItemsCarousel categoryID="" itemData={data} title="Sản phẩm nổi bật"/>
-        {/* <ItemsCarousel title="Điện thoại"/> */}
-        <section className="section ad">
+
+        <section className="section ads">
           <div>
             <a
               title="ads"
@@ -70,6 +46,7 @@ export default function Main() {
             </a>
           </div>
         </section>
+
         <ItemsCarousel categoryID="ctgr02" itemData={data} title="máy tính sách tay"/>
         <ItemsCarousel categoryID="ctgr03" itemData={data} title="máy tính bảng"/>
         <ItemsCarousel categoryID="ctgr06" itemData={data} title="Đồng hồ thông minh"/>

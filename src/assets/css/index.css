@@ -29,7 +29,10 @@ html {
 
 a {
     text-decoration: none;
-    color: #333;
+    color: inherit;
+}
+a:hover {
+    color: inherit;
 }
 
 ul,
@@ -256,8 +259,10 @@ input {
 
 .btn-tocart {
     border-radius: 5px;
-    padding: 0 5px;
-    margin-top: 15px;
+    transition: box-shadow .3s, transform .3s;
+}
+.btn-tocart:hover{
+    color: #fff;
 }
 
 .header__cart::before {
@@ -519,13 +524,13 @@ input {
 }
 
 
-.section.ad {
+.section.ads {
     overflow: hidden;
     position: relative;
     background-color: transparent;
 }
 
-.section.ad::before {
+.section.ads::before {
     content: "";
     position: absolute;
     width: 200px;
@@ -537,20 +542,20 @@ input {
     transition: left 0s;
 }
 
-.section.ad:hover::before {
+.section.ads:hover::before {
     transition: left .6s;
     left: 1300px;
 }
 
-.section.ad img {
+.section.ads img {
     border-radius: 5px;
 }
 
-.section.ad a {
+.section.ads a {
     display: block;
 }
 
-.ad {}
+.ads {}
 
 .items {}
 
@@ -656,6 +661,7 @@ input {
 .btn-buy:hover {
     box-shadow: 0 3px 0 var(--aqua-color);
     transform: translateY(-3px);
+    color: white;
 }
 
 .btn-buy:active {
