@@ -72,6 +72,7 @@
     background-color: transparent;
   }
   .carousel-nav .carousel-cell{
+    width: 31%;
     margin-right: 5px;
     border: 1px solid #cecece;
   }

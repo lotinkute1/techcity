@@ -33,7 +33,7 @@ export default function ItemsCarousel(props) {
       )
     }
   });
-
+  
   return (
     <section className="section items">
       <div className="section-title">
