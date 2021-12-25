@@ -79,7 +79,7 @@
   /*custom css cua banner */
   .banner .carousel-cell{
     width: 100%;
-    height: 353px;
+    height: 520px;
   }
   .items .carousel-cell{
     width:19%;
@@ -107,4 +107,24 @@
 .slick-next:before,.slick-prev:before{
   color: var(--yellow-main);
   font-size: 30px;
+}
+
+.banner .slick-prev{
+  left: 2px;
+}
+.banner .slick-next{
+  right: 2px;
+}
+
+.banner .slick-dots{
+  bottom: 20px;
+}
+.slick-dots li button:before{
+  color:var(--yellow-main);
+  font-size:15px;
+}
+
+.slick-dots li.slick-active button:before{
+  color:var(--yellow-main);
+  font-size:20px;
 }

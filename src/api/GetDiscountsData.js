@@ -1,3 +1,4 @@
+import React from 'react'
 import { useEffect, useState } from "react";
 import Firebase from "../features/Firebase/Firebase";
 import {
@@ -12,20 +13,19 @@ import {
   equalTo,
   orderByChild,
 } from "firebase/database";
-
-function GetProductsData(categoryID = "") {
-  const db = getDatabase();
-  const dbRef = ref(db, "/");
+function GetDiscountsData(dictCountID="") {
+    const db = getDatabase();
+//   const dbRef = ref(db, "/");
   const [proData, setProData] = useState([]);
   //   child(dbRef, `/${productsType}`)
 
   useEffect(() => {
-    get(query(ref(db, "/products")))
+    get(query(ref(db, "/discounts")))
       .then((snapshot) => {
         if (snapshot.exists()) {
           let temp = [];
           snapshot.forEach((item) => {
-            if (item.val().category_id.indexOf(categoryID) >= 0) {
+            if (item.key.indexOf(dictCountID) >= 0) {
               temp.push({
                 id: item.key,
                 ...item.val(),
@@ -44,4 +44,4 @@ function GetProductsData(categoryID = "") {
 
   return proData;
 }
-export default GetProductsData;
+export default GetDiscountsData;

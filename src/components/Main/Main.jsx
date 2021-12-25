@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import slide1 from "../../assets/images/slides/slide1.webp";
-import slide2 from "../../assets/images/slides/slide2.webp";
-import slide3 from "../../assets/images/slides/slide3.webp";
-import slide4 from "../../assets/images/slides/slide4.webp";
+
 import adsImage from "../../assets/images/ads/ad1.jpg";
 import ItemsCarousel from "../ItemsCarousel/ItemsCarousel"
 import GetProductsData from "../../api/GetProductsData";
@@ -32,36 +29,12 @@ export default function Main() {
         </span>
       </div>
       <div className="content">
-
-        <section className="section banner">
-          <div className="carousel" data-flickity='{"autoPlay": 5000}'>
-            <div className="carousel-cell">
-              <a href="/#">
-                <img src={slide1} alt=""></img>
-              </a>
-            </div>
-            <div className="carousel-cell">
-              <a href="/#">
-                <img src={slide2} alt=""></img>
-              </a>
-            </div>
-            <div className="carousel-cell">
-              <a href="/#">
-                <img src={slide3} alt=""></img>
-              </a>
-            </div>
-            <div className="carousel-cell">
-              <a href="/#">
-                <img src={slide4} alt=""></img>
-              </a>
-            </div>
-          </div>
-        </section>
+        {/* banner comp */}
         
         
         <ItemsCarousel categoryID="" itemData={data} title="Sản phẩm nổi bật"/>
-        {/* <ItemsCarousel title="Điện thoại"/> */}
-        <section className="section ad">
+
+        <section className="section ads">
           <div>
             <a
               title="ads"
@@ -71,6 +44,7 @@ export default function Main() {
             </a>
           </div>
         </section>
+
         <ItemsCarousel categoryID="ctgr02" itemData={data} title="máy tính sách tay"/>
         <ItemsCarousel categoryID="ctgr03" itemData={data} title="máy tính bảng"/>
         <ItemsCarousel categoryID="ctgr06" itemData={data} title="Đồng hồ thông minh"/>

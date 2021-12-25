@@ -1,5 +1,8 @@
 import React from "react";
-
+import verify from "../../assets/images/footerimg/verify.png"
+import truck from "../../assets/images/footerimg/truck.png"
+import box from "../../assets/images/footerimg/box.png"
+import info_round_button from "../../assets/images/footerimg/info-round-button.png"
 export default function Footer() {
   return (
     <div id="footer">
@@ -8,7 +11,7 @@ export default function Footer() {
           <a href="/#">
             <div className="footer-top__item">
               <div className="footer-top__item-icon">
-                <img src="./assets/images/footerimg/verify.png" alt="" />
+                <img src={verify} alt="" />
               </div>
               <div className="footer-top__item-title">
                 <h4>Chính hãng</h4>
@@ -19,7 +22,7 @@ export default function Footer() {
           <a href="/#">
             <div className="footer-top__item">
               <div className="footer-top__item-icon">
-                <img src="./assets/images/footerimg/truck.png" alt="" />
+                <img src={truck} alt="" />
               </div>
               <div className="footer-top__item-title">
                 <h4>Chính hãng</h4>
@@ -30,7 +33,7 @@ export default function Footer() {
           <a href="/#">
             <div className="footer-top__item">
               <div className="footer-top__item-icon">
-                <img src="./assets/images/footerimg/box.png" alt="" />
+                <img src={box} alt="" />
               </div>
               <div className="footer-top__item-title">
                 <h4>Chính hãng</h4>
@@ -42,7 +45,7 @@ export default function Footer() {
             <div className="footer-top__item">
               <div className="footer-top__item-icon">
                 <img
-                  src="./assets/images/footerimg/info-round-button.png"
+                  src={info_round_button}
                   alt=""
                 />
               </div>

@@ -1,23 +1,12 @@
 import React, { useEffect } from "react";
 import Slider from "react-slick";
 import ItemCard from "../ItemCard/ItemCard";
+import {sliderItemsCrouselSetting} from "../settings/slickSetting"
 // import GetProductsData from "../../api/GetProductsData";
 export default function ItemsCarousel(props) {
   //   const itemData = GetProductsData(props.categoryID) || [];
   //   console.log(itemData);
-
-  var settings = {
-    dots: false,
-    infinite: false,
-    rows: 1,
-    autoplay: true,
-    speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    autoplaySpeed: 2000,
-    adaptiveHeight: false,
-    lazyLoad: true,
-  };
+ 
 
   const renderItems = props.itemData.map((item) => {
     if(item.category_id.indexOf(props.categoryID)>=0){
@@ -50,7 +39,7 @@ export default function ItemsCarousel(props) {
       >
         {renderItems}
       </div> */}
-      <Slider {...settings}>
+      <Slider {...sliderItemsCrouselSetting}>
         {renderItems}
       </Slider>
     </section>
