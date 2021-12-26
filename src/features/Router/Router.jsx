@@ -6,7 +6,7 @@ import ProductInfo from "../ProductInfo/ProductInfo";
 export default function Router() {
   return (
       <Routes>
-        <Route path="/product_info" element={<ProductInfo />} />
+        <Route path="/product_info-:id" element={<ProductInfo />} />
 
         <Route path="*" element={<Main to="/Main" />} />
       </Routes>

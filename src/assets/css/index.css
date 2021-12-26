@@ -26,6 +26,9 @@ html {
     outline: none;
     border: none;
 }
+.btn:focus{
+    box-shadow: none;
+}
 
 a {
     text-decoration: none;

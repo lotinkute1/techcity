@@ -1,6 +1,6 @@
 export const sliderItemsCrouselSetting = {
   dots: false,
-  infinite: false,
+  infinite: true,
   rows: 1,
   autoplay: true,
   speed: 500,

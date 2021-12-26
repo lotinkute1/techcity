@@ -13,7 +13,7 @@ import {
   orderByChild,
 } from "firebase/database";
 
-function GetProductsData(categoryID = "") {
+function GetProductsData(categoryID = "",productsID = "") {
   const db = getDatabase();
   const dbRef = ref(db, "/");
   const [proData, setProData] = useState([]);
@@ -25,7 +25,7 @@ function GetProductsData(categoryID = "") {
         if (snapshot.exists()) {
           let temp = [];
           snapshot.forEach((item) => {
-            if (item.val().category_id.indexOf(categoryID) >= 0) {
+            if (item.val().category_id.indexOf(categoryID) >= 0&&item.key.indexOf(productsID)>=0) {
               temp.push({
                 id: item.key,
                 ...item.val(),
