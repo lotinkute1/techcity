@@ -1,7 +1,42 @@
-import React from "react";
-import  "./style.css";
+import "./style.css";
 import logo from "../../assets/images/logo-web.png";
+import AuthFeature from "../../features/Auth";
+import Register from "../../features/Auth/components/Register";
+import LoginForm from "../../features/Auth/components/LoginForm";
+import Login from "../../features/Auth/components/Login";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../features/Auth/userSlice";
+import React, { useState } from "react";
+import "./style.css";
 export default function Header() {
+  const dispatch = useDispatch();
+  const [openRegister, setOpenRegister] = useState(false);
+  const [openLogin, setOpenLogin] = useState(false);
+  const loggedInUser = useSelector((state) => state.user.current);
+  const isLoggedIn = !!loggedInUser.id;
+
+  const hanleLogout = () => {
+    setTimeout(() => {
+      dispatch(logout());
+    }, 2000);
+  };
+
+  const handleClickOpenRegister = () => {
+    setOpenRegister(true);
+    setOpenLogin(false);
+  };
+
+  const handleCloseRegister = () => {
+    setOpenRegister(false);
+  };
+  const handleClickOpenLogin = () => {
+    setOpenLogin(true);
+    setOpenRegister(false);
+  };
+
+  const handleCloseLogin = () => {
+    setOpenLogin(false);
+  };
   return (
     <header id="header" className="">
       <div className="header-wrapper">
@@ -94,32 +129,50 @@ export default function Header() {
             </div>
             <div className="header__user">
               {/* logined */}
-              <div className="header__user-status-logined hidenull">
-                <a href="/#" className="header__user-main ">
-                  <div className="header__user-ava">
-                    <img src="./assets/images/avatest2.jpg" alt="" />
+              {isLoggedIn && (
+                <>
+                  <div className="header__user-status-logined">
+                    <a href="/#" className="header__user-main ">
+                      <div className="header__user-ava">
+                        <img src="./assets/images/avatest2.jpg" alt="" />
+                      </div>
+                      <div className="header__user-name">Minh Huy</div>
+                      <div className="header__user-moreinfo">
+                        <i className="fas fa-ellipsis-v" />
+                      </div>
+                    </a>
+                    <ul className="subnav">
+                      <li>
+                        <a href="/#">Tài khoản của tôi</a>
+                      </li>
+                      <li>
+                        <a href="/#">Đơn mua</a>
+                      </li>
+                      <li>
+                        <a onClick={hanleLogout} href="/#">
+                          Đăng xuất
+                        </a>
+                      </li>
+                    </ul>
                   </div>
-                  <div className="header__user-name">Minh Huy</div>
-                  <div className="header__user-moreinfo">
-                    <i className="fas fa-ellipsis-v" />
-                  </div>
-                </a>
-                <ul className="subnav">
-                  <li>
-                    <a href="/#">Tài khoản của tôi</a>
-                  </li>
-                  <li>
-                    <a href="/#">Đơn mua</a>
-                  </li>
-                  <li>
-                    <a href="/#">Đăng xuất</a>
-                  </li>
-                </ul>
-              </div>
+                </>
+              )}
+
               {/* not login */}
-              <div className="header__user-not-login">
-                <a href="/#">Đăng nhập</a> / <a href="/#">Đăng ký</a>
-              </div>
+
+              {!isLoggedIn && (
+                <>
+                  <div className="header__user-not-login">
+                    <a onClick={handleClickOpenRegister} href="/#">
+                      Đăng ký
+                    </a>{" "}
+                    /{" "}
+                    <a onClick={handleClickOpenLogin} href="/#">
+                      Đăng nhập
+                    </a>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -262,6 +315,18 @@ export default function Header() {
           </div>
         </div>
       </div>
+      {openRegister && (
+        <Register
+          handleCloseRegister={handleCloseRegister}
+          handleClickOpenLogin={handleClickOpenLogin}
+        />
+      )}
+      {openLogin && (
+        <Login
+          handleClickOpenRegister={handleClickOpenRegister}
+          handleCloseLogin={handleCloseLogin}
+        />
+      )}
     </header>
   );
 }
