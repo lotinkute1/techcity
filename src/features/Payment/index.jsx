@@ -49,7 +49,7 @@ class Payment extends Component {
           <div className="input-group">
             <input type="text" className="form-control" placeholder="Mã khuyến mãi" />
             <div className="input-group-append">
-              <button type="submit" className="btn btn-secondary">Xác nhận</button>
+              <button type="submit" className="btn btn-secondary py-1">Xác nhận</button>
             </div>
           </div>
         </div>

@@ -8,13 +8,14 @@ import ShowAllProduct from './features/ShowAllProduct';
 import Payment from './features/Payment';
 import "./assets/js/index";
 import Supplier from './features/Supplier';
+import Cart from './features/Cart';
 function App() {
   
 
   return (
     <div className="wrapper">
       <Header/>
-      <Supplier/>
+      <Payment/>
       <Footer/>
     </div>
 
