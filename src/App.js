@@ -15,7 +15,11 @@ function App() {
   return (
     <div className="wrapper">
       <Header/>
+<<<<<<< HEAD
       <Payment/>
+=======
+      <Router/>
+>>>>>>> 756de4f16bb3fe027bab79f898411f03bd1667f4
       <Footer/>
     </div>
 
