@@ -12,7 +12,23 @@ function App() {
   return (
     <div className="wrapper">
       <Header />
-      <Profile/>
+      <div id="main">
+        <div className="scroll-top">
+          <a href="#main">
+            <i className="fas fa-chevron-circle-up" />
+          </a>
+        </div>
+        <div className="scroll-call">
+          <span>
+            Tổng Đài CSKH
+            <br />
+            0784508270
+          </span>
+        </div>
+        <div className="content">
+          <Address />
+        </div>
+      </div>
       <Footer />
     </div>
   );

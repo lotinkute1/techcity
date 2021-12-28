@@ -35,6 +35,8 @@ a {
     color: inherit;
 }
 a:hover {
+    text-decoration: none;
+
     color: inherit;
 }
 
@@ -505,6 +507,12 @@ input {
 .section {
     margin-bottom: 25px;
     background-color: white;
+}
+.section.payment{
+    border-radius: 5px;
+}
+.section.cart{
+    border-radius: 5px;
 }
 
 .section.items {
