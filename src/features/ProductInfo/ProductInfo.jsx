@@ -4,28 +4,57 @@ import { useParams } from "react-router-dom";
 import Slider from "react-slick";
 import GetProductsDatatData from "../../api/GetProductsData";
 import ItemsCarousel from "../../components/ItemsCarousel/ItemsCarousel";
-import "../../assets/js/incre_decre_option.js"
+import "../../assets/js/incre_decre_option.js";
+import loadingImage from "../../assets/images/loading/Spinner-1s-200px.gif";
+import GetCategoriesData from "../../api/GetCategoriesData";
+import { set } from "firebase/database";
 export default function ProductInfo() {
+  // nhan id san pham tu url
   const { id } = useParams();
-  const productsData = GetProductsDatatData();
-  const mainProduct = productsData.find((product) => product.id === id);
-  const [productM, setProductM] = useState([]);
+
+  
+
+  const productsData = GetProductsDatatData("");
+
+  const product = productsData.find((product) => product.id === id);
+  
+  
+  const [productM, setProductM] = useState({
+    product_img: {
+      main_img: loadingImage,
+      sub_img: loadingImage,
+      sub_img2: loadingImage,
+      sub_img3: loadingImage,
+      sub_img4: loadingImage,
+    },
+  });
+
+  const category =  GetCategoriesData(productM.category_id);
+  const {category_name}=category[0]??{category_name:""};
+
+  
+
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
 
   const tempRef1 = useRef(null);
   const tempRef2 = useRef(null);
-
   useEffect(() => {
     setNav1(tempRef1.current);
     setNav2(tempRef2.current);
   }, []);
-  useEffect(() => {
-    if (mainProduct) {
-      setProductM(mainProduct);
-    }
-  }, [mainProduct]);
 
+  useEffect(() => {
+    if (product) {
+      setProductM(product);
+    }
+    
+  }, [product]);
+  
+  // scroll top after render
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
   return (
     <main id="main">
       <div className="scroll-top">
@@ -48,34 +77,19 @@ export default function ProductInfo() {
               {/* main product info slide */}
               <Slider arrows={false} asNavFor={nav2} ref={tempRef1}>
                 <div className="item-img-info carousel-cell">
-                  <img
-                    src="https://cf.shopee.vn/file/994228a247d6ede2b7c785449527ce2f"
-                    alt=""
-                  />
+                  <img src={productM.product_img.main_img} alt="" />
                 </div>
                 <div className="item-img-info carousel-cell">
-                  <img
-                    src="https://cf.shopee.vn/file/4c722e40a45534e124002892d31000c4"
-                    alt=""
-                  />
+                  <img src={productM.product_img.sub_img} alt="" />
                 </div>
                 <div className="item-img-info carousel-cell">
-                  <img
-                    src="https://cf.shopee.vn/file/31b3e398725d2cffc93e5063ed06d3b2"
-                    alt=""
-                  />
+                  <img src={productM.product_img.sub_img2} alt="" />
                 </div>
                 <div className="item-img-info carousel-cell">
-                  <img
-                    src="https://cf.shopee.vn/file/b143bd9f05b6fa41dddd05d511f5d652"
-                    alt=""
-                  />
+                  <img src={productM.product_img.sub_img3} alt="" />
                 </div>
                 <div className="item-img-info carousel-cell">
-                  <img
-                    src="https://cf.shopee.vn/file/b22db0f2fdd9d326f8946aa01f354044"
-                    alt=""
-                  />
+                  <img src={productM.product_img.sub_img4} alt="" />
                 </div>
               </Slider>
 
@@ -88,34 +102,17 @@ export default function ProductInfo() {
                 focusOnSelect={true}
               >
                 <div className=" item-img-info-mini carousel-cell">
-                  <img
-                    src="https://cf.shopee.vn/file/994228a247d6ede2b7c785449527ce2f"
-                    alt=""
-                  />
+                  <img src={productM.product_img.main_img} alt="" />
                 </div>
                 <div className="item-img-info-mini carousel-cell">
-                  <img
-                    src="https://cf.shopee.vn/file/4c722e40a45534e124002892d31000c4"
-                    alt=""
-                  />
+                  <img src={productM.product_img.sub_img} alt="" />
+                </div>
+
+                <div className="item-img-info-mini carousel-cell">
+                  <img src={productM.product_img.sub_img2} alt="" />
                 </div>
                 <div className="item-img-info-mini carousel-cell">
-                  <img
-                    src="https://cf.shopee.vn/file/31b3e398725d2cffc93e5063ed06d3b2"
-                    alt=""
-                  />
-                </div>
-                <div className="item-img-info-mini carousel-cell">
-                  <img
-                    src="https://cf.shopee.vn/file/b143bd9f05b6fa41dddd05d511f5d652"
-                    alt=""
-                  />
-                </div>
-                <div className="item-img-info-mini carousel-cell">
-                  <img
-                    src="https://cf.shopee.vn/file/b22db0f2fdd9d326f8946aa01f354044"
-                    alt=""
-                  />
+                  <img src={productM.product_img.sub_img3} alt="" />
                 </div>
               </Slider>
             </div>
@@ -258,9 +255,9 @@ export default function ProductInfo() {
                 Danh Mục
               </div>
               <div className="product-more-info__top__category__wrapper">
-                <div>shopee</div>
-                <div>Computer &amp; Accessories</div>
-                <div>Laptops</div>
+                <div>
+                  {category_name}
+                </div>
               </div>
             </div>
             <div className="product-more-info__top__info">
@@ -279,18 +276,15 @@ export default function ProductInfo() {
           <div className="product-more-info__bottom">
             <h2 className="product-more-info__bottom__title">mô tả sản phẩm</h2>
             <div className="product-more-info__bottom__content">
-              MacBook Pro (M1, 2020)
+              {productM.product_name}
               <br />
-              MÔ TẢ SẢN PHẨM
+              MÔ TẢ SẢN PHẨM:
               <br />
-              Macbook Pro 13 inch thay đổi ngoạn mục nhờ chip Apple M1, với sức
-              mạnh xử lý tăng thêm đến 2.8x, tốc độ xử lý đồ họa nhanh hơn 5x.
-              Và thời lượng pin lên đến 20 giờ – thời lượng pin lâu nhất trong
-              các dòng máy tính Mac từ trước đến nay.
+              {productM.description}
               <br />
               Để bạn có thể tiến xa trong công việc, dù đi bất kỳ nơi đâu.
               <br />
-              Tính năng nổi bật
+              {/* Tính năng nổi bật
               <br />
               • Chip M1 do Apple thiết kế tạo ra một cú nhảy vọt về hiệu năng
               máy học, CPU và GPU
@@ -303,7 +297,7 @@ export default function ProductInfo() {
               <br />
               • GPU 8 lõi với tốc độ xử lý đồ họa nhanh gấp 5x cho các ứng dụng
               và game có đồ họa khủng1
-              <br />• Neural Engine 16 lõi cho công nghệ máy học hiện đại
+              <br />• Neural Engine 16 lõi cho công nghệ máy học hiện đại */}
             </div>
           </div>
         </section>

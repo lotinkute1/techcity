@@ -24,7 +24,6 @@ document.addEventListener(
     if (window.location.href.indexOf("product_info") >= 0) {
       
       const checkExists = setInterval(() => {
-        console.log("cc");
         const increQuantilyBtnOp = document.querySelector(
           ".quantily-wrapper .btn-option:last-child"
         );

@@ -98,13 +98,13 @@ function LoginForm({
               </div>
             </div>
             <div className="auth-form__controls">
-              <button onClick={handleCloseLogin} className="btn btn--normal">
+              <button onClick={handleCloseLogin} className="btn-2 btn-2--normal">
                 TRỞ LẠI
               </button>
               <button
                 disabled={isSubmitting}
                 type="submit"
-                className="btn btn--primary"
+                className="btn-2 btn-2--primary"
               >
                 ĐĂNG NHẬP
               </button>
@@ -114,7 +114,7 @@ function LoginForm({
           <div className="auth-form__socials">
             <a
               href
-              className="auth-form__socials-google btn btn--size-s btn--with-icon"
+              className="auth-form__socials-google btn-2 btn--size-s btn--with-icon"
             >
               <i className="auth-form__socials-icon fab fa-google" />
               <span className="auth-form__socials--title">

@@ -1,31 +1,25 @@
+import React from 'react'
 import { useEffect, useState } from "react";
 import Firebase from "../features/Firebase/Firebase";
 import {
   getDatabase,
   ref,
-  push,
-  child,
-  onValue,
   get,
-  limitToLast,
   query,
-  equalTo,
-  orderByChild,
 } from "firebase/database";
-
-function GetProductsData(categoryID = "",productsID = "") {
-  const db = getDatabase();
-  const dbRef = ref(db, "/");
+function GetUsersData(userID="") {
+    const db = getDatabase();
+//   const dbRef = ref(db, "/");
   const [proData, setProData] = useState([]);
   //   child(dbRef, `/${productsType}`)
 
   useEffect(() => {
-    get(query(ref(db, "/products")))
+    get(query(ref(db, "/users")))
       .then((snapshot) => {
         if (snapshot.exists()) {
           let temp = [];
           snapshot.forEach((item) => {
-            if (item.val().category_id.search(categoryID) >= 0&&item.key.search(productsID)>=0) {
+            if (item.key.indexOf(userID) >= 0) {
               temp.push({
                 id: item.key,
                 ...item.val(),
@@ -34,7 +28,7 @@ function GetProductsData(categoryID = "",productsID = "") {
           });
           setProData(temp);
         } else {
-          console.log("No data available");
+          console.log("No user data available");
         }
       })
       .catch((error) => {
@@ -44,4 +38,4 @@ function GetProductsData(categoryID = "",productsID = "") {
 
   return proData;
 }
-export default GetProductsData;
+export default GetUsersData;

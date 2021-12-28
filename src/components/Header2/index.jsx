@@ -1,4 +1,3 @@
-import "./style.css";
 import logo from "../../assets/images/logo-web.png";
 import AuthFeature from "../../features/Auth";
 import Register from "../../features/Auth/components/Register";

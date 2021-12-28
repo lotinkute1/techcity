@@ -6,6 +6,7 @@ import React from "react";
 import GetDiscountsData from "../../api/GetDiscountsData";
 import Slider from "react-slick";
 import {sliderBannerSetting} from "../settings/slickSetting"
+import loadingImage from "../../assets/images/loading/Spinner-1s-200px.gif"
 export default function Banner() {
   //  console.log(GetDiscountsData())
   const discountsData = GetDiscountsData();
