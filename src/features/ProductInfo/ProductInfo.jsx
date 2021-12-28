@@ -1,9 +1,31 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import NumberFormat from "react-number-format";
+import { useParams } from "react-router-dom";
+import Slider from "react-slick";
 import GetProductsDatatData from "../../api/GetProductsData";
 import ItemsCarousel from "../../components/ItemsCarousel/ItemsCarousel";
-
+import "../../assets/js/incre_decre_option.js"
 export default function ProductInfo() {
-  const productData = GetProductsDatatData();
+  const { id } = useParams();
+  const productsData = GetProductsDatatData();
+  const mainProduct = productsData.find((product) => product.id === id);
+  const [productM, setProductM] = useState([]);
+  const [nav1, setNav1] = useState(null);
+  const [nav2, setNav2] = useState(null);
+
+  const tempRef1 = useRef(null);
+  const tempRef2 = useRef(null);
+
+  useEffect(() => {
+    setNav1(tempRef1.current);
+    setNav2(tempRef2.current);
+  }, []);
+  useEffect(() => {
+    if (mainProduct) {
+      setProductM(mainProduct);
+    }
+  }, [mainProduct]);
+
   return (
     <main id="main">
       <div className="scroll-top">
@@ -23,10 +45,8 @@ export default function ProductInfo() {
           {/* 40% */}
           <div className="product-info__left">
             <div className="product-info__left-wrapper">
-              <div
-                className="carousel carousel-main"
-                data-flickity='{"pageDots": false ,"prevNextButtons": false}'
-              >
+              {/* main product info slide */}
+              <Slider arrows={false} asNavFor={nav2} ref={tempRef1}>
                 <div className="item-img-info carousel-cell">
                   <img
                     src="https://cf.shopee.vn/file/994228a247d6ede2b7c785449527ce2f"
@@ -57,10 +77,15 @@ export default function ProductInfo() {
                     alt=""
                   />
                 </div>
-              </div>
-              <div
-                className="carousel carousel-nav"
-                data-flickity='{ "asNavFor": ".carousel-main", "contain": true, "pageDots": false ,"groupCells": 3}'
+              </Slider>
+
+              {/* sub product info slide */}
+              <Slider
+                asNavFor={nav1}
+                ref={tempRef2}
+                slidesToShow={3}
+                swipeToSlide={true}
+                focusOnSelect={true}
               >
                 <div className=" item-img-info-mini carousel-cell">
                   <img
@@ -92,15 +117,13 @@ export default function ProductInfo() {
                     alt=""
                   />
                 </div>
-              </div>
+              </Slider>
             </div>
           </div>
           {/* 60% */}
           <div className="product-info__right">
             <div className="product-info__title">
-              <h1>
-                Apple MacBook Pro (2020) M1 Chip, 13.3 inch, 8GB, 512GB SSD
-              </h1>
+              <h1>{productM.product_name}</h1>
             </div>
             <div className="product-info__rating">
               <div className="raiting-starts">
@@ -118,9 +141,15 @@ export default function ProductInfo() {
               </div>
             </div>
             <div className="carousel-item__price">
-              <h1>
-                32.990.000 <span>₫</span>
-              </h1>
+              <NumberFormat
+                value={productM.default_price}
+                className=""
+                displayType={"text"}
+                thousandSeparator={"."}
+                decimalSeparator={","}
+                prefix={"₫"}
+                renderText={(value, props) => <h1 {...props}>{value}</h1>}
+              />
               <span>
                 <i className="fas fa-truck" />
               </span>
@@ -394,7 +423,7 @@ export default function ProductInfo() {
 
         <ItemsCarousel
           categoryID=""
-          itemData={productData}
+          itemData={productsData}
           title="sản phẩm liên quan"
         />
         {/* banner quản cáo */}

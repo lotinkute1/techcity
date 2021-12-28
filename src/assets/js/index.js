@@ -1,7 +1,8 @@
 document.addEventListener(
   "DOMContentLoaded",
   function () {
-    // =================== hide scorll top button
+
+    // =================== hide scroll top button
     const scrollTop = document.querySelector(".scroll-top");
     //==================== fixed nav
     const header = document.querySelector("#header");
@@ -17,40 +18,52 @@ document.addEventListener(
     hideElement();
     window.addEventListener("scroll", hideElement);
 
+
     // increment and decrement quantily option
-    const increQuantilyBtnOp = document.querySelector(
-      ".quantily-wrapper .btn-option:last-child"
-    );
-    const decreQuantilyBtnOp = document.querySelector(
-      ".quantily-wrapper .btn-option:first-child"
-    );
-    const quantilyInputOp = document.querySelector(".quantily-options__number");
-    if (increQuantilyBtnOp && decreQuantilyBtnOp && quantilyInputOp) {
-      increQuantilyBtnOp.onclick = () => {
-        let numberOption = Number(quantilyInputOp.value);
-        if (numberOption < 999) {
-          numberOption += 1;
-          quantilyInputOp.value = numberOption;
+    if (window.location.href.indexOf("product_info") >= 0) {
+      
+      const checkExists = setInterval(() => {
+        console.log("cc");
+        const increQuantilyBtnOp = document.querySelector(
+          ".quantily-wrapper .btn-option:last-child"
+        );
+        const decreQuantilyBtnOp = document.querySelector(
+          ".quantily-wrapper .btn-option:first-child"
+        );
+        const quantilyInputOp = document.querySelector(
+          ".quantily-options__number"
+        );
+        if (increQuantilyBtnOp && decreQuantilyBtnOp && quantilyInputOp) {
+          
+          increQuantilyBtnOp.onclick = () => {
+            let numberOption = Number(quantilyInputOp.value);
+            if (numberOption < 999) {
+              numberOption += 1;
+              quantilyInputOp.value = numberOption;
+            }
+          };
+          decreQuantilyBtnOp.onclick = () => {
+            let numberOption = Number(quantilyInputOp.value);
+            if (numberOption > 0 && numberOption <= 999) {
+              numberOption -= 1;
+              quantilyInputOp.value = numberOption;
+            }
+          };
+          quantilyInputOp.oninput = (e) => {
+            if (Number.isInteger(Number(e.target.value))) {
+              console.log(Number(e.target.value));
+              if (Number(e.target.value) < 999 && Number(e.target.value) >= 0) {
+                quantilyInputOp.value = Number(e.target.value);
+              } else quantilyInputOp.value = 999;
+            } else quantilyInputOp.value = 0;
+            // if(e.target.value>=999 || e.target.value<0){
+            //     quantilyInputOp.value=0;
+            // }else quantilyInputOp.value=e.target.value;
+          };
+
+          clearInterval(checkExists);
         }
-      };
-      decreQuantilyBtnOp.onclick = () => {
-        let numberOption = Number(quantilyInputOp.value);
-        if (numberOption > 0 && numberOption <= 999) {
-          numberOption -= 1;
-          quantilyInputOp.value = numberOption;
-        }
-      };
-      quantilyInputOp.oninput = (e) => {
-        if (Number.isInteger(Number(e.target.value))) {
-          console.log(Number(e.target.value));
-          if (Number(e.target.value) < 999 && Number(e.target.value) >= 0) {
-            quantilyInputOp.value = Number(e.target.value);
-          } else quantilyInputOp.value = 999;
-        } else quantilyInputOp.value = 0;
-        // if(e.target.value>=999 || e.target.value<0){
-        //     quantilyInputOp.value=0;
-        // }else quantilyInputOp.value=e.target.value;
-      };
+      }, 500);
     }
 
     //--
