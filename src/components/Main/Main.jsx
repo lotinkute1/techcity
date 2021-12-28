@@ -17,20 +17,8 @@ export default function Main() {
   const dispatch = useDispatch();
   
   return (
-    <div id="main">
-      <div className="scroll-top">
-        <a href="#main">
-          <i className="fas fa-chevron-circle-up" />
-        </a>
-      </div>
-      <div className="scroll-call">
-        <span>
-          Tổng Đài CSKH
-          <br />
-          0784508270
-        </span>
-      </div>
-      <div className="content">
+    
+    <>
         {/* banner comp */}
         <Banner/>
         
@@ -42,9 +30,6 @@ export default function Main() {
         <ItemsCarousel categoryID="ctgr02" itemData={data} title="máy tính sách tay"/>
         <ItemsCarousel categoryID="ctgr03" itemData={data} title="máy tính bảng"/>
         <ItemsCarousel categoryID="ctgr06" itemData={data} title="Đồng hồ thông minh"/>
-        
-        
-      </div>
-    </div>
+    </>
   );
 }

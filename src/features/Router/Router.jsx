@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Main from "../../components/Main/Main";
+import Payment from "../Payment";
 import ProductInfo from "../ProductInfo/ProductInfo";
-
 export default function Router() {
   return (
       <Routes>

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/Auth/userSlice";
 import React, { useState } from "react";
 import "./style.css";
+import { Link } from "react-router-dom";
 export default function Header() {
   const dispatch = useDispatch();
   const [openRegister, setOpenRegister] = useState(false);
@@ -37,14 +38,14 @@ export default function Header() {
     setOpenLogin(false);
   };
   return (
-    <header id="header" className="">
-      <div className="header-wrapper">
+    <div id="header" className="">
+      <div className="div-wrapper">
         <div className="header-top">
           <div className="header-top-wrapper">
             <div className="header__logo">
-              <a href="/#">
+              <Link to="/">
                 <img src={logo} alt="" />
-              </a>
+              </Link>
             </div>
             {/* <div class="header__menu">
                       <div class="header__menu-icon"></div>
@@ -326,6 +327,6 @@ export default function Header() {
           handleCloseLogin={handleCloseLogin}
         />
       )}
-    </header>
+    </div>
   );
 }
