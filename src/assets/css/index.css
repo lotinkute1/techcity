@@ -261,6 +261,7 @@ input {
 .header__cart__item-name {
   align-self: start;
   padding: 0 10px;
+  flex:1;
 }
 
 .header__cart__item-price {
@@ -624,6 +625,7 @@ input {
   overflow: hidden;
   background: white;
   display: flex;
+  height: 148px;
 }
 
 .carousel-item__image img {

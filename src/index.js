@@ -8,6 +8,21 @@ import store from "./app/store";
 import "./assets/css/index.css";
 import "./assets/css/itemsSlides.css";
 import { BrowserRouter } from "react-router-dom";
+
+//custom event localStorageChange
+const originalSetItem = localStorage.setItem;
+
+localStorage.setItem = function(key, value) {
+  const event = new Event('itemInserted');
+
+  event.value = value; // Optional..
+  event.key = key; // Optional..
+
+  document.dispatchEvent(event);
+
+  originalSetItem.apply(this, arguments);
+};
+
 ReactDOM.render(
   <BrowserRouter>
     <React.StrictMode>

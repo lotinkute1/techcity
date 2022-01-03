@@ -8,6 +8,7 @@ import { logout } from "../../features/Auth/userSlice";
 import React, { useState } from "react";
 import "./style.css";
 import { Link } from "react-router-dom";
+import HeaderCartPopup from "../../features/HeaderCartPopup/HeaderCartPopup";
 export default function Header() {
   const dispatch = useDispatch();
   const [openRegister, setOpenRegister] = useState(false);
@@ -62,71 +63,7 @@ export default function Header() {
                 Tìm kiếm
               </button>
             </div>
-            <div className="header__cart">
-              <i className="fas fa-shopping-cart" />
-              <div className="header__cart__popup">
-                <div>
-                  <h3 className="header__cart__title">sản phẩm vừa mới thêm</h3>
-                  <a href="/#">
-                    <div className="header__cart__item">
-                      <div className="header__cart__item-img">
-                        <img
-                          src="https://cf.shopee.vn/file/750a433e6af5e7709900f81fa751cd4a"
-                          alt=""
-                        />
-                      </div>
-                      <div className="header__cart__item-name text-wrap1">
-                        Apple Watch Series 7 45mm GPS Sport Band
-                      </div>
-                      <div className="header__cart__item-price">
-                        14.000.000 <span>₫</span>
-                      </div>
-                    </div>
-                  </a>
-                  <a href="/#">
-                    <div className="header__cart__item">
-                      <div className="header__cart__item-img">
-                        <img
-                          src="https://cf.shopee.vn/file/b4d8f2c5ec5de05b98a68ba1fdc17d4c"
-                          alt=""
-                        />
-                      </div>
-                      <div className="header__cart__item-name text-wrap1">
-                        Apple Watch Series 7 45mm GPS Sport Band
-                      </div>
-                      <div className="header__cart__item-price">
-                        990.000 <span>₫</span>
-                      </div>
-                    </div>
-                  </a>
-                  <a href="/#">
-                    <div className="header__cart__item">
-                      <div className="header__cart__item-img">
-                        <img
-                          src="https://cf.shopee.vn/file/750a433e6af5e7709900f81fa751cd4a"
-                          alt=""
-                        />
-                      </div>
-                      <div className="header__cart__item-name text-wrap1">
-                        Apple Watch Series 7 45mm GPS Sport Band
-                      </div>
-                      <div className="header__cart__item-price">
-                        99.999.999 <span>₫</span>
-                      </div>
-                    </div>
-                  </a>
-                  <a
-                    name="tocart"
-                    id="tocart"
-                    className="btn btn-tocart"
-                    href="/#"
-                    role="button"
-                  >
-                    Đến giỏ hàng
-                  </a>
-                </div>
-              </div>
-            </div>
+            <HeaderCartPopup/>
             <div className="header__user">
               {/* logined */}
               {isLoggedIn && (
@@ -253,8 +190,8 @@ export default function Header() {
               </li>
               <li className="nav-item">
                 <a href="/#">
-                  <i className="fas fa-headphones-alt" />
-                  <span>Âm thanh</span>
+                <i className="fas fa-swatchbook"></i>
+                  <span>Phụ Kiện Điện Thoại</span>
                 </a>
                 <ul className="subnav">
                   <h4>Hãng sản xuất</h4>
@@ -269,28 +206,11 @@ export default function Header() {
                   </li>
                 </ul>
               </li>
-              <li className="nav-item">
-                <a href="/#">
-                  <i className="fas fa-laptop-house" />
-                  <span>Smart home</span>
-                </a>
-                <ul className="subnav">
-                  <h4>Hãng sản xuất</h4>
-                  <li>
-                    <a href="/#">Apple</a>
-                  </li>
-                  <li>
-                    <a href="/#">Sammsung</a>
-                  </li>
-                  <li>
-                    <a href="/#">Xiaomi</a>
-                  </li>
-                </ul>
-              </li>
+              
               <li className="nav-item">
                 <a href="/#">
                   <i className="far fa-keyboard" />
-                  <span>Phụ kiện</span>
+                  <span>Link kiện PC</span>
                 </a>
                 <ul className="subnav">
                   <h4>Hãng sản xuất</h4>

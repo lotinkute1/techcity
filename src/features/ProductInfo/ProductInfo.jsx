@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import NumberFormat from "react-number-format";
 import { useParams } from "react-router-dom";
 import Slider from "react-slick";
-import GetProductsDatatData from "../../api/GetProductsData";
+import GetProductsData from "../../api/GetProductsData";
 import ItemsCarousel from "../../components/ItemsCarousel/ItemsCarousel";
 import "../../assets/js/incre_decre_option.js";
 import loadingImage from "../../assets/images/loading/Spinner-1s-200px.gif";
@@ -12,7 +12,7 @@ export default function ProductInfo() {
   // nhan id san pham tu url
   const { id } = useParams();
 
-  const productsData = GetProductsDatatData("");
+  const productsData = GetProductsData("");
 
   const product = productsData.find((product) => product.id === id);
 
@@ -27,7 +27,8 @@ export default function ProductInfo() {
   });
 
   const category = GetCategoriesData(productM.category_id);
-  const { category_name } = category[0] ?? { category_name: "" };
+  
+  // const { category_name } = category[0] ?? { category_name: "" };
 
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
@@ -239,12 +240,12 @@ export default function ProductInfo() {
               Danh Mục
             </div>
             <div className="product-more-info__top__category__wrapper">
-              <div>{category_name}</div>
+              <div>{category[0]?.category_name||""}</div>
             </div>
           </div>
           <div className="product-more-info__top__info">
             <div>Thương hiệu</div>
-            <div>Apple</div>
+            <div>{productM.brand}</div>
           </div>
           <div className="product-more-info__top__info">
             <div>Hạn bảo hành</div>
@@ -264,22 +265,12 @@ export default function ProductInfo() {
             <br />
             {productM.description}
             <br />
+            Thiết kế vô cùng tinh xảo.
+            <br />
+            <br />
             Để bạn có thể tiến xa trong công việc, dù đi bất kỳ nơi đâu.
             <br />
-            {/* Tính năng nổi bật
-              <br />
-              • Chip M1 do Apple thiết kế tạo ra một cú nhảy vọt về hiệu năng
-              máy học, CPU và GPU
-              <br />
-              • Làm được nhiều việc hơn với thời lượng pin lên đến 20 giờ, thời
-              lượng pin lâu nhất trong các dòng máy tính Mac từ trước đến nay.
-              <br />
-              • CPU 8 lõi cho hiệu năng nhanh hơn đến 2.8x, xử lý các luồng công
-              việc nhanh hơn bao giờ hết1
-              <br />
-              • GPU 8 lõi với tốc độ xử lý đồ họa nhanh gấp 5x cho các ứng dụng
-              và game có đồ họa khủng1
-              <br />• Neural Engine 16 lõi cho công nghệ máy học hiện đại */}
+            
           </div>
         </div>
       </section>

@@ -18,8 +18,8 @@ function GetCategoriesData(categoryID = "") {
   const [proData, setProData] = useState([]);
   //   child(dbRef, `/${productsType}`)
   useEffect(() => {
-    get(query(ref(db, "/categories")))
-      .then((snapshot) => {
+    try {
+      onValue(ref(db, "/categories"), (snapshot) => {
         if (snapshot.exists()) {
           let temp = [];
           snapshot.forEach((item) => {
@@ -32,12 +32,12 @@ function GetCategoriesData(categoryID = "") {
           });
           setProData(temp);
         } else {
-          console.log("No categories data available");
+          console.log("No data available");
         }
-      })
-      .catch((error) => {
-        console.error(error);
       });
+    } catch (error) {
+      console.error(error);
+    }
   }, [categoryID]);
 
   return proData;

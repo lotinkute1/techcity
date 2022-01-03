@@ -47,9 +47,9 @@ class Cart extends Component {
                   200.000 đ
                 </td>
                 <td className="actions" data-th>
-                  <button className="btn btn-info btn-sm">
+                  {/* <button className="btn btn-info btn-sm">
                     <i className="fa fa-edit" />
-                  </button>
+                  </button> */}
                   <button className="btn btn-danger btn-sm">
                     <i className="fas fa-trash" />
                   </button>
@@ -84,9 +84,9 @@ class Cart extends Component {
                   300.000 đ
                 </td>
                 <td className="actions" data-th>
-                  <button className="btn btn-info btn-sm">
+                  {/* <button className="btn btn-info btn-sm">
                     <i className="fa fa-edit" />
-                  </button>
+                  </button> */}
                   <button className="btn btn-danger btn-sm">
                     <i className="fas fa-trash" />
                   </button>
@@ -94,14 +94,14 @@ class Cart extends Component {
               </tr>
             </tbody>
             <tfoot>
-              <tr className="visible-xs">
+              {/* <tr className="visible-xs">
                 <td className="text-center">
                   <strong>Tổng 200.000 đ</strong>
                 </td>
-              </tr>
+              </tr> */}
               <tr>
                 <td>
-                  <a href className="btn btn-warning">
+                  <a href="/#" className="btn btn-warning">
                     <i className="fa fa-angle-left" /> Tiếp tục mua hàng
                   </a>
                 </td>
@@ -111,7 +111,7 @@ class Cart extends Component {
                 </td>
                 <td>
                   <a
-                    href
+                    href="/#"
                     style={{ backgroundColor: "#fed700" }}
                     className="btn btn-success btn-block"
                   >
