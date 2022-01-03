@@ -1,14 +1,23 @@
 import React from "react";
 import NumberFormat from "react-number-format";
 import { Link } from "react-router-dom";
+
 export default function ItemCard(props) {
+  const { key, itemID, productName, productImage, defaultPrice } = props;
   return (
     <div className="carousel-box">
-      <Link to={"/product_info-"+ props.itemID} alt="" className="carousel-item__image">
+      <Link
+        to={"/product_info-" + props.itemID}
+        alt=""
+        className="carousel-item__image"
+      >
         <img src={props.productImage} alt="" />
       </Link>
       <div className="carousel-item__bot-wrapper">
-        <Link to={"/product_info-"+ props.itemID} className="carousel-item__title">
+        <Link
+          to={"/product_info-" + props.itemID}
+          className="carousel-item__title"
+        >
           <h3 className="text-wrap">{props.productName}</h3>
         </Link>
         <div className="carousel-item__raiting">
@@ -25,9 +34,8 @@ export default function ItemCard(props) {
             value={props.defaultPrice}
             className=""
             displayType={"text"}
-            thousandSeparator={'.'} 
-            decimalSeparator={','}
-           
+            thousandSeparator={"."}
+            decimalSeparator={","}
             prefix={"₫"}
             renderText={(value, props) => <span {...props}>{value}</span>}
           />

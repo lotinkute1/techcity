@@ -6,7 +6,6 @@ import {sliderItemsCrouselSetting} from "../settings/slickSetting"
 export default function ItemsCarousel(props) {
   //   const itemData = GetProductsData(props.categoryID) || [];
   //   console.log(itemData);
- 
 
   const renderItems = props.itemData.map((item) => {
     if(item.category_id.indexOf(props.categoryID)>=0){

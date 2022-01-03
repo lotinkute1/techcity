@@ -5,20 +5,44 @@ import LoginForm from "../../features/Auth/components/LoginForm";
 import Login from "../../features/Auth/components/Login";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/Auth/userSlice";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css";
 import { Link } from "react-router-dom";
+import Firebase from "../../features/Firebase/Firebase";
+import { typing } from "./searchSlice";
+import {
+  getDatabase,
+  ref,
+  push,
+  child,
+  onValue,
+  get,
+  limitToLast,
+  limitToFirst,
+  startAt,
+  query,
+  equalTo,
+  orderByChild,
+} from "firebase/database";
+
 export default function Header() {
   const dispatch = useDispatch();
   const [openRegister, setOpenRegister] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
   const loggedInUser = useSelector((state) => state.user.current);
+  const [inputValue, setInputValue] = useState("");
   const isLoggedIn = !!loggedInUser.id;
 
   const hanleLogout = () => {
     setTimeout(() => {
       dispatch(logout());
     }, 2000);
+  };
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+    const action = typing(e.target.value);
+    dispatch(action);
   };
 
   const handleClickOpenRegister = () => {
@@ -37,6 +61,7 @@ export default function Header() {
   const handleCloseLogin = () => {
     setOpenLogin(false);
   };
+
   return (
     <div id="header" className="">
       <div className="div-wrapper">
@@ -56,6 +81,8 @@ export default function Header() {
                 placeholder="Tìm kiếm sản phẩm"
                 type="text"
                 className="header__search-input"
+                value={inputValue}
+                onChange={(e) => handleInputChange(e)}
               />
               <button type="text" className="header__search-search">
                 <i className="fas fa-search" />

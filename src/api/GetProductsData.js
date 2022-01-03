@@ -13,19 +13,22 @@ import {
   orderByChild,
 } from "firebase/database";
 
-function GetProductsData(categoryID = "",productsID = "") {
+function GetProductsData(categoryID = "", productsID = "") {
   const db = getDatabase();
   const dbRef = ref(db, "/");
   const [proData, setProData] = useState([]);
   //   child(dbRef, `/${productsType}`)
 
   useEffect(() => {
-    get(query(ref(db, "/products")))
-      .then((snapshot) => {
+    try {
+      onValue(ref(db, "/products"), (snapshot) => {
         if (snapshot.exists()) {
           let temp = [];
           snapshot.forEach((item) => {
-            if (item.val().category_id.search(categoryID) >= 0&&item.key.search(productsID)>=0) {
+            if (
+              item.val().category_id.search(categoryID) >= 0 &&
+              item.key.search(productsID) >= 0
+            ) {
               temp.push({
                 id: item.key,
                 ...item.val(),
@@ -36,12 +39,13 @@ function GetProductsData(categoryID = "",productsID = "") {
         } else {
           console.log("No data available");
         }
-      })
-      .catch((error) => {
-        console.error(error);
       });
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
 
   return proData;
 }
+
 export default GetProductsData;

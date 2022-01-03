@@ -8,6 +8,7 @@ import Cart from "./features/Cart";
 import Payment from "./features/Payment";
 import Address from "./features/Profiles/Address";
 import Profile from "./features/Profiles/Profile";
+import ShowAllProduct from "./features/ShowAllProduct";
 function App() {
   return (
     <div className="wrapper">
@@ -26,7 +27,8 @@ function App() {
           </span>
         </div>
         <div className="content">
-          <Router/>
+          {/* <Router/> */}
+          <ShowAllProduct />
         </div>
       </div>
       <Footer />
