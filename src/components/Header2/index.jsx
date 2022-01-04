@@ -1,27 +1,41 @@
-import logo from "../../assets/images/logo-web.png";
-import AuthFeature from "../../features/Auth";
-import Register from "../../features/Auth/components/Register";
-import LoginForm from "../../features/Auth/components/LoginForm";
-import Login from "../../features/Auth/components/Login";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../features/Auth/userSlice";
 import React, { useState } from "react";
-import "./style.css";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../../assets/images/logo-web.png";
+import Login from "../../features/Auth/components/Login";
+import Register from "../../features/Auth/components/Register";
+import { logout } from "../../features/Auth/userSlice";
 import HeaderCartPopup from "../../features/HeaderCartPopup/HeaderCartPopup";
+import { typing } from "./searchSlice";
+import "./style.css";
+
+
 export default function Header() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [openRegister, setOpenRegister] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
 
 
   const loggedInUser = useSelector((state) => state.user.current);
+  const [inputValue, setInputValue] = useState("");
   const isLoggedIn = !!loggedInUser.id;
 
   const hanleLogout = () => {
     setTimeout(() => {
       dispatch(logout());
     }, 2000);
+  };
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+    const action = typing(e.target.value);
+    dispatch(action);
+    // navigate("/show-all-product");
+  };
+
+  const handleSearchClick = () => {
+    navigate("/show-all-product");
   };
 
   const handleClickOpenRegister = () => {
@@ -40,6 +54,7 @@ export default function Header() {
   const handleCloseLogin = () => {
     setOpenLogin(false);
   };
+
   return (
     <div id="header" className="">
       <div className="div-wrapper">
@@ -59,8 +74,14 @@ export default function Header() {
                 placeholder="Tìm kiếm sản phẩm"
                 type="text"
                 className="header__search-input"
+                value={inputValue}
+                onChange={(e) => handleInputChange(e)}
               />
-              <button type="text" className="header__search-search">
+              <button
+                type="text"
+                className="header__search-search"
+                onClick={handleSearchClick}
+              >
                 <i className="fas fa-search" />
                 Tìm kiếm
               </button>
@@ -119,119 +140,138 @@ export default function Header() {
           <div className="header__nav">
             <ul className="header__nav-wrapper">
               <li className="nav-item">
-                <a href="/#">
+                <Link className="nav-category" to="/show-all-product/ctgr01">
                   <i className="fas fa-mobile-alt" />
                   <span>Điện thoại</span>
-                </a>
+                </Link>
                 <ul className="subnav">
                   <h4>Hãng sản xuất</h4>
                   <li>
-                    <a href="/#">Apple</a>
+                    <Link to="/show-all-product">Apple</Link>
                   </li>
                   <li>
-                    <a href="/#">Sammsung</a>
+                    <Link to="/show-all-product">Sammsung</Link>
                   </li>
                   <li>
-                    <a href="/#">Xiaomi</a>
+                    <Link to="/show-all-product">Xiaomi</Link>
                   </li>
                 </ul>
               </li>
               <li className="nav-item">
-                <a href="/#">
+                <Link className="nav-category" to="/show-all-product/ctgr02">
                   <i className="fas fa-laptop" />
                   <span>Laptop</span>
-                </a>
+                </Link>
                 <ul className="subnav">
                   <h4>Hãng sản xuất</h4>
                   <li>
-                    <a href="/#">Apple</a>
+                    <Link to="/show-all-product">Apple</Link>
                   </li>
                   <li>
-                    <a href="/#">Sammsung</a>
+                    <Link to="/show-all-product">Sammsung</Link>
                   </li>
                   <li>
-                    <a href="/#">Xiaomi</a>
+                    <Link to="/show-all-product">Xiaomi</Link>
                   </li>
                 </ul>
               </li>
               <li className="nav-item">
-                <a href="/#">
+                <Link className="nav-category" to="/show-all-product/ctgr06">
                   <i className="far fa-clock" />
                   <span>Đồng hồ</span>
-                </a>
+                </Link>
                 <ul className="subnav">
                   <h4>Hãng sản xuất</h4>
                   <li>
-                    <a href="/#">Apple</a>
+                    <Link to="/show-all-product">Apple</Link>
                   </li>
                   <li>
-                    <a href="/#">Sammsung</a>
+                    <Link to="/show-all-product">Sammsung</Link>
                   </li>
                   <li>
-                    <a href="/#">Xiaomi</a>
+                    <Link to="/show-all-product">Xiaomi</Link>
                   </li>
                 </ul>
               </li>
               <li className="nav-item">
-                <a href="/#">
+                <Link className="nav-category" to="/show-all-product/ctgr03">
                   <i className="fas fa-tablet-alt" />
                   <span>Tablet</span>
-                </a>
+                </Link>
                 <ul className="subnav">
                   <h4>Hãng sản xuất</h4>
                   <li>
-                    <a href="/#">Apple</a>
+                    <Link to="/show-all-product">Apple</Link>
                   </li>
                   <li>
-                    <a href="/#">Sammsung</a>
+                    <Link to="/show-all-product">Sammsung</Link>
                   </li>
                   <li>
-                    <a href="/#">Xiaomi</a>
+                    <Link to="/show-all-product">Xiaomi</Link>
+                  </li>
+                </ul>
+              </li>
+
+              <li className="nav-item">
+                <Link className="nav-category" to="/show-all-product">
+                  <i className="far fa-keyboard" />
+                  <span>Phụ kiện</span>
+                </Link>
+                <ul className="subnav">
+                  <h4>Hãng sản xuất</h4>
+                  <li>
+                    <Link to="/show-all-product">Apple</Link>
+                  </li>
+                  <li>
+                    <Link to="/show-all-product">Sammsung</Link>
+                  </li>
+                  <li>
+                    <Link to="/show-all-product">Xiaomi</Link>
                   </li>
                 </ul>
               </li>
               <li className="nav-item">
-                <a href="/#">
-                <i className="fas fa-swatchbook"></i>
-                  <span>Phụ Kiện Điện Thoại</span>
-                </a>
+                <Link className="nav-category" to="/show-all-product">
+                  <i className="fas fa-headphones-alt" />
+                  <span>Âm thanh</span>
+                </Link>
                 <ul className="subnav">
                   <h4>Hãng sản xuất</h4>
                   <li>
-                    <a href="/#">Apple</a>
+                    <Link to="/show-all-product">Apple</Link>
                   </li>
                   <li>
-                    <a href="/#">Sammsung</a>
+                    <Link to="/show-all-product">Sammsung</Link>
                   </li>
                   <li>
-                    <a href="/#">Xiaomi</a>
+                    <Link to="/show-all-product">Xiaomi</Link>
                   </li>
                 </ul>
               </li>
               
               <li className="nav-item">
-                <a href="/#">
-                  <i className="far fa-keyboard" />
-                  <span>Link kiện PC</span>
-                </a>
+                <Link className="nav-category" to="/show-all-product">
+                  <i className="fas fa-laptop-house" />
+                  <span>Smart home</span>
+                </Link>
                 <ul className="subnav">
                   <h4>Hãng sản xuất</h4>
                   <li>
-                    <a href="/#">Apple</a>
+                    <Link to="/show-all-product">Apple</Link>
                   </li>
                   <li>
-                    <a href="/#">Sammsung</a>
+                    <Link to="/show-all-product">Sammsung</Link>
                   </li>
                   <li>
-                    <a href="/#">Xiaomi</a>
+                    <Link to="/show-all-product">Xiaomi</Link>
                   </li>
                 </ul>
               </li>
               <li className="nav-item">
-                <a href="/#">
+                <Link className="nav-category" to="/show-all-product">
                   <i className="fas fa-bolt" />
                   <span>Flash sale</span>
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
