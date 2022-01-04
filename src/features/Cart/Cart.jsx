@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+
 import "./style.css";
 class Cart extends Component {
   render() {
@@ -101,9 +103,9 @@ class Cart extends Component {
               </tr> */}
               <tr>
                 <td>
-                  <a href="/#" className="btn btn-warning">
+                  <Link to="/" className="btn btn-warning">
                     <i className="fa fa-angle-left" /> Tiếp tục mua hàng
-                  </a>
+                  </Link>
                 </td>
                 <td colSpan={2} className="hidden-xs" />
                 <td className="hidden-xs text-center">
