@@ -13,6 +13,8 @@ export default function Header() {
   const dispatch = useDispatch();
   const [openRegister, setOpenRegister] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
+
+
   const loggedInUser = useSelector((state) => state.user.current);
   const isLoggedIn = !!loggedInUser.id;
 
