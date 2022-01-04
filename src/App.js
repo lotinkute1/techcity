@@ -27,8 +27,7 @@ function App() {
           </span>
         </div>
         <div className="content">
-          {/* <Router/> */}
-          <ShowAllProduct />
+          <Router/>
         </div>
       </div>
       <Footer />

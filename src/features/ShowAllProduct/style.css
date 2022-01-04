@@ -26,7 +26,8 @@ a {
 .show-all .col-sm-3 {
   border-right: none !important;
   padding-right: 0 !important;
-  margin-bottom: 27px;
+  margin-bottom: 10px;
+  padding-left: 0 !important;
 }
 .show-all .option {
   transition: all 0.25s ease;
@@ -147,5 +148,3 @@ a {
   background-color: var(--yellow-main) !important;
   border-color: var(--yellow-main) !important;
 }
-
-

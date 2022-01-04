@@ -1,46 +1,79 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import "./style.css";
-import ItemCard from "../../components/ItemCard/ItemCard";
-import GetProductsData from "../../api/GetProductsData";
-import GetCategoriesData from "../../api/GetCategoriesData";
-import ProductSkeleton from "./components/ProductSkeleton";
-import Firebase from "../Firebase/Firebase";
-import { useDispatch, useSelector } from "react-redux";
-
 import {
-  getDatabase,
-  ref,
-  push,
-  child,
-  onValue,
-  get,
-  limitToLast,
-  limitToFirst,
-  startAt,
-  query,
   equalTo,
+  getDatabase,
+  limitToLast,
+  onValue,
   orderByChild,
+  query,
+  ref,
 } from "firebase/database";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import GetCategoriesData from "../../api/GetCategoriesData";
+import GetProductsData from "../../api/GetProductsData";
+import ItemCard from "../../components/ItemCard/ItemCard";
+import ProductSkeleton from "./components/ProductSkeleton";
+import "./style.css";
 
 ShowAllProduct.propTypes = {};
 
 function ShowAllProduct(props) {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
   const products = GetProductsData();
   const categoryList = GetCategoriesData();
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
   const searchValue = useSelector((state) => state.search);
 
+  console.log(id);
+
+  //  get productList
   useEffect(() => {
     if (products) {
-      const arr = [...products];
-      setProductList(arr);
+      setProductList(products);
     }
     setLoading(false);
   }, [products]);
 
-  const getProductFiltered = (categoryId) => {
+  // useEffect(() => {
+  //   const db = getDatabase();
+  //   const productFilteredRef = query(
+  //     ref(db, "products"),
+  //     orderByChild("category_id"),
+  //     equalTo(id)
+  //   );
+
+  //   const temp = [];
+  //   onValue(productFilteredRef, (snapshot) => {
+  //     snapshot.forEach((item) => {
+  //       temp.push(item.val());
+  //     });
+  //   });
+  //   setProductList(temp);
+  // }, [id]);
+
+  // useEffect(() => {
+  //   const db = getDatabase();
+  //   const productFilteredRef = query(
+  //     ref(db, "products"),
+  //     orderByChild("category_id"),
+  //     equalTo(id)
+  //   );
+
+  //   const temp = [];
+  //   onValue(productFilteredRef, (snapshot) => {
+  //     snapshot.forEach((item) => {
+  //       temp.push(item.val());
+  //     });
+  //   });
+
+  //   setProductList(temp);
+  // }, [id]);
+
+  const hanleFilterCategory = (e, categoryId) => {
     const db = getDatabase();
     const productFilteredRef = query(
       ref(db, "products"),
@@ -54,11 +87,9 @@ function ShowAllProduct(props) {
         temp.push(item.val());
       });
     });
-    return temp;
-  };
-  const hanleFilterCategory = async (e, category) => {
-    const products = await getProductFiltered(category.id);
-    setProductList(products);
+
+    setProductList(temp);
+    navigate(`/show-all-product/${categoryId}`);
   };
 
   // get data when typing search
@@ -86,58 +117,22 @@ function ShowAllProduct(props) {
     setProductList(temp);
   }, [searchValue]);
 
-  // const handlePagination = () => {
-  //   const db = getDatabase();
-  //   const productFilteredRef = query(ref(db, "products"), limitToLast(10));
-  //   const temp = [];
-  //   onValue(productFilteredRef, (snapshot) => {
-  //     snapshot.forEach((item) => {
-  //       temp.push(item.val());
-  //     });
-  //   });
-  //   setProductList(temp);
-  // };
+  const handlePagination = () => {
+    const db = getDatabase();
+    const productFilteredRef = query(ref(db, "products"), limitToLast(10));
+    const temp = [];
+    onValue(productFilteredRef, (snapshot) => {
+      snapshot.forEach((item) => {
+        temp.push(item.val());
+      });
+    });
+    setProductList(temp);
+  };
 
-  console.log(productList);
   return (
     <section className="section">
       <div className="show-all">
         <div className="container allproduct">
-          <div className="row product-filter py-3">
-            <div className="breadcrumb">
-              <a className="breadcrumb-item" href="/">
-                <span>Trang chủ</span>
-              </a>
-              <span className="icon icon-next">
-                <svg
-                  width={6}
-                  height={11}
-                  viewBox="0 0 6 11"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill="#808089"
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M0.646447 0.646447C0.841709 0.451184 1.15829 0.451184 1.35355 0.646447L6.35355 5.64645C6.54882 5.84171 6.54882 6.15829 6.35355 6.35355L1.35355 11.3536C1.15829 11.5488 0.841709 11.5488 0.646447 11.3536C0.451184 11.1583 0.451184 10.8417 0.646447 10.6464L5.29289 6L0.646447 1.35355C0.451184 1.15829 0.451184 0.841709 0.646447 0.646447Z"
-                  />
-                </svg>
-              </span>
-              <a href="/" className="breadcrumb-item">
-                <span title="iphone 13">iphone 13</span>
-              </a>
-            </div>
-            <div className="filter">
-              <span className="mr-1">Hiển thị 1–12 trong 28 kết quả</span>
-              <select name="product" id="product">
-                <option value="volvo">Thứ tự mặc định</option>
-                <option value="saab">Thứ tự theo mức độ phổ biến</option>
-                <option value="mercedes">Mới nhất</option>
-                <option value="audi">Thứ tự theo điểm đánh giá</option>
-              </select>
-            </div>
-          </div>
           <div className="row all-product">
             <div className="col-md-2 shop-bar">
               <div
@@ -153,7 +148,7 @@ function ShowAllProduct(props) {
                       key={category.id}
                       className="col-sm-12 option bg"
                       onClick={(e) => {
-                        hanleFilterCategory(e, category);
+                        hanleFilterCategory(e, category.id);
                       }}
                     >
                       {/* <a href="/">{category.category_name}</a> */}
