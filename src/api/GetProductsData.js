@@ -70,4 +70,5 @@ function GetProductsData(categoryID = "", productsID = "") {
 
   return proData;
 }
+
 export default GetProductsData;

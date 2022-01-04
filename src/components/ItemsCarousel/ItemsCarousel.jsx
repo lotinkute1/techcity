@@ -1,16 +1,15 @@
 import React, { useEffect } from "react";
 import Slider from "react-slick";
 import ItemCard from "../ItemCard/ItemCard";
-import {sliderItemsCrouselSetting} from "../settings/slickSetting"
+import { sliderItemsCrouselSetting } from "../settings/slickSetting";
+import { Link } from "react-router-dom";
 // import GetProductsData from "../../api/GetProductsData";
 export default function ItemsCarousel(props) {
   //   const itemData = GetProductsData(props.categoryID) || [];
   //   console.log(itemData);
- 
 
   const renderItems = props.itemData.map((item) => {
-    if(item.category_id.indexOf(props.categoryID)>=0){
-      
+    if (item.category_id.indexOf(props.categoryID) >= 0) {
       return (
         <ItemCard
           key={item.id}
@@ -19,7 +18,7 @@ export default function ItemsCarousel(props) {
           productImage={item.product_img.main_img}
           defaultPrice={item.default_price}
         />
-      )
+      );
     }
   });
 
@@ -28,9 +27,9 @@ export default function ItemsCarousel(props) {
       <div className="section-title">
         <h2>{props.title}</h2>
         <div>
-          <a href="/#">
+          <Link to={`/show-all-product/${props.categoryID}`}>
             xem tất cả <i className="fas fa-angle-double-right" />
-          </a>
+          </Link>
         </div>
       </div>
       {/* <div
@@ -39,9 +38,7 @@ export default function ItemsCarousel(props) {
       >
         {renderItems}
       </div> */}
-      <Slider {...sliderItemsCrouselSetting}>
-        {renderItems}
-      </Slider>
+      <Slider {...sliderItemsCrouselSetting}>{renderItems}</Slider>
     </section>
   );
 }
