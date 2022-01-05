@@ -184,7 +184,19 @@ p {
   border: 2px solid var(--yellow-main);
   position: relative;
 }
-
+.header__cart__number{
+  position:absolute;
+  top: -10px;
+  right: -10px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color:red;
+  color: white;
+  text-align: center;
+  line-height: 17px;
+  font-size: 10px;
+}
 .header__cart__popup {
   z-index: 9999;
   position: absolute;

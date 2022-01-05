@@ -6,13 +6,13 @@ export default function HeaderCartPopup() {
   const [items, setItems] = useState(() => {
     return JSON.parse(localStorage.getItem("cartItems"));
   });
-
+	
   const renderCardItems = () => {
     // to unique array
     const unique = items?.filter(
       (v, i, a) => a.findIndex((t) => t.itemID === v.itemID) === i
     );
-
+		
     return unique?.map((item, index) => {
       return (
         <Link key={index} to={"/product_info-" + item.itemID}>
@@ -51,6 +51,9 @@ export default function HeaderCartPopup() {
 
   return (
     <div className="header__cart">
+			<div className="header__cart__number">
+				{items?.length??0}
+			</div>
       <i className="fas fa-shopping-cart" />
       <div className="header__cart__popup">
         <div>
