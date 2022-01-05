@@ -1,25 +1,25 @@
-import React from 'react'
 import { useEffect, useState } from "react";
 import Firebase from "../features/Firebase/Firebase";
 import {
   getDatabase,
   ref,
-  get,
-  query,
+  onValue,
+
 } from "firebase/database";
-function GetUsersData(userID="") {
-    const db = getDatabase();
-//   const dbRef = ref(db, "/");
+
+function GetRaitingsData(productID = "",userID="") {
+  const db = getDatabase();
   const [proData, setProData] = useState([]);
   //   child(dbRef, `/${productsType}`)
-
   useEffect(() => {
-    get(query(ref(db, "/users")))
-      .then((snapshot) => {
+    try {
+      onValue(ref(db, "/raitings"), (snapshot) => {
         if (snapshot.exists()) {
           let temp = [];
           snapshot.forEach((item) => {
-            if (item.key.search(userID) >= 0) {
+              
+            if (item.val().product_id?.search(productID) >= 0&&item.val().user_id?.search(userID)>=0) {
+
               temp.push({
                 id: item.key,
                 ...item.val(),
@@ -28,14 +28,14 @@ function GetUsersData(userID="") {
           });
           setProData(temp);
         } else {
-          console.log("No user data available");
+          console.log("No data available");
         }
-      })
-      .catch((error) => {
-        console.error(error);
       });
-  }, [userID]);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [productID,userID]);
 
   return proData;
 }
-export default GetUsersData;
+export default GetRaitingsData;

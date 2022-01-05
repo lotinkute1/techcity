@@ -6,22 +6,23 @@ export default function HeaderCartPopup() {
   const [items, setItems] = useState(() => {
     return JSON.parse(localStorage.getItem("cartItems"));
   });
-	
+
   const renderCardItems = () => {
     // to unique array
-    const unique = items?.filter(
-      (v, i, a) => a.findIndex((t) => t.itemID === v.itemID) === i
-    );
-		
-    return unique?.map((item, index) => {
+    // const unique = items?.filter(
+    //   (v, i, a) => a.findIndex((t) => t.itemID === v.itemID) === i
+    // );
+
+    return items?.map((item, index) => {
       return (
         <Link key={index} to={"/product_info-" + item.itemID}>
           <div className="header__cart__item">
             <div className="header__cart__item-img">
               <img src={item.productImage} alt="" />
             </div>
-            <div className="header__cart__item-name text-wrap1">
-              {item.productName}
+            <div className="header__cart__item-name ">
+              <div className="text-wrap1">{item.productName}</div>
+              <div className="pt-1">{"x "+item.number}</div>
             </div>
             <div className="header__cart__item-price">
               <NumberFormat
@@ -51,9 +52,7 @@ export default function HeaderCartPopup() {
 
   return (
     <div className="header__cart">
-			<div className="header__cart__number">
-				{items?.length??0}
-			</div>
+      <div className="header__cart__number">{items?.length ?? 0}</div>
       <i className="fas fa-shopping-cart" />
       <div className="header__cart__popup">
         <div>
@@ -62,7 +61,7 @@ export default function HeaderCartPopup() {
 
           {items === null ? (
             <img
-              style={{width: 200 + 'px'}}
+              style={{ width: 200 + "px" }}
               src="https://www.bazarhat99.com/public/not-found.jpg"
               alt=""
             />

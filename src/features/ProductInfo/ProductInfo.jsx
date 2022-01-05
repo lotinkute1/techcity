@@ -7,7 +7,10 @@ import ItemsCarousel from "../../components/ItemsCarousel/ItemsCarousel";
 import "../../assets/js/incre_decre_option.js";
 import loadingImage from "../../assets/images/loading/Spinner-1s-200px.gif";
 import GetCategoriesData from "../../api/GetCategoriesData";
+import GetUsersData from "../../api/GetUsersData";
 import { set } from "firebase/database";
+import GetRaitingsData from "../../api/GetRaitingsData";
+import Comment from "./components/Comment";
 export default function ProductInfo() {
   // nhan id san pham tu url
   const { id } = useParams();
@@ -27,7 +30,8 @@ export default function ProductInfo() {
   });
 
   const category = GetCategoriesData(productM.category_id);
-  
+  const user = GetUsersData(productM.user_id);
+  const raitings = GetRaitingsData(productM.id);
   // const { category_name } = category[0] ?? { category_name: "" };
 
   const [nav1, setNav1] = useState(null);
@@ -50,6 +54,74 @@ export default function ProductInfo() {
   useEffect(() => {
     window.scrollTo(0, 0);
   });
+
+  // increment and decrement quantily option
+  useEffect(() => {
+    const increQuantilyBtnOp = document.querySelector(
+      ".quantily-wrapper .btn-option:last-child"
+    );
+    const decreQuantilyBtnOp = document.querySelector(
+      ".quantily-wrapper .btn-option:first-child"
+    );
+    const quantilyInputOp = document.querySelector(".quantily-options__number");
+    if (increQuantilyBtnOp && decreQuantilyBtnOp && quantilyInputOp) {
+      increQuantilyBtnOp.onclick = () => {
+        let numberOption = Number(quantilyInputOp.value);
+        if (numberOption < 999) {
+          numberOption += 1;
+          quantilyInputOp.value = numberOption;
+        }
+      };
+      decreQuantilyBtnOp.onclick = () => {
+        let numberOption = Number(quantilyInputOp.value);
+        if (numberOption > 0 && numberOption <= 999) {
+          numberOption -= 1;
+          quantilyInputOp.value = numberOption;
+        }
+      };
+      quantilyInputOp.oninput = (e) => {
+        if (Number.isInteger(Number(e.target.value))) {
+          console.log(Number(e.target.value));
+          if (Number(e.target.value) < 999 && Number(e.target.value) >= 0) {
+            quantilyInputOp.value = Number(e.target.value);
+          } else quantilyInputOp.value = 999;
+        } else quantilyInputOp.value = 0;
+        // if(e.target.value>=999 || e.target.value<0){
+        //     quantilyInputOp.value=0;
+        // }else quantilyInputOp.value=e.target.value;
+      };
+    }
+  },[]);
+  
+  useEffect(() => {
+    // pagination active button
+    const cmtPaginationBtn = document.querySelectorAll(".pagination li");
+    for (let i = 0; i < cmtPaginationBtn.length; i++) {
+      cmtPaginationBtn[i].onclick = (e) => {
+        e.preventDefault();
+        for (let j = 0; j < cmtPaginationBtn.length; j++) {
+          if (cmtPaginationBtn[j])
+            cmtPaginationBtn[j].classList.remove("active");
+        }
+        e.target.closest("li").classList.add("active");
+        console.log(cmtPaginationBtn);
+      };
+    }
+  },[])
+  const renderComments = () => {
+    return raitings.map((comment, index) => {
+      return (
+        <Comment
+          key={index}
+          content={comment.content}
+          create_date={comment.create_date}
+          starts={comment.starts}
+          user_id={comment.user_id}
+        />
+      );
+    });
+  };
+
   return (
     <>
       <section className="section product-info">
@@ -195,14 +267,11 @@ export default function ProductInfo() {
         <div className="shop-info__left-content">
           <div className="shop-info__ava">
             <a href="/#">
-              <img
-                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAe1BMVEX///8ODg4AAAAICAjh4eF9fX0zMzNOTk7X19cqKiphYWGsrKwKCgr7+/vm5uZ0dHS8vLzu7u5DQ0OdnZ3Nzc1TU1OTk5O/v7+GhoZJSUl5eXlYWFi2trZmZmbx8fEmJiZubm45OTkeHh4YGBjIyMijo6Ourq6YmJiDg4OqYIa4AAAEDUlEQVR4nO3cWWOiMBQFYLmIomLdWxds1S76/3/hAC4VSpxOPc690vM985AjCTcJkVqNiIiIiIiIiIiIiIiIiIiIiIiIiIiIiOiXCTtBoN2GGxr3JPGi3Yyb6bdEIs/zX7UbciNhQ8RLSUO7KbexO+RLEja123ILz41jviThXLs1N1CXz4CevGs3B68uvneWMNRuD9xzLmAk2u3Ba5110UoOwyAXsIKdNCwEbGk3CK5RSNjXbhBavxCwehOaVtVH4bgQsHorp16+UlTvMVNLl0snvgy02wOXKxW+1LXbg9c5n3FXMWCyKjwbg9Xroon2adlbwadoZnHYuJBh5ergwUL8dHdtMdZuyM2s5HUYxM/azaDvCePRNAge4wsDrt4Jmpuk067b0/jOKsfgvSmf2nG35JqnbL9b/CiK9pfN3/57O3/qLY33WdnTAMtC68OdSG4Ct79sVPZTmDNuSH79sC8P0fZU4LudRjHeKaT9ncVuuyTffhIqs04y2Ab9pTguyTK2jA/Isbvx6Y3cc1+RXfShHeKSUWnn+0cy1Y7hFly+Pd+OaHbKCgqYRHzUjlJuiwqYRDRZGp9wAZPHjcHC+Ix4yBwDvlgsGU1gH11qhynTBwa0WS1yrwSvC2jzQfoOu4Wy085SDnYLZaIdpRysUvgWy0RqApvNmCz1aS1EBWxrR3H4gCW0ug2+BCWUlXYSF9SEzewL4QfQLfQ32klcULXC6GymhlsYitm3GT1UQqPVHrZwijztIE4bzKRUZtpBnEDFwubCN4NK2NMO4lT5GQ0soeFeCko41A7iBBqHhg98+6iJt9mKv678rG1R+Zk36p2T3dOmI9gmhsXXFSnYXqLV3eBaHbfhbfVpikto9f02qlzYHYk7XEKjj1Pky0Ob/2QbIF/h2zz3BdrH2EfsaKcpMwXeRE9G2nFKvCET2tzOAB41SSMaPKC4gt5ET2RqbXaD7aZZRmtLKWw39QzuD0OfplnCWDtSAW59cUxobSDWZuBnjb2KgTx86dl84f0KnLl5staOU6IDnbk9accpgzueaPXMAvAmmisVB7CRaPb7ZrhdRaPn92A10fDHv0CHo+RBO4jbIyKiuVVFTuv6iFY3FA8A/dTqpvDR1Yf2Zasd4W+uPPJt+LjCUfeqyVskd/A1gvCam2i31p+7Yn5q9C9PX/z4vb4stJv+Xc6z+5GffUXBFdD+U+akXRIx+zbEZjZptuTL9xTuLmDJwegk1Co+zjcH/d7Xv+Wb/b+MQ6fwZYxh8fOI8TqXUUy+cbroYSL7ypgOvXnZTCxcHbpr2n/bhtcTTmGQfSdi03N+3bLbn6/TS5rbe8yX6Q6s/lWLiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIfq8/tzAurNL1lJsAAAAASUVORK5CYII="
-                alt=""
-              />
+              <img src={user[0]?.user_ava} alt="" />
             </a>
           </div>
           <div className="shop-info__info">
-            <div className="shop-info__name">apple_flagship_store</div>
+            <div className="shop-info__name">{user[0]?.name}</div>
             <div>
               <input
                 type="button"
@@ -240,7 +309,7 @@ export default function ProductInfo() {
               Danh Mục
             </div>
             <div className="product-more-info__top__category__wrapper">
-              <div>{category[0]?.category_name||""}</div>
+              <div>{category[0]?.category_name || ""}</div>
             </div>
           </div>
           <div className="product-more-info__top__info">
@@ -270,7 +339,6 @@ export default function ProductInfo() {
             <br />
             Để bạn có thể tiến xa trong công việc, dù đi bất kỳ nơi đâu.
             <br />
-            
           </div>
         </div>
       </section>
@@ -279,95 +347,7 @@ export default function ProductInfo() {
         <div className="comments__title">Bình luận</div>
         <div className="comments__wrapper">
           {/* comment */}
-          <div className="comments__comment">
-            <div className="comment__ava">
-              <img
-                src="https://scontent.fhan2-3.fna.fbcdn.net/v/t1.6435-1/p320x320/184357069_1631277223738759_263572131023011701_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=7206a8&_nc_ohc=9-dgjOIhmfkAX-dYycP&tn=lFI0VGOfIpxrWGC-&_nc_ht=scontent.fhan2-3.fna&oh=00_AT-nRt3IjQsd19nOU0agm0JIL5vl-C7e2mOotrAQXPySEQ&oe=61EC2E82"
-                alt=""
-              />
-            </div>
-            <div className="comment__main">
-              <div className="comment__name">Huydeptrai1</div>
-              <div className="raiting-starts">
-                <i className="fas fa-star" />
-                <i className="fas fa-star" />
-                <i className="fas fa-star" />
-                <i className="fas fa-star-half-alt" />
-                <i className="far fa-star" />
-              </div>
-              <div className="comment__content">
-                hàng dùng ok, chất lượng tốt, chơi pikachu mượt nhưng có một
-                điểm trừ là hệ điều hành lại là MacOS tôi thích Window hơn -.-
-              </div>
-              <div className="comment__time">12-12-2021 10:39</div>
-              <div className="comment__actions">
-                <div className="btn btn-like">
-                  <i className="fas fa-thumbs-up" />
-                </div>
-                <div className="comment__actions__like-count">0</div>
-              </div>
-            </div>
-          </div>
-          {/* comment */}
-          <div className="comments__comment">
-            <div className="comment__ava">
-              <img
-                src="https://scontent.fhan2-3.fna.fbcdn.net/v/t1.6435-1/p320x320/184357069_1631277223738759_263572131023011701_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=7206a8&_nc_ohc=9-dgjOIhmfkAX-dYycP&tn=lFI0VGOfIpxrWGC-&_nc_ht=scontent.fhan2-3.fna&oh=00_AT-nRt3IjQsd19nOU0agm0JIL5vl-C7e2mOotrAQXPySEQ&oe=61EC2E82"
-                alt=""
-              />
-            </div>
-            <div className="comment__main">
-              <div className="comment__name">Huydeptrai2</div>
-              <div className="raiting-starts">
-                <i className="fas fa-star" />
-                <i className="fas fa-star" />
-                <i className="fas fa-star" />
-                <i className="fas fa-star-half-alt" />
-                <i className="far fa-star" />
-              </div>
-              <div className="comment__content">
-                hàng dùng ok, chất lượng tốt, chơi pikachu mượt nhưng có một
-                điểm trừ là hệ điều hành lại là MacOS tôi thích Window hơn -.-
-              </div>
-              <div className="comment__time">12-12-2021 10:39</div>
-              <div className="comment__actions">
-                <div className="btn btn-like">
-                  <i className="fas fa-thumbs-up" />
-                </div>
-                <div className="comment__actions__like-count">0</div>
-              </div>
-            </div>
-          </div>
-          {/* comment */}
-          <div className="comments__comment">
-            <div className="comment__ava">
-              <img
-                src="https://scontent.fhan2-3.fna.fbcdn.net/v/t1.6435-1/p320x320/184357069_1631277223738759_263572131023011701_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=7206a8&_nc_ohc=9-dgjOIhmfkAX-dYycP&tn=lFI0VGOfIpxrWGC-&_nc_ht=scontent.fhan2-3.fna&oh=00_AT-nRt3IjQsd19nOU0agm0JIL5vl-C7e2mOotrAQXPySEQ&oe=61EC2E82"
-                alt=""
-              />
-            </div>
-            <div className="comment__main">
-              <div className="comment__name">Huydeptrai3</div>
-              <div className="raiting-starts">
-                <i className="fas fa-star" />
-                <i className="fas fa-star" />
-                <i className="fas fa-star" />
-                <i className="fas fa-star-half-alt" />
-                <i className="far fa-star" />
-              </div>
-              <div className="comment__content">
-                hàng dùng ok, chất lượng tốt, chơi pikachu mượt nhưng có một
-                điểm trừ là hệ điều hành lại là MacOS tôi thích Window hơn -.-
-              </div>
-              <div className="comment__time">12-12-2021 10:39</div>
-              <div className="comment__actions">
-                <div className="btn btn-like">
-                  <i className="fas fa-thumbs-up" />
-                </div>
-                <div className="comment__actions__like-count">0</div>
-              </div>
-            </div>
-          </div>
+          {renderComments()}
         </div>
         <div className="comments__pagination">
           <ul className="pagination">

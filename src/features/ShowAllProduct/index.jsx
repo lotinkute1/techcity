@@ -94,7 +94,7 @@ function ShowAllProduct(props) {
 
   // get data when typing search
   useEffect(() => {
-    const searchValueLowerCase = searchValue.toLowerCase();
+    const searchValueLowerCase = searchValue?.toLowerCase();
     const db = getDatabase();
     const productFilteredRef = query(
       ref(db, "products"),
@@ -104,10 +104,10 @@ function ShowAllProduct(props) {
     const temp = [];
     onValue(productFilteredRef, (snapshot) => {
       snapshot.forEach((item) => {
-        const productName = item.val().product_name.toLowerCase();
+        const productName = item.val().product_name?.toLowerCase();
         if (
           productName
-            .slice(0, searchValueLowerCase.length)
+            ?.slice(0, searchValueLowerCase.length)
             .indexOf(searchValueLowerCase) !== -1
         ) {
           temp.push(item.val());
@@ -170,7 +170,7 @@ function ShowAllProduct(props) {
                       <ItemCard
                         itemID={product.id}
                         productName={product.product_name}
-                        productImage={product.product_img.main_img}
+                        productImage={product.product_img?.main_img}
                         defaultPrice={product.default_price}
                       />
                     </div>

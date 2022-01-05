@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import NumberFormat from "react-number-format";
 import { Link } from "react-router-dom";
 
@@ -8,46 +8,26 @@ export default function Cart() {
   const [cartData, setCartData] = useState(() => {
     return JSON.parse(localStorage.getItem("cartItems"));
   });
-
-  // useEffect(() => {
-  //   const arr = [...cartData]
-  //   const counts = arr.reduce(
-  //     (acc, item) => ({
-  //       ...acc,
-  //       [item.itemID]: (acc[item.itemID] || 0) + 1,
-  //     }),
-  //     {}
-  //   );
-
-  //   console.log(counts);
-  //   // const counter = {};
-
-  //   // cartData.forEach(function (obj) {
-  //   //   var key = JSON.stringify(obj);
-  //   //   counter[key] = (counter[key] || 0) + 1;
-  //   // });
-  //   // console.log(counter);
-  // }, []);
+  let totalPrice = 0;
 
   const renderItemCart = () => {
     // lấy ra số lần lặp lại của item
-    const arr = [...cartData]
-    const counts = arr.reduce(
-      (acc, item) => ({
-        ...acc,
-        [item.itemID]: (acc[item.itemID] || 0) + 1,
-      }),
-      {}
-    );
-    
-    //lọc ra một mảng có các phần tử ko trùng
-    const unique = cartData?.filter(
-      (v, i, a) => a.findIndex((t) => t.itemID === v.itemID) === i
-    );
+    // const arr = [...cartData]
+    // const counts = arr.reduce(
+    //   (acc, item) => ({
+    //     ...acc,
+    //     [item.itemID]: (acc[item.itemID] || 0) + 1,
+    //   }),
+    //   {}
+    // );
 
-    
+    // //lọc ra một mảng có các phần tử ko trùng
+    // const unique = cartData?.filter(
+    //   (v, i, a) => a.findIndex((t) => t.itemID === v.itemID) === i
+    // );
 
-    return unique.map((item, index) => {
+    return cartData.map((item, index) => {
+      totalPrice += (item.defaultPrice * item.number);
       return (
         <tr key={index}>
           <td data-th="Product">
@@ -79,13 +59,13 @@ export default function Cart() {
           <td data-th="Quantity">
             <input
               className="form-control text-center"
-              defaultValue={counts[item.itemID]||1}
+              defaultValue={item.number}
               type="number"
             />
           </td>
           <td data-th="Subtotal" className="text-center">
-          <NumberFormat
-              value={(counts[item.itemID]||1)*item.defaultPrice}
+            <NumberFormat
+              value={item.number * item.defaultPrice}
               className=""
               displayType={"text"}
               thousandSeparator={"."}
@@ -93,8 +73,6 @@ export default function Cart() {
               prefix={"₫"}
               renderText={(value, props) => <span {...props}>{value}</span>}
             />
-
-            
           </td>
           <td className="actions" data-th>
             <button className="btn btn-danger btn-sm">
@@ -136,7 +114,17 @@ export default function Cart() {
               </td>
               <td colSpan={2} className="hidden-xs" />
               <td className="hidden-xs text-center">
-                <strong>Tổng tiền 500.000 đ</strong>
+                <NumberFormat
+                  value={totalPrice}
+                  className=""
+                  displayType={"text"}
+                  thousandSeparator={"."}
+                  decimalSeparator={","}
+                  prefix={"₫"}
+                  renderText={(value, props) => (
+                    <strong {...props}>Tổng tiền: {value}</strong>
+                  )}
+                />
               </td>
               <td>
                 <a

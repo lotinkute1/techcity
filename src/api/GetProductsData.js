@@ -49,7 +49,7 @@ function GetProductsData(categoryID = "", productsID = "") {
           let temp = [];
           snapshot.forEach((item) => {
             if (
-              item.val().category_id.search(categoryID) >= 0 &&
+              item.val().category_id?.search(categoryID) >= 0 &&
               item.key.search(productsID) >= 0 
             ) {
               temp.push({
