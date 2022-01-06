@@ -45,7 +45,7 @@ export default function Cart() {
               </div>
             </div>
           </td>
-          <td data-th="Price">
+          <td  data-th="Price">
             <NumberFormat
               value={item.defaultPrice}
               className=""
@@ -127,13 +127,13 @@ export default function Cart() {
                 />
               </td>
               <td>
-                <a
-                  href="/#"
+                <Link
+                  to="/payment"
                   style={{ backgroundColor: "#fed700" }}
                   className="btn btn-success btn-block"
                 >
                   Thanh toán <i className="fa fa-angle-right" />
-                </a>
+                </Link>
               </td>
             </tr>
           </tfoot>

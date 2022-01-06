@@ -1,3 +1,10 @@
 .payment{
     padding-bottom: 20px;
 }
+.badge-secondary{
+    line-height:20px;
+}
+.custom-control-input:checked~.custom-control-label::before{
+    background-color: #fed700;
+    border-color: #fed700;
+}
