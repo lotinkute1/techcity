@@ -5,8 +5,9 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import InputField from "../../../../components/form-control/InputField";
 import PasswordField from "../../../../components/form-control/PasswordField";
-import {  makeStyles } from "@mui/styles";
+import { makeStyles } from "@mui/styles";
 import { LinearProgress } from "@mui/material";
+import { Link } from "react-router-dom";
 
 LoginForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -44,6 +45,8 @@ function LoginForm({
     .required();
 
   const form = useForm({
+    mode: "onBlur",
+
     defaultValues: {
       identifier: "",
       password: "",
@@ -53,9 +56,7 @@ function LoginForm({
   });
 
   const handleSubmit = async (values) => {
-    if (onSubmit) {
-      await onSubmit(values);
-    }
+    await onSubmit(values);
   };
   const { isSubmitting } = form.formState;
 
@@ -88,17 +89,23 @@ function LoginForm({
             </div>
             <div className="auth-form__aside">
               <div className="auth-form__help">
-                <a href className="auth-form__help-link auth-form__help-forgot">
+                <Link
+                  to="#"
+                  className="auth-form__help-link auth-form__help-forgot"
+                >
                   Quên mật khẩu
-                </a>
+                </Link>
                 <span className="auth-form__help-separate" />
-                <a href className="auth-form__help-link">
+                <Link to="#" className="auth-form__help-link">
                   Cần trợ giúp?
-                </a>
+                </Link>
               </div>
             </div>
             <div className="auth-form__controls">
-              <button onClick={handleCloseLogin} className="btn-2 btn-2--normal">
+              <button
+                onClick={handleCloseLogin}
+                className="btn-2 btn-2--normal"
+              >
                 TRỞ LẠI
               </button>
               <button
@@ -112,15 +119,15 @@ function LoginForm({
           </form>
 
           <div className="auth-form__socials">
-            <a
-              href
+            <Link
               className="auth-form__socials-google btn-2 btn--size-s btn--with-icon"
+              to="#"
             >
               <i className="auth-form__socials-icon fab fa-google" />
               <span className="auth-form__socials--title">
                 Kết nối với Google
               </span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

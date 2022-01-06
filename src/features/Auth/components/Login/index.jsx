@@ -1,10 +1,22 @@
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
+import {
+  equalTo,
+  getDatabase,
+  limitToLast,
+  onValue,
+  orderByChild,
+  query,
+  ref,
+} from "firebase/database";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "../../userSlice";
+import { v4 as uuidv4 } from "uuid";
+import GetUsersData from "../../../../api/GetUsersData";
 import LoginForm from "../LoginForm";
+import StorageKeys from "../../../../constants";
 
 Login.propTypes = {
   handleCloseLogin: PropTypes.func,
@@ -16,17 +28,16 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function Login({
-  handleClickOpenRegister = null,
-  handleCloseLogin = null,
-}) {
+function Login({ handleClickOpenRegister = null, handleCloseLogin = null }) {
   const dispatch = useDispatch();
+  const users = GetUsersData();
+
   const [snakeBar, setSnakeBar] = useState({
     open: false,
     vertical: "top",
     horizontal: "right",
     severity: "success",
-    message: "Đăng kí thành công",
+    message: "Đăng nhập thành công",
   });
   const { vertical, horizontal, open, message, severity } = snakeBar;
   const handleClose = (event, reason) => {
@@ -36,25 +47,45 @@ function Login({
 
     setSnakeBar({ ...snakeBar, open: false });
   };
-  const handleSubmit = async (values) => {
-    try {
-      const action = login(values);
-      const user = await dispatch(action).unwrap();
-      console.log("New user: ", user);
 
-      if (handleCloseLogin) {
-        setTimeout(() => {
-          handleCloseLogin();
-        }, 1000);
-      }
-      // setSnakeBar({ ...snakeBar, open: true });
-    } catch (error) {
-      setSnakeBar({
-        ...snakeBar,
-        open: true,
-        severity: "error",
-        message: "Email hoặc mật khẩu không chính xác",
+  const handleSubmit = async (formValue) => {
+    try {
+      let currentUser;
+      const data = users.forEach((user) => {
+        if (
+          formValue.identifier === user.email &&
+          formValue.password === user.password &&
+          user.user_status !== 0
+        ) {
+          currentUser = user;
+        }
       });
+      console.log(currentUser);
+      if (currentUser) {
+        localStorage.setItem(StorageKeys.USER, JSON.stringify(currentUser));
+
+        // close Login
+        if (handleCloseLogin) {
+          setTimeout(() => {
+            handleCloseLogin();
+          }, 1000);
+        }
+        setSnakeBar({
+          ...snakeBar,
+          open: true,
+          severity: "success",
+          message: "Đăng nhập thành công",
+        });
+      } else {
+        setSnakeBar({
+          ...snakeBar,
+          open: true,
+          severity: "error",
+          message: "Email hoặc mật khẩu không chính xác",
+        });
+      }
+    } catch (error) {
+      console.log("Fail to login", error);
     }
   };
   return (
