@@ -5,7 +5,13 @@ import { Link } from "react-router-dom";
 import "./style.css";
 
 export default function Cart() {
+  const [userLogin,setUserLogin]= useState(() => {
+    return JSON.parse( localStorage.getItem("userLogged"))
+  })
   const [cartData, setCartData] = useState(() => {
+    if(userLogin){
+      return JSON.parse(localStorage.getItem("cartItems"+userLogin.id));
+    }
     return JSON.parse(localStorage.getItem("cartItems"));
   });
   let totalPrice = 0;

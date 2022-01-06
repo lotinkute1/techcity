@@ -5,7 +5,14 @@ import GetUsersData from "../../api/GetUsersData";
 import "./style.css";
 
 export default function Payment() {
+  const [userLogin,setUserLogin]= useState(() => {
+    return JSON.parse( localStorage.getItem("userLogged"))
+  })
+
   const [cartData, setCartData] = useState(() => {
+    if(userLogin){
+      return JSON.parse(localStorage.getItem("cartItems"+userLogin.id));
+    }
     return JSON.parse(localStorage.getItem("cartItems"));
   });
 
@@ -66,7 +73,7 @@ export default function Payment() {
   const paymentBtnHandler = (e) => {
     e.preventDefault();
     console.log(order);
-    
+
 
   }
   

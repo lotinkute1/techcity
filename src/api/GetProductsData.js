@@ -44,13 +44,13 @@ function GetProductsData(categoryID = "", productsID = "") {
     //   });
 
     try {
-    onValue(ref(db, "/products"), (snapshot) => {
+      onValue(ref(db, "/products"), (snapshot) => {
         if (snapshot.exists()) {
           let temp = [];
           snapshot.forEach((item) => {
             if (
               item.val().category_id?.search(categoryID) >= 0 &&
-              item.key.search(productsID) >= 0 
+              item.key.search(productsID) >= 0
             ) {
               temp.push({
                 id: item.key,

@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import {  makeStyles } from "@mui/styles";
+import { makeStyles } from "@mui/styles";
 import { LinearProgress } from "@mui/material";
 import PropTypes from "prop-types";
 import React from "react";
@@ -8,6 +8,7 @@ import * as yup from "yup";
 import InputField from "../../../../components/form-control/InputField";
 import PasswordField from "../../../../components/form-control/PasswordField";
 import "./style.css";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -118,18 +119,21 @@ function RegisterForm({
             <div className="auth-form__aside">
               <p className="auth-form__policy-text">
                 Bằng việc đăng kí, bạn đã đồng ý với Shopee về{" "}
-                <a href className="auth-form__text-link">
+                <Link href className="auth-form__text-link" to="#">
                   Điều khoản dịch vụ
-                </a>{" "}
+                </Link>{" "}
                 &amp;
-                <a href className="auth-form__text-link">
+                <Link href className="auth-form__text-link" to="#">
                   {" "}
                   Chính sách bảo mật
-                </a>
+                </Link>
               </p>
             </div>
             <div className="auth-form__controls">
-              <button onClick={handleCloseRegister} className="btn-2 btn-2--normal">
+              <button
+                onClick={handleCloseRegister}
+                className="btn-2 btn-2--normal"
+              >
                 TRỞ LẠI
               </button>
               <button
@@ -143,15 +147,15 @@ function RegisterForm({
             </div>
           </form>
           <div className="auth-form__socials">
-            <a
-              href
+            <Link
+              to="#"
               className="auth-form__socials-google btn-2 btn--size-s btn--with-icon"
             >
               <i className="auth-form__socials-icon fab fa-google" />
               <span className="auth-form__socials--title">
                 Kết nối với Google
               </span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

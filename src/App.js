@@ -27,6 +27,7 @@ function App() {
         </div>
         <div className="content">
           <Router/>
+          {/* <Profile /> */}
         </div>
       </div>
       <Footer />

@@ -3,7 +3,13 @@ import NumberFormat from "react-number-format";
 import { Link } from "react-router-dom";
 
 export default function HeaderCartPopup() {
+  const [userLogin,setUserLogin] = useState(()=>{
+    return JSON.parse( localStorage.getItem("userLogged"));
+  })
   const [items, setItems] = useState(() => {
+    if(userLogin){
+      return JSON.parse(localStorage.getItem("cartItems"+userLogin.id));
+    }
     return JSON.parse(localStorage.getItem("cartItems"));
   });
 
@@ -44,7 +50,11 @@ export default function HeaderCartPopup() {
   useEffect(() => {
     const localStorageSetHandler = function (e) {
       setTimeout(() => {
-        setItems(JSON.parse(localStorage.getItem("cartItems")));
+        if(userLogin){
+          setItems( JSON.parse(localStorage.getItem("cartItems"+userLogin.id)));
+        }else{
+          setItems(JSON.parse(localStorage.getItem("cartItems")));
+        }
       }, 1000);
     };
     document.addEventListener("itemInserted", localStorageSetHandler);

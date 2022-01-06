@@ -9,7 +9,18 @@ const itemsCardSlice = createSlice({
       let duplicate = false;
       let currentNumber=0;
       let duplicateindex;
-      let localStorageItemsCart = JSON.parse(localStorage.getItem("cartItems"));
+      let localStorageItemsCart=[]
+
+      let userLogged =JSON.parse( localStorage.getItem("userLogged"));
+
+
+      if(userLogged){
+        localStorageItemsCart = JSON.parse(localStorage.getItem("cartItems"+userLogged.id));
+      }else{
+
+        localStorageItemsCart = JSON.parse(localStorage.getItem("cartItems"));
+      }
+
       if (localStorageItemsCart) {
         // duyệt qua mảng local
         localStorageItemsCart.forEach(function (item,index) {
@@ -50,7 +61,13 @@ const itemsCardSlice = createSlice({
         temp=[{number: 1,...action.payload}]
       }
 
-      localStorage.setItem("cartItems", JSON.stringify(temp));
+      if(userLogged){
+        localStorage.setItem("cartItems"+userLogged.id, JSON.stringify(temp));
+
+      }else{
+        
+        localStorage.setItem("cartItems", JSON.stringify(temp));
+      }
     },
   },
 });

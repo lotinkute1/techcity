@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo-web.png";
@@ -8,21 +8,23 @@ import { logout } from "../../features/Auth/userSlice";
 import HeaderCartPopup from "../../features/HeaderCartPopup/HeaderCartPopup";
 import { typing } from "./searchSlice";
 import "./style.css";
-
+import StorageKeys from "../../constants";
 
 export default function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [openRegister, setOpenRegister] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
-  const loggedInUser = useSelector((state) => state.user.current);
+
+  const loggedInUser = JSON.parse(localStorage.getItem(StorageKeys.USER));
+
   const [inputValue, setInputValue] = useState("");
-  const isLoggedIn = !!loggedInUser.id;
+  const isLoggedIn = !!loggedInUser?.id;
+
+ 
 
   const hanleLogout = () => {
-    setTimeout(() => {
-      dispatch(logout());
-    }, 2000);
+    dispatch(logout());
   };
 
   const handleInputChange = (e) => {
@@ -84,7 +86,7 @@ export default function Header() {
                 Tìm kiếm
               </button>
             </div>
-            <HeaderCartPopup/>
+            <HeaderCartPopup />
             <div className="header__user">
               {/* logined */}
               {isLoggedIn && (
@@ -92,24 +94,40 @@ export default function Header() {
                   <div className="header__user-status-logined">
                     <a href="/#" className="header__user-main ">
                       <div className="header__user-ava">
-                        <img src="./assets/images/avatest2.jpg" alt="" />
+                        <img
+                          src={
+                            loggedInUser.user_ava ||
+                            "https://static.thenounproject.com/png/363640-200.png"
+                          }
+                          alt=""
+                        />
                       </div>
-                      <div className="header__user-name">Minh Huy</div>
+                      <div className="header__user-name">
+                        {loggedInUser.name}
+                      </div>
                       <div className="header__user-moreinfo">
                         <i className="fas fa-ellipsis-v" />
                       </div>
                     </a>
                     <ul className="subnav">
+                      {loggedInUser.user_type === 1 && (
+                        <li>
+                          <a href={`http://localhost:3001/${loggedInUser.id}`}>
+                            Techcity_admin
+                          </a>
+                        </li>
+                      )}
+
                       <li>
-                        <a href="/#">Tài khoản của tôi</a>
+                        <Link to="/profile">Tài khoản của tôi</Link>
                       </li>
                       <li>
-                        <a href="/#">Đơn mua</a>
+                        <Link to="/#">Đơn mua</Link>
                       </li>
                       <li>
-                        <a onClick={hanleLogout} href="/#">
+                        <Link onClick={hanleLogout} to="/#">
                           Đăng xuất
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
@@ -246,8 +264,25 @@ export default function Header() {
                   </li>
                 </ul> */}
               </li>
-              
-              
+
+              <li className="nav-item">
+                <Link className="nav-category" to="/show-all-product">
+                  <i className="fas fa-laptop-house" />
+                  <span>Smart home</span>
+                </Link>
+                <ul className="subnav">
+                  <h4>Hãng sản xuất</h4>
+                  <li>
+                    <Link to="/show-all-product">Apple</Link>
+                  </li>
+                  <li>
+                    <Link to="/show-all-product">Sammsung</Link>
+                  </li>
+                  <li>
+                    <Link to="/show-all-product">Xiaomi</Link>
+                  </li>
+                </ul>
+              </li>
               <li className="nav-item">
                 <Link className="nav-category" to="/show-all-product">
                   <i className="fas fa-bolt" />
