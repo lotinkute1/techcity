@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { NavLink, Route, Routes } from "react-router-dom";
 
@@ -12,6 +12,14 @@ function ProfileFeature(props) {
   const [loggedInUser, setLoggedInUser] = useState(
     JSON.parse(localStorage.getItem(StorageKeys.USER))
   );  
+  useEffect(() => {
+    const localStorageSetHandler = function (e) {
+      setTimeout(() => {
+        setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
+      }, 1000);
+    };
+    document.addEventListener("itemInserted", localStorageSetHandler);
+  },[])
 
   return (
     <div className="main">

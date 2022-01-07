@@ -16,8 +16,10 @@ export default function Header() {
   const [openRegister, setOpenRegister] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
 
-  const loggedInUser = JSON.parse(localStorage.getItem(StorageKeys.USER));
-
+  const [loggedInUser,setLoggedInUser ]=useState(()=>{
+    return JSON.parse(localStorage.getItem(StorageKeys.USER))
+  }) ;
+  console.log(loggedInUser);
   const [inputValue, setInputValue] = useState("");
   const isLoggedIn = !!loggedInUser?.id;
 
@@ -68,7 +70,26 @@ export default function Header() {
   const handleCloseLogin = () => {
     setOpenLogin(false);
   };
-
+  useEffect(() => {
+    const localStorageSetHandler = function (e) {
+      setTimeout(() => {
+        //code của m sẽ ở trong cái setTimeout này
+        //thường thì m sẽ setState lại nếu local thay đổi như dưới
+        setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
+        // setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
+      }, 1000);
+    };
+    document.addEventListener("itemInserted", localStorageSetHandler);
+    const localStorageSetHandler2 = function (e) {
+      setTimeout(() => {
+        //code của m sẽ ở trong cái setTimeout này
+        //thường thì m sẽ setState lại nếu local thay đổi như dưới
+        setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
+        // setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
+      }, 1000);
+    };
+    document.addEventListener("itemDeleted", localStorageSetHandler2);
+  },[])
   return (
     <div id="header" className="">
       <div className="div-wrapper">
@@ -103,7 +124,7 @@ export default function Header() {
             <HeaderCartPopup />
             <div className="header__user">
               {/* logined */}
-              {isLoggedIn && (
+              {loggedInUser && (
                 <>
                   <div className="header__user-status-logined">
                     <Link
@@ -146,9 +167,9 @@ export default function Header() {
                       <li>
                         <Link to="/my-account/profile">Tài khoản của tôi</Link>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link to="/#">Đơn mua</Link>
-                      </li>
+                      </li> */}
                       <li>
                         <Link onClick={hanleLogout} to="/#">
                           Đăng xuất
@@ -161,7 +182,7 @@ export default function Header() {
 
               {/* not login */}
 
-              {!isLoggedIn && (
+              {!loggedInUser && (
                 <>
                   <div className="header__user-not-login">
                     <span onClick={handleClickOpenRegister}>Đăng ký</span> /{" "}

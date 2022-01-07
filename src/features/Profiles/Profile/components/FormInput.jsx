@@ -8,6 +8,7 @@ FormInput.propTypes = {
 
 function FormInput({ loggedInUser, onSaveBtn = null }) {
   const initialFormData = Object.freeze({
+    id:"",
     email: "",
     join_date: "",
     name: "",

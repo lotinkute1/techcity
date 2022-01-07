@@ -43,6 +43,7 @@ function Profile(props) {
     const db = getDatabase();
     const configFormValue = {
       ...formValue,
+      id:loggedInUser.id,
       email: formValue.email !== "" ? formValue.email : loggedInUser.email,
       name: formValue.name !== "" ? formValue.name : loggedInUser.name,
       phone: formValue.phone !== "" ? formValue.phone : loggedInUser.phone,

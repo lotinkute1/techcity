@@ -60,7 +60,7 @@ export default function Cart() {
     //   (v, i, a) => a.findIndex((t) => t.itemID === v.itemID) === i
     // );
 
-    return cartData.map((item, index) => {
+    return cartData?.map((item, index) => {
       totalPrice += (item.defaultPrice * item.number);
       return (
         <tr key={index}>

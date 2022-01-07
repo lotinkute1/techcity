@@ -59,6 +59,7 @@ export default function Payment() {
     total: total,
     user_id: userLogin.id, //userData.id here
   });
+  console.log(userLogin.id);
   // const [orderDetail, setOrderDetail] = useState({
   //   "id":uuidv4(),
   //   "number":"",
