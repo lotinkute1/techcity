@@ -4,10 +4,6 @@ import Header from "./components/Header2/index";
 import Router from "./features/Router/Router";
 import firebase from "./features/Firebase/Firebase";
 import "./assets/js/index";
-import Cart from "./features/Cart/Cart";
-import Address from "./features/Profiles/Address";
-import Profile from "./features/Profiles/Profile";
-import ShowAllProduct from "./features/ShowAllProduct/index";
 function App() {
   return (
     <div className="wrapper">
@@ -26,8 +22,7 @@ function App() {
           </span>
         </div>
         <div className="content">
-          <Router/>
-          {/* <Profile /> */}
+          <Router />
         </div>
       </div>
       <Footer />
