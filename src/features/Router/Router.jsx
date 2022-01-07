@@ -5,7 +5,7 @@ import Cart from "../Cart/Cart";
 import Payment from "../Payment/Payment";
 import ProductInfo from "../ProductInfo/ProductInfo";
 import ShowAllProduct from "../ShowAllProduct";
-import Profile from "../Profiles/Profile";
+import ProfileFeature from "../Profiles";
 export default function Router() {
   return (
     <Routes>
@@ -16,9 +16,10 @@ export default function Router() {
       <Route path="/show-all-product/:id" element={<ShowAllProduct />} />
 
       <Route path="/show-all-product" element={<ShowAllProduct />} />
-      <Route path="/profile" element={<Profile />} />
+      <Route path="/my-account/*" element={<ProfileFeature />} />
 
       <Route path="*" element={<Main to="/Main" />} />
+      
     </Routes>
   );
 }

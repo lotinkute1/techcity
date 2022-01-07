@@ -4,10 +4,7 @@ import Header from "./components/Header2/index";
 import Router from "./features/Router/Router";
 import firebase from "./features/Firebase/Firebase";
 import "./assets/js/index";
-import Cart from "./features/Cart/Cart";
-import Address from "./features/Profiles/Address";
-import Profile from "./features/Profiles/Profile";
-import ShowAllProduct from "./features/ShowAllProduct/index";
+
 import { toast, ToastContainer } from "react-toastify";
 function App() {
 
@@ -46,7 +43,6 @@ function App() {
         </div>
         <div className="content">
           <Router />
-          {/* <Profile /> */}
         </div>
       </div>
       <Footer />

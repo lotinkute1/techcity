@@ -21,7 +21,19 @@ export default function Header() {
   const [inputValue, setInputValue] = useState("");
   const isLoggedIn = !!loggedInUser?.id;
 
- 
+  // useEffect(() => {
+  //   const localStorageSetHandler = function (e) {
+  //     setTimeout(() => {
+  //       //code của m sẽ ở trong cái setTimeout này
+
+  //       //thường thì m sẽ setState lại nếu local thay đổi như dưới
+  //       setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
+  //     }, 1000);
+  //   };
+  //   document.addEventListener("itemInserted", localStorageSetHandler);
+  // }, []);
+
+  console.log("Header", loggedInUser);
 
   const hanleLogout = () => {
     dispatch(logout());
@@ -39,6 +51,7 @@ export default function Header() {
   };
 
   const handleClickOpenRegister = () => {
+    window.scrollTo(0, 0);
     setOpenRegister(true);
     setOpenLogin(false);
   };
@@ -47,6 +60,7 @@ export default function Header() {
     setOpenRegister(false);
   };
   const handleClickOpenLogin = () => {
+    window.scrollTo(0, 0);
     setOpenLogin(true);
     setOpenRegister(false);
   };
@@ -92,7 +106,10 @@ export default function Header() {
               {isLoggedIn && (
                 <>
                   <div className="header__user-status-logined">
-                    <a href="/#" className="header__user-main ">
+                    <Link
+                      to="/my-account/profile"
+                      className="header__user-main "
+                    >
                       <div className="header__user-ava">
                         <img
                           src={
@@ -108,18 +125,26 @@ export default function Header() {
                       <div className="header__user-moreinfo">
                         <i className="fas fa-ellipsis-v" />
                       </div>
-                    </a>
+                    </Link>
                     <ul className="subnav">
-                      {loggedInUser.user_type === 1 && (
+                      {loggedInUser.user_type === 1 ? (
                         <li>
                           <a href={`http://localhost:3001/${loggedInUser.id}`}>
                             Techcity_admin
                           </a>
                         </li>
+                      ) : loggedInUser.user_type === 2 ? (
+                        <li>
+                          <a href={`http://localhost:3001/${loggedInUser.id}`}>
+                            Techcity_admin
+                          </a>
+                        </li>
+                      ) : (
+                        ""
                       )}
 
                       <li>
-                        <Link to="/profile">Tài khoản của tôi</Link>
+                        <Link to="/my-account/profile">Tài khoản của tôi</Link>
                       </li>
                       <li>
                         <Link to="/#">Đơn mua</Link>
@@ -139,13 +164,8 @@ export default function Header() {
               {!isLoggedIn && (
                 <>
                   <div className="header__user-not-login">
-                    <a onClick={handleClickOpenRegister} href="/#">
-                      Đăng ký
-                    </a>{" "}
-                    /{" "}
-                    <a onClick={handleClickOpenLogin} href="/#">
-                      Đăng nhập
-                    </a>
+                    <span onClick={handleClickOpenRegister}>Đăng ký</span> /{" "}
+                    <span onClick={handleClickOpenLogin}>Đăng nhập</span>
                   </div>
                 </>
               )}
