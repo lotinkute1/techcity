@@ -2,6 +2,7 @@ import React from "react";
 import NumberFormat from "react-number-format";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import { addToCart } from "./itemsCardSlice";
 
 export default function ItemCard({
@@ -10,21 +11,40 @@ export default function ItemCard({
   productImage,
   defaultPrice,
 }) {
+  
   // const data= useSelector((state)=>state.itemCard.data);
   const dispatch = useDispatch();
   const addToCartHandler = () => {
-    dispatch(
-      addToCart({
-        itemID,
-        productName,
-        productImage,
-        defaultPrice,
-      })
-    );
+    if(localStorage.getItem("userLogged")){
+
+      dispatch(
+        addToCart({
+          itemID,
+          productName,
+          productImage,
+          defaultPrice,
+        })
+      );
+      toast.success("Thêm vào giỏ hàng thành công");
+    }else{
+      toast.error("Vui lòng đăng nhập");
+    }
   };
 
   return (
     <div className="carousel-box">
+      {/* notification */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Link
         to={"/product_info-" + itemID}
         alt=""

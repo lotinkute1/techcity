@@ -13,13 +13,17 @@ const itemsCardSlice = createSlice({
 
       let userLogged =JSON.parse( localStorage.getItem("userLogged"));
 
+      // if(action.payload.number){
+      //   console.log("action.payload.number");
+      //   console.log(action.payload.number);
+      // }
 
-      if(userLogged){
+      // if(userLogged){
         localStorageItemsCart = JSON.parse(localStorage.getItem("cartItems"+userLogged.id));
-      }else{
+      // }else{
 
-        localStorageItemsCart = JSON.parse(localStorage.getItem("cartItems"));
-      }
+      //   localStorageItemsCart = JSON.parse(localStorage.getItem("cartItems"));
+      // }
 
       if (localStorageItemsCart) {
         // duyệt qua mảng local
@@ -61,16 +65,16 @@ const itemsCardSlice = createSlice({
         temp=[{number: 1,...action.payload}]
       }
 
-      if(userLogged){
+      // if(userLogged){
         localStorage.setItem("cartItems"+userLogged.id, JSON.stringify(temp));
 
-      }else{
+      // }else{
         
-        localStorage.setItem("cartItems", JSON.stringify(temp));
-      }
+      //   localStorage.setItem("cartItems", JSON.stringify(temp));
+      // }
     },
   },
 });
 const { actions, reducer } = itemsCardSlice;
-export const { addToCart } = actions;
+export const { addToCart,setNotify } = actions;
 export default reducer;

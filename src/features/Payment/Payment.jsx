@@ -1,17 +1,22 @@
 import React, { useState } from "react";
+import { getDatabase, ref, set } from "firebase/database";
 import NumberFormat from "react-number-format";
-import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
 import GetUsersData from "../../api/GetUsersData";
 import "./style.css";
 
 export default function Payment() {
-  const [userLogin,setUserLogin]= useState(() => {
-    return JSON.parse( localStorage.getItem("userLogged"))
-  })
+  const db = getDatabase();
+  let navigate = useNavigate();
+  const [userLogin, setUserLogin] = useState(() => {
+    return JSON.parse(localStorage.getItem("userLogged"));
+  });
 
   const [cartData, setCartData] = useState(() => {
-    if(userLogin){
-      return JSON.parse(localStorage.getItem("cartItems"+userLogin.id));
+    if (userLogin) {
+      return JSON.parse(localStorage.getItem("cartItems" + userLogin.id));
     }
     return JSON.parse(localStorage.getItem("cartItems"));
   });
@@ -23,18 +28,18 @@ export default function Payment() {
   });
   // overhere
   const [userData, setUserData] = useState({
-    email: "email1@gmail.com",
+    email: userLogin.email,
     join_date: "",
-    name: "Nguyễn Đình Tín",
+    name: userLogin.name,
     password: "",
-    phone: "078367236",
-    user_address: "130 Duy Tân",
+    phone: userLogin.phone,
+    user_address: userLogin.user_address,
     user_ava: "",
     user_status: 1,
     user_type: "",
   });
 
-  const getCurrentDay=() => {
+  const getCurrentDay = () => {
     var today = new Date();
     var date =
       today.getDate() +
@@ -42,18 +47,17 @@ export default function Payment() {
       (today.getMonth() + 1) +
       "/" +
       today.getFullYear();
-      
     return date;
   };
   const [order, setOrder] = useState({
-    "id":uuidv4(),
-    "create_date":getCurrentDay(),
-    "receiver_location":"",
-    "receiver_name":"",
-    "receiver_phone":"",
-    "status":1,
-    "total":total,
-    "user_id":"",//userData.id here
+    id: uuidv4(),
+    create_date: getCurrentDay(),
+    receiver_location: userLogin.user_address,
+    receiver_name: userLogin.name,
+    receiver_phone: userLogin.phone,
+    status: 1,
+    total: total,
+    user_id: userLogin.id, //userData.id here
   });
   // const [orderDetail, setOrderDetail] = useState({
   //   "id":uuidv4(),
@@ -71,12 +75,19 @@ export default function Payment() {
     });
   };
   const paymentBtnHandler = (e) => {
-    e.preventDefault();
-    console.log(order);
-
-
-  }
-  
+    if (localStorage.getItem("userLogged")) {
+      console.log(order);
+      const {id,...o}=order;
+      set(ref(db, "orders/" + id), {
+        ...o
+      });
+      toast.success("thanh toán thành công, hãy kiểm tra lịch sử mua hàng");
+      localStorage.removeItem("cartItems" + userLogin.id);
+      navigate("/", { replace: true });
+    } else {
+      toast.error("Vui lòng đăng nhập");
+    }
+  };
 
   const renderPaymentItems = cartData.map((item, index) => (
     <li
@@ -114,6 +125,18 @@ export default function Payment() {
 
   return (
     <section className="section payment">
+      {/* notification */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <main role="main" className="payment">
         <div className="container mt-4">
           <form
@@ -145,7 +168,6 @@ export default function Payment() {
                 </h4>
                 <ul className="list-group mb-3">
                   {renderPaymentItems}
-                  
 
                   <li className="list-group-item d-flex justify-content-between">
                     <span>Tổng thành tiền</span>
@@ -162,12 +184,10 @@ export default function Payment() {
                     />
                   </li>
                 </ul>
-                
               </div>
               <div className="col-md-8 order-md-1">
                 <h4 className="mb-3">Thông tin khách hàng</h4>
                 <div className="row">
-
                   {/* name=========================================== */}
                   <div className="col-md-12">
                     <label htmlFor="receiver_name">Họ tên</label>
@@ -176,13 +196,13 @@ export default function Payment() {
                       className="form-control"
                       name="receiver_name"
                       id="receiver_name"
-                      defaultValue={order.receiver_name||userData.name}
-                      onChange={(e)=>inputOnchangeHandler(e)}
+                      defaultValue={order.receiver_name || userData.name}
+                      onChange={(e) => inputOnchangeHandler(e)}
                     />
                   </div>
 
                   {/* address=========================================== */}
-                 
+
                   <div className="col-md-12">
                     <label htmlFor="receiver_location">Địa chỉ</label>
                     <input
@@ -190,8 +210,10 @@ export default function Payment() {
                       className="form-control"
                       name="receiver_location"
                       id="receiver_location"
-                      defaultValue={order.receiver_location||userData.user_address}
-                      onChange={(e)=>inputOnchangeHandler(e)}
+                      defaultValue={
+                        order.receiver_location || userData.user_address
+                      }
+                      onChange={(e) => inputOnchangeHandler(e)}
                     />
                   </div>
                   {/* phone=========================================== */}
@@ -202,8 +224,8 @@ export default function Payment() {
                       className="form-control"
                       name="receiver_phone"
                       id="receiver_phone"
-                      defaultValue={order.receiver_phone||userData.phone}
-                      onChange={(e)=>inputOnchangeHandler(e)}
+                      defaultValue={order.receiver_phone || userData.phone}
+                      onChange={(e) => inputOnchangeHandler(e)}
                     />
                   </div>
                   {/* email=========================================== */}
@@ -218,8 +240,6 @@ export default function Payment() {
                       readOnly
                     />
                   </div>
-
-                  
                 </div>
                 <h4 className="my-4">Hình thức thanh toán</h4>
                 <div className="d-block my-3">
@@ -238,14 +258,13 @@ export default function Payment() {
                       Thanh toán khi nhận hàng
                     </label>
                   </div>
-                  
                 </div>
                 <hr className="mb-4" />
                 <button
                   className="btn btn-primary btn-lg btn-block"
-                  type="submit"
+                  type="button"
                   name="btnDatHang"
-                  onClick={(e) =>paymentBtnHandler(e)}
+                  onClick={(e) => paymentBtnHandler(e)}
                 >
                   Đặt hàng
                 </button>

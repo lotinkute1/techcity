@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
 import { Link } from "react-router-dom";
 
@@ -15,7 +15,35 @@ export default function Cart() {
     return JSON.parse(localStorage.getItem("cartItems"));
   });
   let totalPrice = 0;
+  const deleteCartItem=(itemID) => {
+    if(window.confirm("Bạn thực sự muốn xóa sản phẩm này?")){
 
+      let temp=cartData.filter((item)=>{
+        return item.itemID !== itemID;
+      })
+      localStorage.setItem("cartItems"+userLogin.id,JSON.stringify(temp))
+    }
+  }
+  useEffect(() => {
+    const localStorageSetHandler = function (e) {
+      setTimeout(() => {
+        let userLog=JSON.parse(localStorage.getItem("userLogged"));
+
+        if (localStorage.getItem("userLogged")) {
+          if (JSON.parse(localStorage.getItem("cartItems" + userLog.id))) {
+            setCartData(
+              JSON.parse(localStorage.getItem("cartItems" + userLog.id))
+            );
+          } else {
+            setCartData([]);
+          }
+        } else {
+          setCartData(JSON.parse(localStorage.getItem("cartItems")));
+        }
+      }, 1000);
+    };
+    document.addEventListener("itemInserted", localStorageSetHandler);
+  },[])
   const renderItemCart = () => {
     // lấy ra số lần lặp lại của item
     // const arr = [...cartData]
@@ -81,7 +109,7 @@ export default function Cart() {
             />
           </td>
           <td className="actions" data-th>
-            <button className="btn btn-danger btn-sm">
+            <button onClick={()=>deleteCartItem(item.itemID)} className="btn btn-danger btn-sm">
               <i className="fas fa-trash" />
             </button>
           </td>
@@ -92,6 +120,7 @@ export default function Cart() {
 
   return (
     <div className="section cart">
+      
       <div className="container" style={{ padding: "40px 0" }}>
         <table id="cart" className="table table-hover table-condensed">
           <thead>

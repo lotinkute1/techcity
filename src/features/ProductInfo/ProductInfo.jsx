@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import NumberFormat from "react-number-format";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import GetProductsData from "../../api/GetProductsData";
 import ItemsCarousel from "../../components/ItemsCarousel/ItemsCarousel";
@@ -11,9 +11,15 @@ import GetUsersData from "../../api/GetUsersData";
 import { set } from "firebase/database";
 import GetRaitingsData from "../../api/GetRaitingsData";
 import Comment from "./components/Comment";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../components/ItemCard/itemsCardSlice";
+import { toast, ToastContainer } from "react-toastify";
 export default function ProductInfo() {
+  const navigate= useNavigate();
   // nhan id san pham tu url
   const { id } = useParams();
+
+  const [productNumber,setProductNumber] = useState(0);
 
   const productsData = GetProductsData("");
 
@@ -91,8 +97,8 @@ export default function ProductInfo() {
         // }else quantilyInputOp.value=e.target.value;
       };
     }
-  },[]);
-  
+  }, []);
+
   useEffect(() => {
     // pagination active button
     const cmtPaginationBtn = document.querySelectorAll(".pagination li");
@@ -104,10 +110,9 @@ export default function ProductInfo() {
             cmtPaginationBtn[j].classList.remove("active");
         }
         e.target.closest("li").classList.add("active");
-        console.log(cmtPaginationBtn);
       };
     }
-  },[])
+  }, []);
   const renderComments = () => {
     return raitings.map((comment, index) => {
       return (
@@ -121,9 +126,68 @@ export default function ProductInfo() {
       );
     });
   };
+  const dispatch = useDispatch();
+  const addToCartHandler = () => {
+    if(localStorage.getItem("userLogged")){
+
+      dispatch(
+        addToCart({
+          itemID: productM.id,
+          productName: productM.product_name,
+          productImage: productM.product_img.main_img,
+          defaultPrice: productM.default_price,
+        })
+      );
+      toast.success("Thêm vào giỏ hàng thành công");
+    }else{
+      toast.error("Vui lòng đăng nhập");
+    }
+    
+  };
+  const buyNowHandler = () => {
+    if(localStorage.getItem("userLogged")){
+
+      dispatch(
+        addToCart({
+          itemID: productM.id,
+          productName: productM.product_name,
+          productImage: productM.product_img.main_img,
+          defaultPrice: productM.default_price,
+        })
+      );
+      navigate('/cart');
+    }else{
+      toast.error("Vui lòng đăng nhập");
+    }
+
+  };
+  const incre_incre=(e)=>{
+    if(e.target.name=='incre'){
+      if(productNumber<999){
+
+        setProductNumber((x)=>x+1)
+      }
+    }else{
+      if(productNumber>0){
+        setProductNumber((x)=>x-1)
+      }
+    }
+  }
 
   return (
     <>
+    {/* notification */}
+    <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <section className="section product-info">
         {/* 40% */}
         <div className="product-info__left">
@@ -209,7 +273,7 @@ export default function ProductInfo() {
             </span>
           </div>
           <div className="product-info__product-options">
-            <div className="color-options">
+            {/* <div className="color-options">
               <div>Color</div>
               <div className="color-wrapper">
                 <input
@@ -223,8 +287,9 @@ export default function ProductInfo() {
                   className="btn btn-option"
                 />
               </div>
-            </div>
-            <div className="quantily-options">
+            </div> */}
+            
+            {/* <div className="quantily-options">
               <div>Số lượng</div>
               <div className="quantily-wrapper">
                 <input
@@ -232,29 +297,33 @@ export default function ProductInfo() {
                   defaultValue="-"
                   name="decre"
                   className="btn btn-option"
+                  onClick={(e) =>incre_incre(e)}
                 />
                 <input
                   type="text"
-                  defaultValue={0}
+                  defaultValue={productNumber}
                   className="quantily-options__number"
-                  placeholder={0}
+                  // placeholder={0}
                 />
                 <input
                   type="button"
                   defaultValue="+"
                   name="incre"
                   className="btn btn-option"
+                  onClick={(e) =>incre_incre(e)}
                 />
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="product-info__buy-or-addtocart">
             <input
+              onClick={() => addToCartHandler()}
               type="button"
               defaultValue="Thêm vào giỏ hàng"
               className="btn btn-buy"
             />
             <input
+              onClick={() => buyNowHandler()}
               type="button"
               defaultValue="Mua ngay"
               className="btn btn-buy"

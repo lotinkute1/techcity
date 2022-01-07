@@ -270,7 +270,7 @@ export default function Header() {
                   <i className="fas fa-laptop-house" />
                   <span>Smart home</span>
                 </Link>
-                <ul className="subnav">
+                {/* <ul className="subnav">
                   <h4>Hãng sản xuất</h4>
                   <li>
                     <Link to="/show-all-product">Apple</Link>
@@ -281,7 +281,7 @@ export default function Header() {
                   <li>
                     <Link to="/show-all-product">Xiaomi</Link>
                   </li>
-                </ul>
+                </ul> */}
               </li>
               <li className="nav-item">
                 <Link className="nav-category" to="/show-all-product">

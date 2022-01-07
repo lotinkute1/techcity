@@ -23,6 +23,18 @@ localStorage.setItem = function(key, value) {
   originalSetItem.apply(this, arguments);
 };
 
+const originalDeleteItem = localStorage.removeItem;
+localStorage.removeItem = function(key, value) {
+  const event = new Event('itemDeleted');
+
+  event.value = value; // Optional..
+  event.key = key; // Optional..
+
+  document.dispatchEvent(event);
+
+  originalDeleteItem.apply(this, arguments);
+};
+
 ReactDOM.render(
   <BrowserRouter>
     <React.StrictMode>

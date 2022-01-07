@@ -8,9 +8,28 @@ import Cart from "./features/Cart/Cart";
 import Address from "./features/Profiles/Address";
 import Profile from "./features/Profiles/Profile";
 import ShowAllProduct from "./features/ShowAllProduct/index";
+import { toast, ToastContainer } from "react-toastify";
 function App() {
+
+  const notify = (type = "success", text = "text!") => {
+    toast[type](text);
+  };
+
   return (
     <div className="wrapper">
+      {/* notification */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+
       <Header />
       <div id="main">
         <div className="scroll-top">
@@ -26,7 +45,7 @@ function App() {
           </span>
         </div>
         <div className="content">
-          <Router/>
+          <Router />
           {/* <Profile /> */}
         </div>
       </div>

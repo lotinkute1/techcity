@@ -3,12 +3,12 @@ import NumberFormat from "react-number-format";
 import { Link } from "react-router-dom";
 
 export default function HeaderCartPopup() {
-  const [userLogin,setUserLogin] = useState(()=>{
-    return JSON.parse( localStorage.getItem("userLogged"));
-  })
+  const [userLogin, setUserLogin] = useState(() => {
+    return JSON.parse(localStorage.getItem("userLogged"));
+  });
   const [items, setItems] = useState(() => {
-    if(userLogin){
-      return JSON.parse(localStorage.getItem("cartItems"+userLogin.id));
+    if (userLogin) {
+      return JSON.parse(localStorage.getItem("cartItems" + userLogin.id));
     }
     return JSON.parse(localStorage.getItem("cartItems"));
   });
@@ -28,7 +28,7 @@ export default function HeaderCartPopup() {
             </div>
             <div className="header__cart__item-name ">
               <div className="text-wrap1">{item.productName}</div>
-              <div className="pt-1">{"x "+item.number}</div>
+              <div className="pt-1">{"x " + item.number}</div>
             </div>
             <div className="header__cart__item-price">
               <NumberFormat
@@ -48,16 +48,49 @@ export default function HeaderCartPopup() {
   };
 
   useEffect(() => {
+
+    //lắng nghe sự kiện update local
     const localStorageSetHandler = function (e) {
       setTimeout(() => {
-        if(userLogin){
-          setItems( JSON.parse(localStorage.getItem("cartItems"+userLogin.id)));
-        }else{
+        let userLog=JSON.parse(localStorage.getItem("userLogged"));
+
+        if (localStorage.getItem("userLogged")) {
+          if (JSON.parse(localStorage.getItem("cartItems" + userLog.id))) {
+            setItems(
+              JSON.parse(localStorage.getItem("cartItems" + userLog.id))
+            );
+          } else {
+            setItems([]);
+          }
+        } else {
           setItems(JSON.parse(localStorage.getItem("cartItems")));
         }
       }, 1000);
     };
     document.addEventListener("itemInserted", localStorageSetHandler);
+
+    
+    //lắng nghe sự kiện xóa local
+    const localStorageSetHandler2 = function (e) {
+      setTimeout(() => {
+
+        let userLog=JSON.parse(localStorage.getItem("userLogged"));
+
+        if (localStorage.getItem("userLogged")) {
+          if (JSON.parse(localStorage.getItem("cartItems" + userLog.id))) {
+            setItems(
+              JSON.parse(localStorage.getItem("cartItems" + userLog.id))
+            );
+          } else {
+            setItems([]);
+          }
+        } else {
+          setItems(JSON.parse(localStorage.getItem("cartItems")));
+        }
+      }, 1000);
+    };
+    document.addEventListener("itemDeleted", localStorageSetHandler2);
+
   }, []);
 
   return (
@@ -69,7 +102,7 @@ export default function HeaderCartPopup() {
           <h3 className="header__cart__title">Giỏ hàng</h3>
           {renderCardItems()}
 
-          {items === null ? (
+          {(items === null)||(items.length === 0) ? (
             <img
               style={{ width: 200 + "px" }}
               src="https://www.bazarhat99.com/public/not-found.jpg"

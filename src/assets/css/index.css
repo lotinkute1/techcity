@@ -940,6 +940,18 @@ p {
   border: 1px solid #cecece;
   overflow: hidden;
 }
+.shop-info__ava a {
+  width: 100px;
+  height: 100px;
+  position: relative;
+}
+.shop-info__ava img {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  
+}
 
 .shop-info__info {
   margin-left: 20px;
@@ -1358,4 +1370,8 @@ p {
 }
 .auth-form__help-forgot {
   color: var(--yellow-main);
+}
+
+.Toastify__toast-container--top-right{
+  transform: translateY(150px) !important;
 }
