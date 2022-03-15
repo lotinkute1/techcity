@@ -3,11 +3,14 @@ import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import InputField from "../../../../components/form-control/InputField";
-import PasswordField from "../../../../components/form-control/PasswordField";
 import { makeStyles } from "@mui/styles";
 import { LinearProgress } from "@mui/material";
 import { Link } from "react-router-dom";
+import { GoogleLogin } from "react-google-login";
+
+import InputField from "../../../../components/form-control/InputField";
+import PasswordField from "../../../../components/form-control/PasswordField";
+import LoginWithGoogle from "../LoginWithGoogle";
 
 LoginForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -119,7 +122,7 @@ function LoginForm({
           </form>
 
           <div className="auth-form__socials">
-            <Link
+            {/* <Link
               className="auth-form__socials-google btn-2 btn--size-s btn--with-icon"
               to="#"
             >
@@ -127,7 +130,8 @@ function LoginForm({
               <span className="auth-form__socials--title">
                 Kết nối với Google
               </span>
-            </Link>
+            </Link> */}
+            <LoginWithGoogle />
           </div>
         </div>
       </div>
