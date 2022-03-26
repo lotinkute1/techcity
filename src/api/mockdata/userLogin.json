@@ -1,0 +1,30 @@
+[
+  {
+    "token": "dfdsfdfdfdfdfdfdsfdsfsfsd",
+    "user": {
+      "email": "phuchoang@gmail.com",
+      "join_date": "06/01/2022",
+      "name": "hai ho",
+      "password": "Hoangvip123",
+      "phone": "09363232",
+      "user_address": "hai chau",
+      "user_ava": "https://scontent.fhan2-3.fna.fbcdn.net/v/t39.30808-6/s600x600/270987109_473968354088314_3173138070538846905_n.jpg?_nc_cat=1&ccb=1-5&_nc_sid=730e14&_nc_ohc=Yh_mpkthsV0AX93g3wi&_nc_ht=scontent.fhan2-3.fna&oh=00_AT-0ousA6cG4SQ_rWo4XPbtQzJHIU-A5w3VQptt5qhyPiw&oe=61DAC71C",
+      "user_status": 1,
+      "user_type": 3
+    }
+  },
+  {
+    "token": "dfdsfdfdfdfdfdfdsfdsfsfsd",
+    "user": {
+      "email": "phuchoang@gmail.com",
+      "join_date": "06/01/2022",
+      "name": "hai ho",
+      "password": "Hoangvip123",
+      "phone": "09363232",
+      "user_address": "hai chau",
+      "user_ava": "https://scontent.fhan2-3.fna.fbcdn.net/v/t39.30808-6/s600x600/270987109_473968354088314_3173138070538846905_n.jpg?_nc_cat=1&ccb=1-5&_nc_sid=730e14&_nc_ohc=Yh_mpkthsV0AX93g3wi&_nc_ht=scontent.fhan2-3.fna&oh=00_AT-0ousA6cG4SQ_rWo4XPbtQzJHIU-A5w3VQptt5qhyPiw&oe=61DAC71C",
+      "user_status": 1,
+      "user_type": 3
+    }
+  }
+]

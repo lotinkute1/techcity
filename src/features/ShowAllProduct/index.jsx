@@ -15,63 +15,45 @@ import GetProductsData from "../../api/GetProductsData";
 import ItemCard from "../../components/ItemCard/ItemCard";
 import ProductSkeleton from "./components/ProductSkeleton";
 import "./style.css";
+import productApi from "../../api/productApi";
+import categoryApi from "../../api/categoryApi";
 
 ShowAllProduct.propTypes = {};
 
 function ShowAllProduct(props) {
   const navigate = useNavigate();
   const { id } = useParams();
-
-  const products = GetProductsData();
-  const categoryList = GetCategoriesData();
+  
+  const [categoryList,setCategoryList] = useState([]);
   const [productList, setProductList] = useState([]);
   const [loading, setLoading] = useState(true);
   const searchValue = useSelector((state) => state.search);
 
-  console.log(id);
-
-  //  get productList
-  useEffect(() => {
-    if (products) {
-      setProductList(products);
+  const getAllProduct = async () => {
+    try {
+      const response = await productApi.getAll();
+      const {data} = response;
+      setProductList(data);
+    } catch (error) {
+      console.log("Fail to get all product");
     }
+  };
+  const getAllCategory = async () => {
+    try {
+      const response = await categoryApi.getAll();
+      const {data} = response;
+      setCategoryList(data);
+    } catch (error) {
+      console.log("Fail to get all product");
+    }
+  };
+
+  //  get productList, categoryList
+  useEffect(() => {
+    getAllProduct();
+    getAllCategory();
     setLoading(false);
-  }, [products]);
-
-  // useEffect(() => {
-  //   const db = getDatabase();
-  //   const productFilteredRef = query(
-  //     ref(db, "products"),
-  //     orderByChild("category_id"),
-  //     equalTo(id)
-  //   );
-
-  //   const temp = [];
-  //   onValue(productFilteredRef, (snapshot) => {
-  //     snapshot.forEach((item) => {
-  //       temp.push(item.val());
-  //     });
-  //   });
-  //   setProductList(temp);
-  // }, [id]);
-
-  // useEffect(() => {
-  //   const db = getDatabase();
-  //   const productFilteredRef = query(
-  //     ref(db, "products"),
-  //     orderByChild("category_id"),
-  //     equalTo(id)
-  //   );
-
-  //   const temp = [];
-  //   onValue(productFilteredRef, (snapshot) => {
-  //     snapshot.forEach((item) => {
-  //       temp.push(item.val());
-  //     });
-  //   });
-
-  //   setProductList(temp);
-  // }, [id]);
+  }, []);
 
   const hanleFilterCategory = (e, categoryId) => {
     const db = getDatabase();
@@ -164,14 +146,14 @@ function ShowAllProduct(props) {
 
                   {loading && <ProductSkeleton length={12} />}
                 </div>
-                {loading ||
+                {!loading &&
                   productList.map((product, index) => (
                     <div key={index} className="col-sm-3 carousel-items">
                       <ItemCard
                         itemID={product.id}
-                        productName={product.product_name}
-                        productImage={product.product_img?.main_img}
-                        defaultPrice={product.default_price}
+                        productName={product.name}
+                        productImage={product.img}
+                        defaultPrice={product.price}
                       />
                     </div>
                   ))}

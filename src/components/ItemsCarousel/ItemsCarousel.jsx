@@ -15,7 +15,7 @@ export default function ItemsCarousel(props) {
           key={item.id}
           itemID={item.id}
           productName={item.product_name}
-          productImage={item.product_img.main_img}
+          productImage={item.img}
           defaultPrice={item.default_price}
         />
       );
