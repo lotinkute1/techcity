@@ -14,6 +14,8 @@ import Comment from "./components/Comment";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../components/ItemCard/itemsCardSlice";
 import { toast, ToastContainer } from "react-toastify";
+import productApi from "../../api/productApi";
+
 export default function ProductInfo() {
   const navigate= useNavigate();
   // nhan id san pham tu url
@@ -21,9 +23,29 @@ export default function ProductInfo() {
 
   const [productNumber,setProductNumber] = useState(0);
 
+  // const [productList, setProductList] = useState([]);
+  // const [product,setProduct]= useState(null);
+
   const productsData = GetProductsData("");
 
   const product = productsData.find((product) => product.id === id);
+
+  // const getAllProduct = async () => {
+  //   try {
+  //     const response = await productApi.getAll();
+  //     const {data} = response;
+  //     setProductList(data);
+  //   } catch (error) {
+  //     console.log("Fail to get all product");
+  //   }
+  // };
+  // useEffect(()=>{
+  //   getAllProduct();
+  // },[])
+  // useEffect(()=>{
+  //    const productSelected = productList.find((product)=> product.id === id);
+  //    setProduct(productSelected)
+  // },[id])
 
   const [productM, setProductM] = useState({
     product_img: {

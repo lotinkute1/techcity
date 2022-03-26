@@ -19,7 +19,6 @@ export default function Header() {
   const [loggedInUser,setLoggedInUser ]=useState(()=>{
     return JSON.parse(localStorage.getItem(StorageKeys.USER))
   }) ;
-  console.log(loggedInUser);
   const [inputValue, setInputValue] = useState("");
   const isLoggedIn = !!loggedInUser?.id;
 
@@ -35,7 +34,6 @@ export default function Header() {
   //   document.addEventListener("itemInserted", localStorageSetHandler);
   // }, []);
 
-  console.log("Header", loggedInUser);
 
   const hanleLogout = () => {
     dispatch(logout());

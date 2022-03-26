@@ -17,6 +17,7 @@ import { v4 as uuidv4 } from "uuid";
 import GetUsersData from "../../../../api/GetUsersData";
 import LoginForm from "../LoginForm";
 import StorageKeys from "../../../../constants";
+import userDB from "../../../../api/mockdata/userLogin.json";
 
 Login.propTypes = {
   handleCloseLogin: PropTypes.func,
@@ -88,6 +89,16 @@ function Login({ handleClickOpenRegister = null, handleCloseLogin = null }) {
       console.log("Fail to login", error);
     }
   };
+
+  // region login
+  const getUser = () => {
+    return userDB;
+  };
+  // handle submit with mockdata
+  const handleSubmitDB = async (formValue) => {
+    const userLogin = await getUser();
+  };
+
   return (
     <>
       <Snackbar

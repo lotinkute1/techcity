@@ -26,7 +26,6 @@ function App() {
         draggable
         pauseOnHover
       />
-
       <Header />
       <div id="main">
         <div className="scroll-top">
