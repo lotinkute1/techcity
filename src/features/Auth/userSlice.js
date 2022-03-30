@@ -1,6 +1,14 @@
 import userApi from "../../api/userApi";
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import StorageKeys from "../../constants/index";
+
+export const login = createAsyncThunk('user/login', async (payload) => {
+  const data = await userApi.login(payload);
+
+  localStorage.setItem(StorageKeys.TOKEN, data.token)
+  localStorage.setItem(StorageKeys.USER, JSON.stringify(data.user))
+  return data.user;
+})
 
 const userSlice = createSlice({
   name: "user",
@@ -14,6 +22,11 @@ const userSlice = createSlice({
       state.current = {};
     },
   },
+  extraReducers: {
+    [login.fulfilled]: (state, action) => {
+        state.current = action.payload
+    }
+}
 });
 
 const { actions, reducer } = userSlice;

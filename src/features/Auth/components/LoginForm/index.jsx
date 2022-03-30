@@ -35,7 +35,7 @@ function LoginForm({
 
   const schema = yup
     .object({
-      identifier: yup
+      email: yup
         .string()
         .required("Vui lòng nhập email của bạn")
         .email("Địa chỉ email không hợp lệ"),
@@ -48,7 +48,7 @@ function LoginForm({
     mode: "onBlur",
 
     defaultValues: {
-      identifier: "",
+      email: "",
       password: "",
     },
     reValidateMode: "onSubmit",
@@ -81,7 +81,7 @@ function LoginForm({
             </div>
             <div className="auth-form__form">
               <div className="auth-form__group">
-                <InputField name="identifier" label="Email" form={form} />
+                <InputField name="email" label="Email" form={form} />
               </div>
               <div className="auth-form__group">
                 <PasswordField name="password" label="Mật khẩu" form={form} />

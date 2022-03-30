@@ -18,6 +18,8 @@ import GetUsersData from "../../../../api/GetUsersData";
 import LoginForm from "../LoginForm";
 import StorageKeys from "../../../../constants";
 import userDB from "../../../../api/mockdata/userLogin.json";
+import { unwrapResult } from '@reduxjs/toolkit';
+import userApi from "../../../../api/userApi";
 
 Login.propTypes = {
   handleCloseLogin: PropTypes.func,
@@ -31,7 +33,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 function Login({ handleClickOpenRegister = null, handleCloseLogin = null }) {
   const dispatch = useDispatch();
-  const users = GetUsersData();
+  // const users = GetUsersData();
 
   const [snakeBar, setSnakeBar] = useState({
     open: false,
@@ -49,55 +51,61 @@ function Login({ handleClickOpenRegister = null, handleCloseLogin = null }) {
     setSnakeBar({ ...snakeBar, open: false });
   };
 
-  const handleSubmit = async (formValue) => {
+  const handleSubmit = async (formValues) => {
     try {
-      let currentUser;
-      const data = users.forEach((user) => {
-        if (
-          formValue.identifier === user.email &&
-          formValue.password === user.password &&
-          user.user_status !== 0
-        ) {
-          currentUser = user;
-        }
-      });
-      console.log(currentUser);
-      if (currentUser) {
-        localStorage.setItem(StorageKeys.USER, JSON.stringify(currentUser));
-
-        // close Login
-        if (handleCloseLogin) {
-          setTimeout(() => {
-            handleCloseLogin();
-          }, 1000);
-        }
-        setSnakeBar({
-          ...snakeBar,
-          open: true,
-          severity: "success",
-          message: "Đăng nhập thành công",
-        });
-      } else {
-        setSnakeBar({
-          ...snakeBar,
-          open: true,
-          severity: "error",
-          message: "Email hoặc mật khẩu không chính xác",
-        });
-      }
+      //   const action = login(values)
+      //   const resultAction = await dispatch(action)
+      //   const ketqua =  unwrapResult(resultAction)
+      // console.log(ketqua)
+      const raw =  await userApi.login(formValues)
+      console.log(raw)
+        
     } catch (error) {
       console.log("Fail to login", error);
     }
-  };
+}
 
-  // region login
-  const getUser = () => {
-    return userDB;
-  };
-  // handle submit with mockdata
-  const handleSubmitDB = async (formValue) => {
-    const userLogin = await getUser();
-  };
+  // const handleSubmit = async (formValue) => {
+  //   try {
+  //     let currentUser;
+  //     const data = users.forEach((user) => {
+  //       if (
+  //         formValue.identifier === user.email &&
+  //         formValue.password === user.password &&
+  //         user.user_status !== 0
+  //       ) {
+  //         currentUser = user;
+  //       }
+  //     });
+  //     console.log(currentUser);
+  //     if (currentUser) {
+  //       localStorage.setItem(StorageKeys.USER, JSON.stringify(currentUser));
+
+  //       // close Login
+  //       if (handleCloseLogin) {
+  //         setTimeout(() => {
+  //           handleCloseLogin();
+  //         }, 1000);
+  //       }
+  //       setSnakeBar({
+  //         ...snakeBar,
+  //         open: true,
+  //         severity: "success",
+  //         message: "Đăng nhập thành công",
+  //       });
+  //     } else {
+  //       setSnakeBar({
+  //         ...snakeBar,
+  //         open: true,
+  //         severity: "error",
+  //         message: "Email hoặc mật khẩu không chính xác",
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.log("Fail to login", error);
+  //   }
+  // };
+
 
   return (
     <>
@@ -127,6 +135,30 @@ function Login({ handleClickOpenRegister = null, handleCloseLogin = null }) {
       />
     </>
   );
+
+
+  // draft
+  // const {enqueueSnackbar} = useSnackbar()
+  //   const dispatch = useDispatch()
+  //   const handleSubmit = async (values) => {
+  //       try {
+  //           const action = login(values)
+  //           const resultAction = await dispatch(action)
+  //           unwrapResult(resultAction)
+
+  //           const {closeDialog} = props
+  //           if(closeDialog) {
+  //               closeDialog()
+  //           } 
+  //       } catch (error) {
+  //           enqueueSnackbar(error.message,{variant: 'error'})
+  //       }
+  //   }
+  //   return (
+  //       <div>
+  //           <LoginForm onSubmit={handleSubmit}></LoginForm>
+  //       </div>
+  //   );
 }
 
 export default Login;
