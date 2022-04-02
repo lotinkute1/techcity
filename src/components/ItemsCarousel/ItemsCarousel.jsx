@@ -7,16 +7,16 @@ import { Link } from "react-router-dom";
 export default function ItemsCarousel(props) {
   //   const itemData = GetProductsData(props.categoryID) || [];
   //   console.log(itemData);
-
   const renderItems = props.itemData.map((item) => {
-    if (item.category_id.indexOf(props.categoryID) >= 0) {
+    if (item.category_id === props.categoryID) {
+      console.log('hi e')
       return (
         <ItemCard
           key={item.id}
           itemID={item.id}
-          productName={item.product_name}
+          productName={item.name}
           productImage={item.img}
-          defaultPrice={item.default_price}
+          defaultPrice={item.price}
         />
       );
     }
