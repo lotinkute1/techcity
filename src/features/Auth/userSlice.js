@@ -5,7 +5,7 @@ import StorageKeys from "../../constants/index";
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    current: JSON.parse(localStorage.getItem(StorageKeys.USER)) || {},
+    current: JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user || {},
     setting: {},
   },
   reducers: {

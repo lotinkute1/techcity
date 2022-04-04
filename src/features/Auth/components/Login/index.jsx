@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import GetUsersData from "../../../../api/GetUsersData";
+import userApi from "../../../../api/userApi";
 import LoginForm from "../LoginForm";
 import StorageKeys from "../../../../constants";
 import userDB from "../../../../api/mockdata/userLogin.json";
@@ -92,11 +93,48 @@ function Login({ handleClickOpenRegister = null, handleCloseLogin = null }) {
 
   // region login
   const getUser = () => {
-    return userDB;
+    // return userDB;
+
   };
   // handle submit with mockdata
   const handleSubmitDB = async (formValue) => {
-    const userLogin = await getUser();
+    // const userLogin = await userApi.login({
+    //   "email": formValue.identifier,
+    //   "password": formValue.password
+    // });
+    // console.log(userLogin);
+    try {
+      let currentUser = await userApi.login({
+          "email": formValue.identifier,
+          "password": formValue.password
+        });
+      console.log(currentUser);
+      if (currentUser) {
+        localStorage.setItem(StorageKeys.USER, JSON.stringify(currentUser));
+
+        // close Login
+        if (handleCloseLogin) {
+          setTimeout(() => {
+            handleCloseLogin();
+          }, 1000);
+        }
+        setSnakeBar({
+          ...snakeBar,
+          open: true,
+          severity: "success",
+          message: "Đăng nhập thành công",
+        });
+      } else {
+        setSnakeBar({
+          ...snakeBar,
+          open: true,
+          severity: "error",
+          message: "Email hoặc mật khẩu không chính xác",
+        });
+      }
+    } catch (error) {
+      console.log("Fail to login", error);
+    }
   };
 
   return (
@@ -123,7 +161,7 @@ function Login({ handleClickOpenRegister = null, handleCloseLogin = null }) {
       <LoginForm
         handleClickOpenRegister={handleClickOpenRegister}
         handleCloseLogin={handleCloseLogin}
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmitDB}
       />
     </>
   );

@@ -73,7 +73,8 @@ export default function Header() {
       setTimeout(() => {
         //code của m sẽ ở trong cái setTimeout này
         //thường thì m sẽ setState lại nếu local thay đổi như dưới
-        setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
+        console.log(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
+        setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
         // setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
       }, 1000);
     };
@@ -82,7 +83,9 @@ export default function Header() {
       setTimeout(() => {
         //code của m sẽ ở trong cái setTimeout này
         //thường thì m sẽ setState lại nếu local thay đổi như dưới
-        setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
+        console.log(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
+
+        setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
         // setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
       }, 1000);
     };
