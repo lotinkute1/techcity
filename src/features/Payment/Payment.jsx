@@ -60,15 +60,25 @@ export default function Payment() {
     user_id: userLogin.id, //userData.id here
   });
   console.log(userLogin.id);
-  // const [orderDetail, setOrderDetail] = useState({
-  //   "id":uuidv4(),
-  //   "number":"",
-  //   "order_id":"",
-  //   "price":"",
-  //   "product_id":"",
-  //   "status":"",
-  //   "user_id":""//nha cc
-  // });
+  const [orderDetail, setOrderDetail] = useState(()=>{
+    let temp=[];
+
+    JSON.parse( localStorage.getItem("cartItems" + userLogin.id)).forEach(item => {
+      temp.push(
+        {
+          "id":uuidv4(),
+          "number":item.number,
+          "order_id":order.id,// lap lai trong luu chi tiet
+          "price":item.defaultPrice,
+          "product_id":item.itemID,
+          "product_name":item.productName,
+          "status":1,
+          // "user_id":""//nha cc
+        }
+      );
+    });
+    return temp;
+  });
   const inputOnchangeHandler = (e) => {
     setOrder({
       ...order,
@@ -77,11 +87,19 @@ export default function Payment() {
   };
   const paymentBtnHandler = (e) => {
     if (localStorage.getItem("userLogged")) {
-      console.log(order);
+      // console.log(order);
       const {id,...o}=order;
       set(ref(db, "orders/" + id), {
         ...o
       });
+      // --------------------------------------
+      for(let i=0;i<orderDetail.length;i++){
+        const {id,...o}=orderDetail[i]
+        set(ref(db, "order_details/" + orderDetail[i].id), {
+          ...orderDetail[i]
+        });
+      }
+      // --------------------------------------
       toast.success("thanh toán thành công, hãy kiểm tra lịch sử mua hàng");
       localStorage.removeItem("cartItems" + userLogin.id);
       navigate("/", { replace: true });
