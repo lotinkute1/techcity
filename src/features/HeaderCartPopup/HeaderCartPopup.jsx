@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
 import { Link } from "react-router-dom";
+import StorageKeys from "../../constants";
 
 export default function HeaderCartPopup() {
   const [userLogin, setUserLogin] = useState(() => {
-    return JSON.parse(localStorage.getItem("userLogged"));
+    return JSON.parse(localStorage.getItem(StorageKeys.USER));
   });
   const [items, setItems] = useState(() => {
     if (userLogin) {
@@ -52,9 +53,9 @@ export default function HeaderCartPopup() {
     //lắng nghe sự kiện update local
     const localStorageSetHandler = function (e) {
       setTimeout(() => {
-        let userLog=JSON.parse(localStorage.getItem("userLogged"));
+        let userLog=JSON.parse(localStorage.getItem(StorageKeys.USER));
 
-        if (localStorage.getItem("userLogged")) {
+        if (localStorage.getItem(StorageKeys.USER)) {
           if (JSON.parse(localStorage.getItem("cartItems" + userLog.id))) {
             setItems(
               JSON.parse(localStorage.getItem("cartItems" + userLog.id))
@@ -74,9 +75,9 @@ export default function HeaderCartPopup() {
     const localStorageSetHandler2 = function (e) {
       setTimeout(() => {
 
-        let userLog=JSON.parse(localStorage.getItem("userLogged"));
+        let userLog=JSON.parse(localStorage.getItem(StorageKeys.USER));
 
-        if (localStorage.getItem("userLogged")) {
+        if (localStorage.getItem(StorageKeys.USER)) {
           if (JSON.parse(localStorage.getItem("cartItems" + userLog.id))) {
             setItems(
               JSON.parse(localStorage.getItem("cartItems" + userLog.id))

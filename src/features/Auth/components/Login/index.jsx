@@ -1,20 +1,10 @@
 import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
-import {
-  equalTo,
-  getDatabase,
-  limitToLast,
-  onValue,
-  orderByChild,
-  query,
-  ref,
-} from "firebase/database";
+import { unwrapResult } from '@reduxjs/toolkit';
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
-import GetUsersData from "../../../../api/GetUsersData";
+import { login } from "../../userSlice";
 import LoginForm from "../LoginForm";
 import StorageKeys from "../../../../constants";
 import userDB from "../../../../api/mockdata/userLogin.json";
@@ -33,7 +23,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 function Login({ handleClickOpenRegister = null, handleCloseLogin = null }) {
   const dispatch = useDispatch();
-  // const users = GetUsersData();
 
   const [snakeBar, setSnakeBar] = useState({
     open: false,
@@ -53,15 +42,30 @@ function Login({ handleClickOpenRegister = null, handleCloseLogin = null }) {
 
   const handleSubmit = async (formValues) => {
     try {
-      //   const action = login(values)
-      //   const resultAction = await dispatch(action)
-      //   const ketqua =  unwrapResult(resultAction)
-      // console.log(ketqua)
-      const raw =  await userApi.login(formValues)
-      console.log(raw)
-        
+      const action = login({
+        email: formValue.identifier,
+        password: formValue.password,
+      });
+      const resultAction = await dispatch(action);
+      unwrapResult(resultAction);
+      if (handleCloseLogin) {
+        setTimeout(() => {
+          handleCloseLogin();
+        }, 1000);
+      }
+      setSnakeBar({
+        ...snakeBar,
+        open: true,
+        severity: "success",
+        message: "Đăng nhập thành công",
+      });
     } catch (error) {
-      console.log("Fail to login", error);
+      setSnakeBar({
+        ...snakeBar,
+        open: true,
+        severity: "error",
+        message: "Email hoặc mật khẩu không chính xác",
+      });
     }
 }
 
@@ -105,7 +109,6 @@ function Login({ handleClickOpenRegister = null, handleCloseLogin = null }) {
   //     console.log("Fail to login", error);
   //   }
   // };
-
 
   return (
     <>
