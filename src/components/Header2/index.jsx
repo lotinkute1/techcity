@@ -16,24 +16,9 @@ export default function Header() {
   const [openRegister, setOpenRegister] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
 
-  const [loggedInUser,setLoggedInUser ]=useState(()=>{
-    return JSON.parse(localStorage.getItem(StorageKeys.USER))
-  }) ;
+  const loggedInUser = useSelector(state => state.user.current);
   const [inputValue, setInputValue] = useState("");
   const isLoggedIn = !!loggedInUser?.id;
-
-  // useEffect(() => {
-  //   const localStorageSetHandler = function (e) {
-  //     setTimeout(() => {
-  //       //code của m sẽ ở trong cái setTimeout này
-
-  //       //thường thì m sẽ setState lại nếu local thay đổi như dưới
-  //       setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
-  //     }, 1000);
-  //   };
-  //   document.addEventListener("itemInserted", localStorageSetHandler);
-  // }, []);
-
 
   const hanleLogout = () => {
     dispatch(logout());
@@ -68,29 +53,29 @@ export default function Header() {
   const handleCloseLogin = () => {
     setOpenLogin(false);
   };
-  useEffect(() => {
-    const localStorageSetHandler = function (e) {
-      setTimeout(() => {
-        //code của m sẽ ở trong cái setTimeout này
-        //thường thì m sẽ setState lại nếu local thay đổi như dưới
-        console.log(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
-        setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
-        // setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
-      }, 1000);
-    };
-    document.addEventListener("itemInserted", localStorageSetHandler);
-    const localStorageSetHandler2 = function (e) {
-      setTimeout(() => {
-        //code của m sẽ ở trong cái setTimeout này
-        //thường thì m sẽ setState lại nếu local thay đổi như dưới
-        console.log(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
+  // useEffect(() => {
+  //   const localStorageSetHandler = function (e) {
+  //     setTimeout(() => {
+  //       //code của m sẽ ở trong cái setTimeout này
+  //       //thường thì m sẽ setState lại nếu local thay đổi như dưới
+  //       console.log(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
+  //       setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
+  //       // setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
+  //     }, 1000);
+  //   };
+  //   document.addEventListener("itemInserted", localStorageSetHandler);
+  //   const localStorageSetHandler2 = function (e) {
+  //     setTimeout(() => {
+  //       //code của m sẽ ở trong cái setTimeout này
+  //       //thường thì m sẽ setState lại nếu local thay đổi như dưới
+  //       console.log(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
 
-        setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
-        // setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
-      }, 1000);
-    };
-    document.addEventListener("itemDeleted", localStorageSetHandler2);
-  },[])
+  //       setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
+  //       // setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
+  //     }, 1000);
+  //   };
+  //   document.addEventListener("itemDeleted", localStorageSetHandler2);
+  // },[])
   return (
     <div id="header" className="">
       <div className="div-wrapper">
@@ -125,7 +110,7 @@ export default function Header() {
             <HeaderCartPopup />
             <div className="header__user">
               {/* logined */}
-              {loggedInUser && (
+              {isLoggedIn && (
                 <>
                   <div className="header__user-status-logined">
                     <Link
@@ -135,7 +120,7 @@ export default function Header() {
                       <div className="header__user-ava">
                         <img
                           src={
-                            loggedInUser.user_ava ||
+                            loggedInUser.ava ||
                             "https://static.thenounproject.com/png/363640-200.png"
                           }
                           alt=""
@@ -149,13 +134,13 @@ export default function Header() {
                       </div>
                     </Link>
                     <ul className="subnav">
-                      {loggedInUser.user_type === 1 ? (
+                      {loggedInUser.role === 1 ? (
                         <li>
                           <a href={`http://localhost:3001/${loggedInUser.id}`}>
                             Techcity_admin
                           </a>
                         </li>
-                      ) : loggedInUser.user_type === 2 ? (
+                      ) : loggedInUser.role === 2 ? (
                         <li>
                           <a href={`http://localhost:3001/${loggedInUser.id}`}>
                             Techcity_admin
@@ -183,7 +168,7 @@ export default function Header() {
 
               {/* not login */}
 
-              {!loggedInUser && (
+              {!isLoggedIn && (
                 <>
                   <div className="header__user-not-login">
                     <span onClick={handleClickOpenRegister}>Đăng ký</span> /{" "}
