@@ -27,13 +27,13 @@ export default function Main() {
         <Banner/>
         
         {/* carousel Items */}
-        <ItemsCarousel categoryID="" itemData={products} title="Sản phẩm nổi bật"/>
+        <ItemsCarousel itemData={products} title="Sản phẩm nổi bật"/>
 
         <AdsBanner adsImg={adsImage} adsHref="https://www.lg.com/vn/tro-giup/bao-hanh?fbclid=IwAR2d9nPyurT1Q3bhTler2Ln7ONkmkqVHR-_k6tNPTrBP23tynFJGqm4iIMU"/>
         {/* carousel Items */}
-        <ItemsCarousel categoryID="ctgr02" itemData={products} title="máy tính sách tay"/>
-        <ItemsCarousel categoryID="ctgr03" itemData={products} title="máy tính bảng"/>
-        <ItemsCarousel categoryID="ctgr06" itemData={products} title="Đồng hồ thông minh"/>
+        <ItemsCarousel categoryID="2" itemData={products} title="Laptop"/>
+        <ItemsCarousel categoryID="3" itemData={products} title="Máy tính bảng"/>
+        <ItemsCarousel categoryID="6" itemData={products} title="Đồng hồ thông minh"/>
     </>
   );
 }

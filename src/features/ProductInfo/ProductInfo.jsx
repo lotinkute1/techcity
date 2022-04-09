@@ -1,34 +1,38 @@
 import React, { useEffect, useRef, useState } from "react";
 import NumberFormat from "react-number-format";
+import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Slider from "react-slick";
-import GetProductsData from "../../api/GetProductsData";
-import ItemsCarousel from "../../components/ItemsCarousel/ItemsCarousel";
-import "../../assets/js/incre_decre_option.js";
-import loadingImage from "../../assets/images/loading/Spinner-1s-200px.gif";
-import GetCategoriesData from "../../api/GetCategoriesData";
-import GetUsersData from "../../api/GetUsersData";
-import { set } from "firebase/database";
-import GetRaitingsData from "../../api/GetRaitingsData";
-import Comment from "./components/Comment";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../../components/ItemCard/itemsCardSlice";
 import { toast, ToastContainer } from "react-toastify";
+import GetCategoriesData from "../../api/GetCategoriesData";
+import GetRaitingsData from "../../api/GetRaitingsData";
+import GetUsersData from "../../api/GetUsersData";
 import productApi from "../../api/productApi";
+import categoryApi from "../../api/categoryApi";
+import loadingImage from "../../assets/images/loading/Spinner-1s-200px.gif";
+import "../../assets/js/incre_decre_option.js";
+import { addToCart } from "../../components/ItemCard/itemsCardSlice";
+import ItemsCarousel from "../../components/ItemsCarousel/ItemsCarousel";
+import Comment from "./components/Comment";
 
 export default function ProductInfo() {
-  const navigate= useNavigate();
+  const navigate = useNavigate();
   // nhan id san pham tu url
   const { id } = useParams();
-
-  const [productNumber,setProductNumber] = useState(0);
+  const [productList, setProductList] = useState([]);
+  const [product, setProduct] = useState({
+    img: loadingImage,
+    img1: loadingImage,
+    img2: loadingImage,
+    img3: loadingImage,
+    img4: loadingImage,
+  });
+  const [productNumber, setProductNumber] = useState(0);
 
   // const [productList, setProductList] = useState([]);
   // const [product,setProduct]= useState(null);
 
-  const productsData = GetProductsData("");
-
-  const product = productsData.find((product) => product.id === id);
+  // const product = productList.find((product) => product.id === id);
 
   // const getAllProduct = async () => {
   //   try {
@@ -46,20 +50,49 @@ export default function ProductInfo() {
   //    const productSelected = productList.find((product)=> product.id === id);
   //    setProduct(productSelected)
   // },[id])
+  const getAllProduct = async () => {
+    try {
+      const response = await productApi.getAll();
+      const { data } = response;
+      setProductList(data);
+    } catch (error) {
+      console.log("Fail to get all product");
+    }
+  };
+  const getProduct = async () => {
+    try {
+      const response = await productApi.getById(id);
+      const { data } = response;
+      setProduct(data);
+    } catch (err) {
+      console.log("Fail to get product by id");
+    }
+  };
+  const getCategory = async () => {
+    if(product){
+      try {
+        const response = await categoryApi.getById(product.category_id);
+        console.log(response);
+        const { data } = response;
+        setCategory(data);
+      } catch (err) {
+        console.log("Fail to get product by id");
+      }
+    }
+  };
+  useEffect(() => {
+    getProduct();
+    getAllProduct();
+  }, []);
 
-  const [productM, setProductM] = useState({
-    product_img: {
-      main_img: loadingImage,
-      sub_img: loadingImage,
-      sub_img2: loadingImage,
-      sub_img3: loadingImage,
-      sub_img4: loadingImage,
-    },
-  });
+  useEffect(() => {
+    getCategory();
+  }, []);
 
-  const category = GetCategoriesData(productM.category_id);
-  const user = GetUsersData(productM.user_id);
-  const raitings = GetRaitingsData(productM.id);
+  // const category = GetCategoriesData(product.category_id);
+  const [category, setCategory] = useState(null);
+  const user = GetUsersData(product.user_id);
+  const raitings = GetRaitingsData(product.id);
   // const { category_name } = category[0] ?? { category_name: "" };
 
   const [nav1, setNav1] = useState(null);
@@ -72,16 +105,10 @@ export default function ProductInfo() {
     setNav2(tempRef2.current);
   }, []);
 
-  useEffect(() => {
-    if (product) {
-      setProductM(product);
-    }
-  }, [product]);
-
   // scroll top after render
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  });
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  // });
 
   // increment and decrement quantily option
   useEffect(() => {
@@ -150,56 +177,51 @@ export default function ProductInfo() {
   };
   const dispatch = useDispatch();
   const addToCartHandler = () => {
-    if(localStorage.getItem("userLogged")){
-
+    if (localStorage.getItem("userLogged")) {
       dispatch(
         addToCart({
-          itemID: productM.id,
-          productName: productM.product_name,
-          productImage: productM.product_img.main_img,
-          defaultPrice: productM.default_price,
+          itemID: product.id,
+          productName: product.product_name,
+          productImage: product.img,
+          defaultPrice: product.default_price,
         })
       );
       toast.success("Thêm vào giỏ hàng thành công");
-    }else{
+    } else {
       toast.error("Vui lòng đăng nhập");
     }
-    
   };
   const buyNowHandler = () => {
-    if(localStorage.getItem("userLogged")){
-
+    if (localStorage.getItem("userLogged")) {
       dispatch(
         addToCart({
-          itemID: productM.id,
-          productName: productM.product_name,
-          productImage: productM.product_img.main_img,
-          defaultPrice: productM.default_price,
+          itemID: product.id,
+          productName: product.product_name,
+          productImage: product.img,
+          defaultPrice: product.default_price,
         })
       );
-      navigate('/cart');
-    }else{
+      navigate("/cart");
+    } else {
       toast.error("Vui lòng đăng nhập");
     }
-
   };
-  const incre_incre=(e)=>{
-    if(e.target.name=='incre'){
-      if(productNumber<999){
-
-        setProductNumber((x)=>x+1)
+  const incre_incre = (e) => {
+    if (e.target.name == "incre") {
+      if (productNumber < 999) {
+        setProductNumber((x) => x + 1);
       }
-    }else{
-      if(productNumber>0){
-        setProductNumber((x)=>x-1)
+    } else {
+      if (productNumber > 0) {
+        setProductNumber((x) => x - 1);
       }
     }
-  }
+  };
 
   return (
     <>
-    {/* notification */}
-    <ToastContainer
+      {/* notification */}
+      <ToastContainer
         position="top-right"
         autoClose={3000}
         hideProgressBar={false}
@@ -217,19 +239,19 @@ export default function ProductInfo() {
             {/* main product info slide */}
             <Slider arrows={false} asNavFor={nav2} ref={tempRef1}>
               <div className="item-img-info carousel-cell">
-                <img src={productM.product_img.main_img} alt="" />
+                <img src={product.img} alt="" />
               </div>
               <div className="item-img-info carousel-cell">
-                <img src={productM.product_img.sub_img} alt="" />
+                <img src={product.img1} alt="" />
               </div>
               <div className="item-img-info carousel-cell">
-                <img src={productM.product_img.sub_img2} alt="" />
+                <img src={product.img2} alt="" />
               </div>
               <div className="item-img-info carousel-cell">
-                <img src={productM.product_img.sub_img3} alt="" />
+                <img src={product.img3} alt="" />
               </div>
               <div className="item-img-info carousel-cell">
-                <img src={productM.product_img.sub_img4} alt="" />
+                <img src={product.img4} alt="" />
               </div>
             </Slider>
 
@@ -242,20 +264,20 @@ export default function ProductInfo() {
               focusOnSelect={true}
             >
               <div className=" item-img-info-mini carousel-cell">
-                <img src={productM.product_img.main_img} alt="" />
+                <img src={product.img} alt="" />
               </div>
               <div className="item-img-info-mini carousel-cell">
-                <img src={productM.product_img.sub_img} alt="" />
+                <img src={product.img1} alt="" />
               </div>
 
               <div className="item-img-info-mini carousel-cell">
-                <img src={productM.product_img.sub_img2} alt="" />
+                <img src={product.img2} alt="" />
               </div>
               <div className="item-img-info-mini carousel-cell">
-                <img src={productM.product_img.sub_img3} alt="" />
+                <img src={product.img3} alt="" />
               </div>
               <div className="item-img-info-mini carousel-cell">
-                <img src={productM.product_img.sub_img4} alt="" />
+                <img src={product.img4} alt="" />
               </div>
             </Slider>
           </div>
@@ -263,7 +285,7 @@ export default function ProductInfo() {
         {/* 60% */}
         <div className="product-info__right">
           <div className="product-info__title">
-            <h1>{productM.product_name}</h1>
+            <h1>{product.product_name}</h1>
           </div>
           <div className="product-info__rating">
             <div className="raiting-starts">
@@ -282,7 +304,7 @@ export default function ProductInfo() {
           </div>
           <div className="carousel-item__price">
             <NumberFormat
-              value={productM.default_price}
+              value={product.default_price}
               className=""
               displayType={"text"}
               thousandSeparator={"."}
@@ -310,7 +332,7 @@ export default function ProductInfo() {
                 />
               </div>
             </div> */}
-            
+
             {/* <div className="quantily-options">
               <div>Số lượng</div>
               <div className="quantily-wrapper">
@@ -400,12 +422,12 @@ export default function ProductInfo() {
               Danh Mục
             </div>
             <div className="product-more-info__top__category__wrapper">
-              <div>{category[0]?.category_name || ""}</div>
+              {/* <div>{category[0]?.category_name || ""}</div> */}
             </div>
           </div>
           <div className="product-more-info__top__info">
             <div>Thương hiệu</div>
-            <div>{productM.brand}</div>
+            <div>{product.brand}</div>
           </div>
           <div className="product-more-info__top__info">
             <div>Hạn bảo hành</div>
@@ -419,11 +441,11 @@ export default function ProductInfo() {
         <div className="product-more-info__bottom">
           <h2 className="product-more-info__bottom__title">mô tả sản phẩm</h2>
           <div className="product-more-info__bottom__content">
-            {productM.product_name}
+            {product.product_name}
             <br />
             MÔ TẢ SẢN PHẨM:
             <br />
-            {productM.description}
+            {product.description}
             <br />
             Thiết kế vô cùng tinh xảo.
             <br />
@@ -460,8 +482,8 @@ export default function ProductInfo() {
       {/* sản phẩm liên quan */}
 
       <ItemsCarousel
-        categoryID=""
-        itemData={productsData}
+        categoryID={product.category_id}
+        itemData={productList}
         title="sản phẩm liên quan"
       />
       {/* banner quản cáo */}

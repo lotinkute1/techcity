@@ -42,8 +42,6 @@ function ShowAllProduct(props) {
     try {
       const response = await categoryApi.getAll();
       const {data} = response;
-      console.log(data)
-
       setCategoryList(data);
     } catch (error) {
       console.log("Fail to get all category");
