@@ -4,7 +4,7 @@ const ratingApi = {
   getRatings() {
     const url = "/rating/getRatings";
     return axiosClient.get(url);
-  },
+  },dsdsds
   getRatingById(id) {
     const url = `/rating/getRatingById/${id}`;
     return axiosClient.get(url);

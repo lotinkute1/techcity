@@ -4,7 +4,7 @@ const categoryApi = {
   getAll() {
     const url = "/category/getCategories";
     return axiosClient.get(url);
-  },
+  },dfdfdfd
   getByName(name){
     const url = `/category/getCategoriesByName/${name}`
     return axiosClient.get(url)
