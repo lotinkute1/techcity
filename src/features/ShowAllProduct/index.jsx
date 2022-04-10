@@ -5,18 +5,16 @@ import {
   onValue,
   orderByChild,
   query,
-  ref,
+  ref
 } from "firebase/database";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import GetCategoriesData from "../../api/GetCategoriesData";
-import GetProductsData from "../../api/GetProductsData";
+import categoryApi from "../../api/categoryApi";
+import productApi from "../../api/productApi";
 import ItemCard from "../../components/ItemCard/ItemCard";
 import ProductSkeleton from "./components/ProductSkeleton";
 import "./style.css";
-import productApi from "../../api/productApi";
-import categoryApi from "../../api/categoryApi";
 
 ShowAllProduct.propTypes = {};
 
@@ -26,8 +24,20 @@ function ShowAllProduct(props) {
   
   const [categoryList,setCategoryList] = useState([]);
   const [productList, setProductList] = useState([]);
+  const [productListByCategoryId,setProductListByCategoryId] = useState([]);
   const [loading, setLoading] = useState(true);
   const searchValue = useSelector((state) => state.search);
+  // const queryParams = useMemo(() => {
+  //   const params = queryString.parse(location.search);
+  //   return {
+  //     ...params,
+  //     _page: params._page || 1,
+  //     _limit: params._limit || 10,
+  //     _sort: params._sort || "salePrice:ASC",
+  //     isPromotion: params.isPromotion === "true",
+  //     isFreeShip: params.isFreeShip === "true",
+  //   };
+  // }, [location.search]);
 
   const getAllProduct = async () => {
     try {
@@ -38,6 +48,14 @@ function ShowAllProduct(props) {
       console.log("Fail to get all product");
     }
   };
+  const getProductsByCategoryId = () => {
+      const array = productList.filter((product) => product.category_id == id);
+      setProductListByCategoryId(array);
+  };
+
+  useEffect(() => {
+    getProductsByCategoryId();
+  }, [id,productList]);
   const getAllCategory = async () => {
     try {
       const response = await categoryApi.getAll();
@@ -56,47 +74,16 @@ function ShowAllProduct(props) {
   }, []);
 
   const hanleFilterCategory = (e, categoryId) => {
-    const db = getDatabase();
-    const productFilteredRef = query(
-      ref(db, "products"),
-      orderByChild("category_id"),
-      equalTo(categoryId)
-    );
-
-    const temp = [];
-    onValue(productFilteredRef, (snapshot) => {
-      snapshot.forEach((item) => {
-        temp.push(item.val());
-      });
-    });
-
-    setProductList(temp);
     navigate(`/show-all-product/${categoryId}`);
   };
 
   // get data when typing search
   useEffect(() => {
     const searchValueLowerCase = searchValue?.toLowerCase();
-    const db = getDatabase();
-    const productFilteredRef = query(
-      ref(db, "products"),
-      orderByChild("product_name")
-    );
-
-    const temp = [];
-    onValue(productFilteredRef, (snapshot) => {
-      snapshot.forEach((item) => {
-        const productName = item.val().product_name?.toLowerCase();
-        if (
-          productName
-            ?.slice(0, searchValueLowerCase.length)
-            .indexOf(searchValueLowerCase) !== -1
-        ) {
-          temp.push(item.val());
-        }
-      });
-    });
-    setProductList(temp);
+    const objSearch = {
+      filterType: 'name',
+      filterVal: searchValueLowerCase
+    };
   }, [searchValue]);
 
   const handlePagination = () => {
@@ -146,17 +133,27 @@ function ShowAllProduct(props) {
 
                   {loading && <ProductSkeleton length={12} />}
                 </div>
-                {!loading &&
-                  productList.map((product, index) => (
-                    <div key={index} className="col-sm-3 carousel-items">
-                      <ItemCard
-                        itemID={product.id}
-                        productName={product.name}
-                        productImage={product.img}
-                        defaultPrice={product.price}
-                      />
-                    </div>
-                  ))}
+                {!loading && id
+                  ? productListByCategoryId.map((product, index) => (
+                      <div key={index} className="col-sm-3 carousel-items">
+                        <ItemCard
+                          itemID={product.id}
+                          productName={product.name}
+                          productImage={product.img}
+                          defaultPrice={product.price}
+                        />
+                      </div>
+                    ))
+                  : productList.map((product, index) => (
+                      <div key={index} className="col-sm-3 carousel-items">
+                        <ItemCard
+                          itemID={product.id}
+                          productName={product.name}
+                          productImage={product.img}
+                          defaultPrice={product.price}
+                        />
+                      </div>
+                    ))}
               </div>
               <div className="row wrap-pagination">
                 <nav aria-label="Page navigation example">

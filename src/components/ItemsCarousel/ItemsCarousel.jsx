@@ -35,7 +35,7 @@ export default function ItemsCarousel({title, itemData , categoryID}) {
       <div className="section-title">
         <h2>{title}</h2>
         <div>
-          <Link to={`/show-all-product/${categoryID}`}>
+          <Link to={categoryID ? `/show-all-product/${categoryID}`: `/show-all-product`}>
             xem tất cả <i className="fas fa-angle-double-right" />
           </Link>
         </div>

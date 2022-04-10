@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import NumberFormat from "react-number-format";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -8,6 +8,8 @@ import GetCategoriesData from "../../api/GetCategoriesData";
 import GetRaitingsData from "../../api/GetRaitingsData";
 import GetUsersData from "../../api/GetUsersData";
 import productApi from "../../api/productApi";
+import userApi from "../../api/userApi";
+import ratingApi from "../../api/ratingApi";
 import categoryApi from "../../api/categoryApi";
 import loadingImage from "../../assets/images/loading/Spinner-1s-200px.gif";
 import "../../assets/js/incre_decre_option.js";
@@ -28,6 +30,15 @@ export default function ProductInfo() {
     img4: loadingImage,
   });
   const [productNumber, setProductNumber] = useState(0);
+  const [category, setCategory] = useState(null);
+  const [supplier, setSupplier] = useState(null);
+  const [ratings, setRatings] = useState([]);
+  const [ratingOfProduct, setRatingOfProduct] = useState([]);
+  const countRatingOfProduct = useMemo(
+    () => ratingOfProduct.length,
+    [ratingOfProduct]
+  );
+  console.log("countRatingOfProduct: ", countRatingOfProduct);
 
   // const [productList, setProductList] = useState([]);
   // const [product,setProduct]= useState(null);
@@ -72,7 +83,6 @@ export default function ProductInfo() {
     if(product){
       try {
         const response = await categoryApi.getById(product.category_id);
-        console.log(response);
         const { data } = response;
         setCategory(data);
       } catch (err) {
@@ -80,19 +90,48 @@ export default function ProductInfo() {
       }
     }
   };
+  const getSupplier = async () => {
+    try {
+      const response = await userApi.getUserById(product.user_id);
+      const {data}= response;
+      setSupplier(data);
+    } catch (err) {
+      console.log('Fail to get api user by id')
+    }
+  };
+  const getAllRating = async () => {
+    try {
+      const response = await ratingApi.getRatings();
+      const {data}= response;
+      setRatings(data);
+    } catch (err) {
+      console.log('Fail to get api ratings by id')
+    }
+  };
+  
+  const getRatingsByProductId = ()=>{
+    const temp = ratings.filter((rating)=> rating.product_id === product.id);
+    setRatingOfProduct(temp);
+  }
+
   useEffect(() => {
     getProduct();
     getAllProduct();
+    getAllRating();
   }, []);
 
   useEffect(() => {
-    getCategory();
-  }, []);
+    if (product.category_id) getCategory();
+    if (product.user_id) getSupplier();
+  }, [product]);
 
-  // const category = GetCategoriesData(product.category_id);
-  const [category, setCategory] = useState(null);
-  const user = GetUsersData(product.user_id);
-  const raitings = GetRaitingsData(product.id);
+  useEffect(()=>{
+    if(product.id && ratings && ratings.length > 0){
+      getRatingsByProductId();
+    }
+  },[product, ratings])
+
+
   // const { category_name } = category[0] ?? { category_name: "" };
 
   const [nav1, setNav1] = useState(null);
@@ -163,17 +202,19 @@ export default function ProductInfo() {
     }
   }, []);
   const renderComments = () => {
-    return raitings.map((comment, index) => {
-      return (
-        <Comment
-          key={index}
-          content={comment.content}
-          create_date={comment.create_date}
-          starts={comment.starts}
-          user_id={comment.user_id}
-        />
-      );
-    });
+    if (ratingOfProduct && ratingOfProduct.length > 0) {
+      return ratingOfProduct.map((comment, index) => {
+        return (
+          <Comment
+            key={index}
+            content={comment.comment_content}
+            create_date={comment.created_at}
+            starts={comment.raiting_stars}
+            user_id={comment.user_id}
+          />
+        );
+      });
+    }
   };
   const dispatch = useDispatch();
   const addToCartHandler = () => {
@@ -181,9 +222,9 @@ export default function ProductInfo() {
       dispatch(
         addToCart({
           itemID: product.id,
-          productName: product.product_name,
+          productName: product.name,
           productImage: product.img,
-          defaultPrice: product.default_price,
+          defaultPrice: product.price,
         })
       );
       toast.success("Thêm vào giỏ hàng thành công");
@@ -196,9 +237,9 @@ export default function ProductInfo() {
       dispatch(
         addToCart({
           itemID: product.id,
-          productName: product.product_name,
+          productName: product.name,
           productImage: product.img,
-          defaultPrice: product.default_price,
+          defaultPrice: product.price,
         })
       );
       navigate("/cart");
@@ -285,7 +326,7 @@ export default function ProductInfo() {
         {/* 60% */}
         <div className="product-info__right">
           <div className="product-info__title">
-            <h1>{product.product_name}</h1>
+            <h1>{product.name}</h1>
           </div>
           <div className="product-info__rating">
             <div className="raiting-starts">
@@ -296,7 +337,7 @@ export default function ProductInfo() {
               <i className="far fa-star" />
             </div>
             <div className="raiting-count">
-              24 <span>Đánh giá</span>
+              {countRatingOfProduct} <span>Đánh giá</span>
             </div>
             <div className="products-sold">
               71 <span>Đã mua</span>
@@ -304,7 +345,7 @@ export default function ProductInfo() {
           </div>
           <div className="carousel-item__price">
             <NumberFormat
-              value={product.default_price}
+              value={product.price}
               className=""
               displayType={"text"}
               thousandSeparator={"."}
@@ -380,11 +421,11 @@ export default function ProductInfo() {
         <div className="shop-info__left-content">
           <div className="shop-info__ava">
             <a href="/#">
-              <img src={user[0]?.user_ava} alt="" />
+              <img src={supplier?.ava} alt="" />
             </a>
           </div>
           <div className="shop-info__info">
-            <div className="shop-info__name">{user[0]?.name}</div>
+            <div className="shop-info__name">{supplier?.name}</div>
             <div>
               <input
                 type="button"
@@ -441,7 +482,7 @@ export default function ProductInfo() {
         <div className="product-more-info__bottom">
           <h2 className="product-more-info__bottom__title">mô tả sản phẩm</h2>
           <div className="product-more-info__bottom__content">
-            {product.product_name}
+            {product.name}
             <br />
             MÔ TẢ SẢN PHẨM:
             <br />

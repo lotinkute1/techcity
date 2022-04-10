@@ -16,7 +16,9 @@ export default function Header() {
   const [openRegister, setOpenRegister] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
 
-  const loggedInUser = useSelector(state => state.user.current);
+  const [loggedInUser, setLoggedInUser] = useState(
+    JSON.parse(localStorage.getItem(StorageKeys.USER))
+  );
   const [inputValue, setInputValue] = useState("");
   const isLoggedIn = !!loggedInUser?.id;
 
@@ -53,29 +55,14 @@ export default function Header() {
   const handleCloseLogin = () => {
     setOpenLogin(false);
   };
-  // useEffect(() => {
-  //   const localStorageSetHandler = function (e) {
-  //     setTimeout(() => {
-  //       //code của m sẽ ở trong cái setTimeout này
-  //       //thường thì m sẽ setState lại nếu local thay đổi như dưới
-  //       console.log(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
-  //       setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
-  //       // setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
-  //     }, 1000);
-  //   };
-  //   document.addEventListener("itemInserted", localStorageSetHandler);
-  //   const localStorageSetHandler2 = function (e) {
-  //     setTimeout(() => {
-  //       //code của m sẽ ở trong cái setTimeout này
-  //       //thường thì m sẽ setState lại nếu local thay đổi như dưới
-  //       console.log(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
-
-  //       setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
-  //       // setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
-  //     }, 1000);
-  //   };
-  //   document.addEventListener("itemDeleted", localStorageSetHandler2);
-  // },[])
+  useEffect(() => {
+    const localStorageSetHandler = function (e) {
+      setTimeout(() => {
+        setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
+      }, 1000);
+    };
+    document.addEventListener("itemInserted", localStorageSetHandler);
+  },[])
   return (
     <div id="header" className="">
       <div className="div-wrapper">
@@ -183,7 +170,7 @@ export default function Header() {
           <div className="header__nav">
             <ul className="header__nav-wrapper">
               <li className="nav-item">
-                <Link className="nav-category" to="/show-all-product/ctgr01">
+                <Link className="nav-category" to="/show-all-product/1">
                   <i className="fas fa-mobile-alt" />
                   <span>Điện thoại</span>
                 </Link>
@@ -201,7 +188,7 @@ export default function Header() {
                 </ul> */}
               </li>
               <li className="nav-item">
-                <Link className="nav-category" to="/show-all-product/ctgr02">
+                <Link className="nav-category" to="/show-all-product/2">
                   <i className="fas fa-laptop" />
                   <span>Laptop</span>
                 </Link>
@@ -219,7 +206,7 @@ export default function Header() {
                 </ul> */}
               </li>
               <li className="nav-item">
-                <Link className="nav-category" to="/show-all-product/ctgr06">
+                <Link className="nav-category" to="/show-all-product/6">
                   <i className="far fa-clock" />
                   <span>Đồng hồ</span>
                 </Link>
@@ -237,7 +224,7 @@ export default function Header() {
                 </ul> */}
               </li>
               <li className="nav-item">
-                <Link className="nav-category" to="/show-all-product/ctgr03">
+                <Link className="nav-category" to="/show-all-product/3">
                   <i className="fas fa-tablet-alt" />
                   <span>Tablet</span>
                 </Link>

@@ -24,6 +24,10 @@ const productApi = {
   delete(id) {
     const url = `/product/deleteProduct/${id}`;
     return axiosClient.delete(url);
+  },
+  getProductFilter(queryParam) {
+    const url = `/product/productFilter/${queryParam}`;
+    return axiosClient.get(url)
   }
 };
 

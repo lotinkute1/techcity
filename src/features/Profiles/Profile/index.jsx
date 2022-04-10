@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getDatabase, ref, remove, set } from "firebase/database";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
 import "../profile.css";
 import StorageKeys from "../../../constants";
 import FormInput from "./components/FormInput";
+import userApi from '../../../api/userApi'
 
 Profile.propTypes = {};
 
@@ -38,34 +38,31 @@ function Profile(props) {
       draggable: true,
       progress: undefined,
     });
-  const handleSaveBtn = (formValue) => {
-    console.log(formValue);
-    const db = getDatabase();
-    const configFormValue = {
-      ...formValue,
-      id:loggedInUser.id,
-      email: formValue.email !== "" ? formValue.email : loggedInUser.email,
-      name: formValue.name !== "" ? formValue.name : loggedInUser.name,
-      phone: formValue.phone !== "" ? formValue.phone : loggedInUser.phone,
-      user_address:
-        formValue.user_address !== ""
-          ? formValue.user_address
-          : loggedInUser.user_address,
-      user_ava:
-        formValue.user_ava !== "" ? formValue.user_ava : loggedInUser.user_ava,
-      join_date:
-        formValue.join_date !== ""
-          ? formValue.join_date
-          : loggedInUser.join_date,
-      password: loggedInUser.password,
-    };
-    if (loggedInUser.id) {
-      set(ref(db, "/users/" + loggedInUser.id), {
-        ...configFormValue,
-      });
+  const handleSaveBtn = async (formValue) => {
+    try {
+      const configFormValue = {
+        id: loggedInUser.id,
+        email: formValue.email !== "" ? formValue.email : loggedInUser.email,
+        name: formValue.name !== "" ? formValue.name : loggedInUser.name,
+        phone_number:
+          formValue.phone !== "" ? formValue.phone : loggedInUser.phone_number,
+        address:
+          formValue.user_address !== ""
+            ? formValue.user_address
+            : loggedInUser.address,
+        ava: formValue.user_ava  ? formValue.user_ava : loggedInUser.ava,
+        status: loggedInUser.status,
+        role: loggedInUser.status,
+        email_verified_at: loggedInUser.email_verified_at,
+        created_at: loggedInUser.created_at,
+        updated_at: Date.now(),
+      };
+      const response = await userApi.updateUser(configFormValue);
       localStorage.setItem(StorageKeys.USER, JSON.stringify(configFormValue));
-
       notify("success", "Cập nhật thông tin thành công !");
+    } catch (error) {
+      notify("error", "Cập nhật thông tin không thành công !");
+      
     }
   };
 

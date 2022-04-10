@@ -6,12 +6,13 @@ import { toast, ToastContainer } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import GetUsersData from "../../api/GetUsersData";
 import "./style.css";
+import StorageKeys from "../../constants";
+import orderApi from "../../api/orderApi";
 
 export default function Payment() {
-  const db = getDatabase();
   let navigate = useNavigate();
   const [userLogin, setUserLogin] = useState(() => {
-    return JSON.parse(localStorage.getItem("userLogged"));
+    return JSON.parse(localStorage.getItem(StorageKeys.USER));
   });
 
   const [cartData, setCartData] = useState(() => {
@@ -28,15 +29,25 @@ export default function Payment() {
   });
   // overhere
   const [userData, setUserData] = useState({
+    // email: userLogin.email,
+    // join_date: "",
+    // name: userLogin.name,
+    // password: "",
+    // phone: userLogin.phone,
+    // user_address: userLogin.user_address,
+    // user_ava: "",
+    // user_status: 1,
+    // user_type: "",
+
+    id:"",
     email: userLogin.email,
-    join_date: "",
+    created_at: "",
     name: userLogin.name,
-    password: "",
-    phone: userLogin.phone,
-    user_address: userLogin.user_address,
-    user_ava: "",
-    user_status: 1,
-    user_type: "",
+    phone: userLogin.phone_number,
+    user_address: userLogin.address,
+    ava: "",
+    status: 1,
+    role: "",
   });
 
   const getCurrentDay = () => {
@@ -49,56 +60,52 @@ export default function Payment() {
       today.getFullYear();
     return date;
   };
-  const [order, setOrder] = useState({
-    id: uuidv4(),
-    create_date: getCurrentDay(),
-    receiver_location: userLogin.user_address,
-    receiver_name: userLogin.name,
-    receiver_phone: userLogin.phone,
-    status: 1,
-    total: total,
-    user_id: userLogin.id, //userData.id here
-  });
-  console.log(userLogin.id);
-  const [orderDetail, setOrderDetail] = useState(()=>{
-    let temp=[];
+  const [order, setOrder] = useState(() => {
+    let orderDetail=[];
 
     JSON.parse( localStorage.getItem("cartItems" + userLogin.id)).forEach(item => {
-      temp.push(
+      orderDetail.push(
         {
-          "id":uuidv4(),
           "number":item.number,
-          "order_id":order.id,// lap lai trong luu chi tiet
           "price":item.defaultPrice,
           "product_id":item.itemID,
           "product_name":item.productName,
-          "status":1,
-          // "user_id":""//nha cc
         }
       );
     });
-    return temp;
+    return {
+      recipient_address: userLogin.address,
+      recipient_name: userLogin.name,
+      recipient_phone_number: userLogin.phone_number,
+      status: 1,
+      total: total,
+      user_id: userLogin.id, //userData.id here
+      created_at: getCurrentDay(),
+      updated_at: null,
+      order_detail: orderDetail,
+    };
   });
+  
   const inputOnchangeHandler = (e) => {
     setOrder({
       ...order,
       [e.target.name]: e.target.value,
     });
   };
+
+  const addOrderHandler = async (order) => {
+    try {
+      const response = await orderApi.addOrder(order);
+      const {data} = response;
+    } catch (error) {
+      console.log("Fail to get api order");
+    }
+  };
+
   const paymentBtnHandler = (e) => {
-    if (localStorage.getItem("userLogged")) {
-      // console.log(order);
-      const {id,...o}=order;
-      set(ref(db, "orders/" + id), {
-        ...o
-      });
-      // --------------------------------------
-      for(let i=0;i<orderDetail.length;i++){
-        const {id,...o}=orderDetail[i]
-        set(ref(db, "order_details/" + orderDetail[i].id), {
-          ...orderDetail[i]
-        });
-      }
+    if (localStorage.getItem(StorageKeys.USER)) {
+      // add order to db 
+      addOrderHandler(order);
       // --------------------------------------
       toast.success("thanh toán thành công, hãy kiểm tra lịch sử mua hàng");
       localStorage.removeItem("cartItems" + userLogin.id);
@@ -215,7 +222,7 @@ export default function Payment() {
                       className="form-control"
                       name="receiver_name"
                       id="receiver_name"
-                      defaultValue={order.receiver_name || userData.name}
+                      defaultValue={order.recipient_name || userData.name}
                       onChange={(e) => inputOnchangeHandler(e)}
                     />
                   </div>
@@ -230,7 +237,7 @@ export default function Payment() {
                       name="receiver_location"
                       id="receiver_location"
                       defaultValue={
-                        order.receiver_location || userData.user_address
+                        order.recipient_address || userData.user_address
                       }
                       onChange={(e) => inputOnchangeHandler(e)}
                     />
@@ -243,7 +250,7 @@ export default function Payment() {
                       className="form-control"
                       name="receiver_phone"
                       id="receiver_phone"
-                      defaultValue={order.receiver_phone || userData.phone}
+                      defaultValue={order.recipient_phone_number || userData.phone}
                       onChange={(e) => inputOnchangeHandler(e)}
                     />
                   </div>
