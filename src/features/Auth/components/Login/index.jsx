@@ -6,10 +6,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../userSlice";
 import LoginForm from "../LoginForm";
-import StorageKeys from "../../../../constants";
-import userDB from "../../../../api/mockdata/userLogin.json";
-import { unwrapResult } from '@reduxjs/toolkit';
-import userApi from "../../../../api/userApi";
 
 Login.propTypes = {
   handleCloseLogin: PropTypes.func,
@@ -40,10 +36,10 @@ function Login({ handleClickOpenRegister = null, handleCloseLogin = null }) {
     setSnakeBar({ ...snakeBar, open: false });
   };
 
-  const handleSubmit = async (formValues) => {
+  const handleSubmit = async (formValue) => {
     try {
       const action = login({
-        email: formValue.identifier,
+        email: formValue.email,
         password: formValue.password,
       });
       const resultAction = await dispatch(action);
@@ -67,48 +63,7 @@ function Login({ handleClickOpenRegister = null, handleCloseLogin = null }) {
         message: "Email hoặc mật khẩu không chính xác",
       });
     }
-}
-
-  // const handleSubmit = async (formValue) => {
-  //   try {
-  //     let currentUser;
-  //     const data = users.forEach((user) => {
-  //       if (
-  //         formValue.identifier === user.email &&
-  //         formValue.password === user.password &&
-  //         user.user_status !== 0
-  //       ) {
-  //         currentUser = user;
-  //       }
-  //     });
-  //     console.log(currentUser);
-  //     if (currentUser) {
-  //       localStorage.setItem(StorageKeys.USER, JSON.stringify(currentUser));
-
-  //       // close Login
-  //       if (handleCloseLogin) {
-  //         setTimeout(() => {
-  //           handleCloseLogin();
-  //         }, 1000);
-  //       }
-  //       setSnakeBar({
-  //         ...snakeBar,
-  //         open: true,
-  //         severity: "success",
-  //         message: "Đăng nhập thành công",
-  //       });
-  //     } else {
-  //       setSnakeBar({
-  //         ...snakeBar,
-  //         open: true,
-  //         severity: "error",
-  //         message: "Email hoặc mật khẩu không chính xác",
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.log("Fail to login", error);
-  //   }
-  // };
+  };
 
   return (
     <>
@@ -138,30 +93,6 @@ function Login({ handleClickOpenRegister = null, handleCloseLogin = null }) {
       />
     </>
   );
-
-
-  // draft
-  // const {enqueueSnackbar} = useSnackbar()
-  //   const dispatch = useDispatch()
-  //   const handleSubmit = async (values) => {
-  //       try {
-  //           const action = login(values)
-  //           const resultAction = await dispatch(action)
-  //           unwrapResult(resultAction)
-
-  //           const {closeDialog} = props
-  //           if(closeDialog) {
-  //               closeDialog()
-  //           } 
-  //       } catch (error) {
-  //           enqueueSnackbar(error.message,{variant: 'error'})
-  //       }
-  //   }
-  //   return (
-  //       <div>
-  //           <LoginForm onSubmit={handleSubmit}></LoginForm>
-  //       </div>
-  //   );
 }
 
 export default Login;

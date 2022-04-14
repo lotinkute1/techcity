@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { addToCart } from "./itemsCardSlice";
+import Storage from "../../constants"
 
 export default function ItemCard({
   itemID,
@@ -11,12 +12,12 @@ export default function ItemCard({
   productImage,
   defaultPrice,
 }) {
+  // console.log({itemID,productName,})
   
   // const data= useSelector((state)=>state.itemCard.data);
   const dispatch = useDispatch();
   const addToCartHandler = () => {
-    if(localStorage.getItem("userLogged")){
-
+    if(localStorage.getItem(Storage.USER)){
       dispatch(
         addToCart({
           itemID,

@@ -14,6 +14,7 @@ import "./fonts/icomoon/style.css";
 // import "./js/bootstrap.min.js";
 // import "./js/jquery-3.3.1.min.js";
 import "./js/main";
+import orderApi from "../../../../../api/orderApi";
 
 TableDataOrders.propTypes = {
   onEditClick: PropTypes.func,
@@ -37,21 +38,19 @@ export default function TableDataOrders({
     (order) => order.user_id === loggedInUser.id
   );
 
+  const getAllOrders = async () => {
+    try {
+      const response = await orderApi.getAll();
+      const {data}= response;
+      setOrders(data);
+    } catch (err) {
+      console.log('Fail to get api orders')
+    }
+  };
+
   console.log(orderOfCurrenUser);
   useEffect(() => {
-    (() => {
-      const odersRef = ref(db, "orders");
-      onValue(odersRef, (snapshot) => {
-        const temp = [];
-        snapshot.forEach((item) => {
-          temp.push({
-            id: item.key,
-            ...item.val(),
-          });
-        });
-        setOrders([...temp]);
-      });
-    })();
+    getAllOrders();
   }, []);
 
   const renderOrders = orderOfCurrenUser.map((order, index) => (
@@ -69,11 +68,14 @@ export default function TableDataOrders({
       </td>
 
       <td width={"120px"} className="">
-        {order.receiver_name}
+        {order.recipient_name}
       </td>
 
       <td width={"200px"} className="">
-        {order.receiver_location}
+        {order.recipient_address}
+      </td>
+      <td width={"200px"} className="">
+        {order.recipient_phone_number}
       </td>
 
       <td width={"200px"} className="">
@@ -112,7 +114,7 @@ export default function TableDataOrders({
       </td>
 
       <td width={"130px"} className="">
-        {order.create_date}
+        {order.created_at}
       </td>
 
       {/* <td width={"60px"} className="">
@@ -137,8 +139,9 @@ export default function TableDataOrders({
             <tr>
               <th scope="col">Oder ID</th>
               <th scope="col">User ID</th>
-              <th scope="col">receiver_name</th>
-              <th scope="col">receiver_location</th>
+              <th scope="col">name</th>
+              <th scope="col">address</th>
+              <th scope="col">phone number</th>
               <th scope="col">Status</th>
               <th scope="col">Total</th>
               <th scope="col">Create Date</th>

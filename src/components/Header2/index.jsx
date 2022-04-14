@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import queryString from 'query-string'
 import logo from "../../assets/images/logo-web.png";
 import Login from "../../features/Auth/components/Login";
 import Register from "../../features/Auth/components/Register";
@@ -10,13 +11,16 @@ import { typing } from "./searchSlice";
 import "./style.css";
 import StorageKeys from "../../constants";
 
+
 export default function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [openRegister, setOpenRegister] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
 
-  const loggedInUser = useSelector(state => state.user.current);
+  const [loggedInUser, setLoggedInUser] = useState(
+    JSON.parse(localStorage.getItem(StorageKeys.USER))
+  );
   const [inputValue, setInputValue] = useState("");
   const isLoggedIn = !!loggedInUser?.id;
 
@@ -24,15 +28,23 @@ export default function Header() {
     dispatch(logout());
   };
 
+  const searchQueryParamRef = useRef({})
+
   const handleInputChange = (e) => {
+    const filter = {
+      filterType: "name",
+      filterVal: e.target.value
+    }
+    searchQueryParamRef.current = queryString.stringify(filter);
     setInputValue(e.target.value);
     const action = typing(e.target.value);
     dispatch(action);
-    // navigate("/show-all-product");
+
+    // navigate("/show-all-product?"+searchQueryParamRef.current);
   };
 
   const handleSearchClick = () => {
-    navigate("/show-all-product");
+    navigate("/show-all-product?"+ searchQueryParamRef.current);
   };
 
   const handleClickOpenRegister = () => {
@@ -53,29 +65,14 @@ export default function Header() {
   const handleCloseLogin = () => {
     setOpenLogin(false);
   };
-  // useEffect(() => {
-  //   const localStorageSetHandler = function (e) {
-  //     setTimeout(() => {
-  //       //code của m sẽ ở trong cái setTimeout này
-  //       //thường thì m sẽ setState lại nếu local thay đổi như dưới
-  //       console.log(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
-  //       setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
-  //       // setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
-  //     }, 1000);
-  //   };
-  //   document.addEventListener("itemInserted", localStorageSetHandler);
-  //   const localStorageSetHandler2 = function (e) {
-  //     setTimeout(() => {
-  //       //code của m sẽ ở trong cái setTimeout này
-  //       //thường thì m sẽ setState lại nếu local thay đổi như dưới
-  //       console.log(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
-
-  //       setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER))?.data.user);
-  //       // setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
-  //     }, 1000);
-  //   };
-  //   document.addEventListener("itemDeleted", localStorageSetHandler2);
-  // },[])
+  useEffect(() => {
+    const localStorageSetHandler = function (e) {
+      setTimeout(() => {
+        setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
+      }, 1000);
+    };
+    document.addEventListener("itemInserted", localStorageSetHandler);
+  },[])
   return (
     <div id="header" className="">
       <div className="div-wrapper">
@@ -183,7 +180,7 @@ export default function Header() {
           <div className="header__nav">
             <ul className="header__nav-wrapper">
               <li className="nav-item">
-                <Link className="nav-category" to="/show-all-product/ctgr01">
+                <Link className="nav-category" to="/show-all-product/1">
                   <i className="fas fa-mobile-alt" />
                   <span>Điện thoại</span>
                 </Link>
@@ -201,7 +198,7 @@ export default function Header() {
                 </ul> */}
               </li>
               <li className="nav-item">
-                <Link className="nav-category" to="/show-all-product/ctgr02">
+                <Link className="nav-category" to="/show-all-product/2">
                   <i className="fas fa-laptop" />
                   <span>Laptop</span>
                 </Link>
@@ -219,7 +216,7 @@ export default function Header() {
                 </ul> */}
               </li>
               <li className="nav-item">
-                <Link className="nav-category" to="/show-all-product/ctgr06">
+                <Link className="nav-category" to="/show-all-product/6">
                   <i className="far fa-clock" />
                   <span>Đồng hồ</span>
                 </Link>
@@ -237,7 +234,7 @@ export default function Header() {
                 </ul> */}
               </li>
               <li className="nav-item">
-                <Link className="nav-category" to="/show-all-product/ctgr03">
+                <Link className="nav-category" to="/show-all-product/3">
                   <i className="fas fa-tablet-alt" />
                   <span>Tablet</span>
                 </Link>

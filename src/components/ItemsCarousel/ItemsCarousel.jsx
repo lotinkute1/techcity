@@ -4,12 +4,11 @@ import ItemCard from "../ItemCard/ItemCard";
 import { sliderItemsCrouselSetting } from "../settings/slickSetting";
 import { Link } from "react-router-dom";
 // import GetProductsData from "../../api/GetProductsData";
-export default function ItemsCarousel(props) {
-  //   const itemData = GetProductsData(props.categoryID) || [];
+export default function ItemsCarousel({title, itemData , categoryID}) {
+  //   const itemData = GetProductsData(categoryID) || [];
   //   console.log(itemData);
-  const renderItems = props.itemData.map((item) => {
-    if (item.category_id === props.categoryID) {
-      console.log('hi e')
+  const renderItems = itemData.map((item) => {
+    if (item.category_id == categoryID) {
       return (
         <ItemCard
           key={item.id}
@@ -20,14 +19,23 @@ export default function ItemsCarousel(props) {
         />
       );
     }
+    if(!categoryID){
+      return (<ItemCard
+          key={item.id}
+          itemID={item.id}
+          productName={item.name}
+          productImage={item.img}
+          defaultPrice={item.price}
+        />)
+    }
   });
 
   return (
     <section className="section items">
       <div className="section-title">
-        <h2>{props.title}</h2>
+        <h2>{title}</h2>
         <div>
-          <Link to={`/show-all-product/${props.categoryID}`}>
+          <Link to={categoryID ? `/show-all-product/${categoryID}`: `/show-all-product`}>
             xem tất cả <i className="fas fa-angle-double-right" />
           </Link>
         </div>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { formatDay } from "../../../../constants/formatDay";
 
 FormInput.propTypes = {
   loggedInUser: PropTypes.object,
@@ -10,15 +11,17 @@ function FormInput({ loggedInUser, onSaveBtn = null }) {
   const initialFormData = Object.freeze({
     id:"",
     email: "",
-    join_date: "",
+    created_at: "",
     name: "",
     phone: "",
     user_address: "",
-    user_ava: "",
-    password: "",
-    user_status: 1,
-    user_type: 3,
+    ava: "",
+    status: 1,
+    role: 3,
   });
+
+ 
+  
 
   const [formValue, setFormValue] = useState(initialFormData);
   const [showInputEmail, setShowInputEmail] = useState(false);
@@ -147,7 +150,7 @@ function FormInput({ loggedInUser, onSaveBtn = null }) {
                   onChange={(e) => handleInputChange(e)}
                 />
               ) : (
-                <div className="user-phone">{loggedInUser.phone}</div>
+                <div className="user-phone">{loggedInUser.phone_number}</div>
               )}
 
               {showInputPhone ? (
@@ -186,7 +189,7 @@ function FormInput({ loggedInUser, onSaveBtn = null }) {
                   onChange={(e) => handleInputChange(e)}
                 />
               ) : (
-                <div className="user-phone">{loggedInUser.user_address}</div>
+                <div className="user-phone">{loggedInUser.address}</div>
               )}
 
               {showInputAddress ? (
@@ -213,7 +216,7 @@ function FormInput({ loggedInUser, onSaveBtn = null }) {
             <label>Ngày Tham Gia</label>
           </div>
           <div className="form__item-right">
-            <div className="form__join-date">{loggedInUser?.join_date}</div>
+            <div className="form__join-date">{formatDay(loggedInUser?.created_at)}</div>
           </div>
         </div>
         <div className="form-item">
@@ -233,7 +236,7 @@ function FormInput({ loggedInUser, onSaveBtn = null }) {
           <div>
             <img
               src={
-                loggedInUser?.user_ava ||
+                loggedInUser?.ava ||
                 "https://static.thenounproject.com/png/363640-200.png"
               }
               alt=""
@@ -251,7 +254,7 @@ function FormInput({ loggedInUser, onSaveBtn = null }) {
             placeholder="URL image"
             name="user_ava"
             value={
-              formValue.user_ava ? formValue.user_ava : loggedInUser.user_ava
+              formValue.user_ava ? formValue.user_ava : loggedInUser.ava
             }
             onChange={(e) => handleInputChange(e)}
           />

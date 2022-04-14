@@ -1,11 +1,10 @@
+import { toast, ToastContainer } from "react-toastify";
 import "./App.css";
+import "./assets/js/index";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header2/index";
 import Router from "./features/Router/Router";
-import firebase from "./features/Firebase/Firebase";
-import "./assets/js/index";
 
-import { toast, ToastContainer } from "react-toastify";
 function App() {
 
   const notify = (type = "success", text = "text!") => {

@@ -31,7 +31,7 @@ function ProfileFeature(props) {
                 <img
                   className="profile__user-img"
                   src={
-                    loggedInUser?.user_ava ||
+                    loggedInUser?.ava ||
                     "https://static.thenounproject.com/png/363640-200.png"
                   }
                   alt=""

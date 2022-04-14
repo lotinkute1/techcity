@@ -9,7 +9,7 @@ const orderApi = {
     const url = `/order/getOrder/${id}`;
     return axiosClient.get(url);
   },
-  add(data) {
+  addOrder(data) {
     const url = "/order/addOrder";
     return axiosClient.post(url, data);
   }, 

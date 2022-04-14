@@ -1,10 +1,18 @@
-import React, { useEffect } from "react";
-import GetUsersData from "../../../api/GetUsersData";
+import React, { useEffect, useState } from "react";
+import userApi from "../../../api/userApi";
 
 export default function Comment({ content="", create_date="", starts="", user_id="" }) {
+  const [user,setUser] = useState(null);
 
-  const user = GetUsersData(user_id);
-
+  const getUser = async () => {
+    try {
+      const response = await userApi.getUserById(user_id);
+      const {data}= response;
+      setUser(data);
+    } catch (err) {
+      console.log('Fail to get api user by id')
+    }
+  };
   const renderStarts=() =>{
     const temp =Array.from(Array(starts).keys());
     return temp.map((start, index)=>(
@@ -12,6 +20,11 @@ export default function Comment({ content="", create_date="", starts="", user_id
     ))
 
   }
+
+  useEffect(()=>{
+    if(user_id) getUser();
+  },[])
+
   // change like color
   useEffect(() => {
     const likeBtns = document.querySelectorAll(".btn-like");
@@ -36,12 +49,12 @@ export default function Comment({ content="", create_date="", starts="", user_id
     <div className="comments__comment">
       <div className="comment__ava">
         <img
-          src={user[0]?.user_ava}
+          src={user?.ava}
           alt=""
         />
       </div>
       <div className="comment__main">
-        <div className="comment__name">{user[0]?.name}</div>
+        <div className="comment__name">{user?.name}</div>
         <div className="raiting-starts">
           {renderStarts()}
         </div>
