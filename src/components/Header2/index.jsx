@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import queryString from 'query-string'
 import logo from "../../assets/images/logo-web.png";
 import Login from "../../features/Auth/components/Login";
 import Register from "../../features/Auth/components/Register";
@@ -9,6 +10,7 @@ import HeaderCartPopup from "../../features/HeaderCartPopup/HeaderCartPopup";
 import { typing } from "./searchSlice";
 import "./style.css";
 import StorageKeys from "../../constants";
+
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -26,15 +28,23 @@ export default function Header() {
     dispatch(logout());
   };
 
+  const searchQueryParamRef = useRef({})
+
   const handleInputChange = (e) => {
+    const filter = {
+      filterType: "name",
+      filterVal: e.target.value
+    }
+    searchQueryParamRef.current = queryString.stringify(filter);
     setInputValue(e.target.value);
     const action = typing(e.target.value);
     dispatch(action);
-    // navigate("/show-all-product");
+
+    // navigate("/show-all-product?"+searchQueryParamRef.current);
   };
 
   const handleSearchClick = () => {
-    navigate("/show-all-product");
+    navigate("/show-all-product?"+ searchQueryParamRef.current);
   };
 
   const handleClickOpenRegister = () => {

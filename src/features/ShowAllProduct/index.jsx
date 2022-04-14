@@ -9,7 +9,8 @@ import {
 } from "firebase/database";
 import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import queryString from 'query-string'
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import categoryApi from "../../api/categoryApi";
 import productApi from "../../api/productApi";
 import ItemCard from "../../components/ItemCard/ItemCard";
@@ -21,23 +22,42 @@ ShowAllProduct.propTypes = {};
 function ShowAllProduct(props) {
   const navigate = useNavigate();
   const { id } = useParams();
+  const location = useLocation();
   
   const [categoryList,setCategoryList] = useState([]);
   const [productList, setProductList] = useState([]);
   const [productListByCategoryId,setProductListByCategoryId] = useState([]);
   const [loading, setLoading] = useState(true);
   const searchValue = useSelector((state) => state.search);
-  // const queryParams = useMemo(() => {
-  //   const params = queryString.parse(location.search);
-  //   return {
-  //     ...params,
-  //     _page: params._page || 1,
-  //     _limit: params._limit || 10,
-  //     _sort: params._sort || "salePrice:ASC",
-  //     isPromotion: params.isPromotion === "true",
-  //     isFreeShip: params.isFreeShip === "true",
-  //   };
-  // }, [location.search]);
+
+  const queryParams = useMemo(() => {
+    const params = queryString.parse(location.search);
+    return {
+      ...params,
+    };
+  }, [location.search]);
+  console.log(queryParams);
+
+  // const [filters,setFilters] = useState({
+  //   ...
+  // })
+  
+  const getProductBySearchValue = async () => {
+    try {
+      const { data } = await productApi.getProductFilter(queryString.stringify(queryParams));
+      setProductList(data);
+    } catch (error) {
+      console.log("Failed to search product list: ", error);
+    }
+  };
+
+  useEffect(() => {
+    if (location.search) {
+      getProductBySearchValue();
+    } else {
+      getAllProduct();
+    }
+  }, [location.search]);
 
   const getAllProduct = async () => {
     try {
@@ -68,7 +88,7 @@ function ShowAllProduct(props) {
 
   //  get productList, categoryList
   useEffect(() => {
-    getAllProduct();
+    // getAllProduct();
     getAllCategory();
     setLoading(false);
   }, []);
@@ -77,14 +97,14 @@ function ShowAllProduct(props) {
     navigate(`/show-all-product/${categoryId}`);
   };
 
-  // get data when typing search
-  useEffect(() => {
-    const searchValueLowerCase = searchValue?.toLowerCase();
-    const objSearch = {
-      filterType: 'name',
-      filterVal: searchValueLowerCase
-    };
-  }, [searchValue]);
+  // // get data when typing search
+  // useEffect(() => {
+  //   const searchValueLowerCase = searchValue?.toLowerCase();
+  //   const objSearch = {
+  //     filterType: 'name',
+  //     filterVal: searchValueLowerCase
+  //   };
+  // }, [searchValue]);
 
   const handlePagination = () => {
     const db = getDatabase();

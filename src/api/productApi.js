@@ -26,7 +26,7 @@ const productApi = {
     return axiosClient.delete(url);
   },
   getProductFilter(queryParam) {
-    const url = `/product/productFilter/${queryParam}`;
+    const url = `/product/productFilter?${queryParam}`;
     return axiosClient.get(url)
   }
 };
