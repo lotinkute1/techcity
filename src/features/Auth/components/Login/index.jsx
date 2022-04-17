@@ -2,7 +2,7 @@ import MuiAlert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import { unwrapResult } from '@reduxjs/toolkit';
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../userSlice";
 import LoginForm from "../LoginForm";
@@ -19,6 +19,12 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 function Login({ handleClickOpenRegister = null, handleCloseLogin = null }) {
   const dispatch = useDispatch();
+  useEffect(()=>{
+    document.body.style.overflow = 'hidden';
+    return ()=>{
+      document.body.style.overflow = 'unset';
+    }
+  },[])
 
   const [snakeBar, setSnakeBar] = useState({
     open: false,
