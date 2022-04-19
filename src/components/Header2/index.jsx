@@ -28,7 +28,7 @@ export default function Header() {
     dispatch(logout());
   };
 
-  const searchQueryParamRef = useRef({})
+  const searchQueryParamRef = useRef('')
 
   const handleInputChange = (e) => {
     const filter = {
@@ -44,7 +44,11 @@ export default function Header() {
   };
 
   const handleSearchClick = () => {
-    navigate("/show-all-product?"+ searchQueryParamRef.current);
+    if(searchQueryParamRef.current 
+      && Object.keys(searchQueryParamRef.current).length === 0
+      && Object.getPrototypeOf(searchQueryParamRef.current) === Object.prototype ){
+        navigate("/show-all-product?filterType=name&filterVal=");
+      }else navigate("/show-all-product?"+ searchQueryParamRef.current);
   };
 
   const handleClickOpenRegister = () => {
@@ -253,9 +257,9 @@ export default function Header() {
               </li>
 
               <li className="nav-item">
-                <Link className="nav-category" to="/show-all-product">
+                <Link className="nav-category" to="/show-all-product/4">
                   <i className="far fa-keyboard" />
-                  <span>Phụ kiện</span>
+                  <span>Linh kiện PC</span>
                 </Link>
                 {/* <ul className="subnav">
                   <h4>Hãng sản xuất</h4>
@@ -271,9 +275,9 @@ export default function Header() {
                 </ul> */}
               </li>
               <li className="nav-item">
-                <Link className="nav-category" to="/show-all-product">
+                <Link className="nav-category" to="/show-all-product/5">
                   <i className="fas fa-headphones-alt" />
-                  <span>Âm thanh</span>
+                  <span>Phụ kiện điện thoại</span>
                 </Link>
                 {/* <ul className="subnav">
                   <h4>Hãng sản xuất</h4>
@@ -289,12 +293,12 @@ export default function Header() {
                 </ul> */}
               </li>
 
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link className="nav-category" to="/show-all-product">
                   <i className="fas fa-laptop-house" />
                   <span>Smart home</span>
                 </Link>
-                {/* <ul className="subnav">
+                <ul className="subnav">
                   <h4>Hãng sản xuất</h4>
                   <li>
                     <Link to="/show-all-product">Apple</Link>
@@ -305,8 +309,8 @@ export default function Header() {
                   <li>
                     <Link to="/show-all-product">Xiaomi</Link>
                   </li>
-                </ul> */}
-              </li>
+                </ul>
+              </li> */}
               <li className="nav-item">
                 <Link className="nav-category" to="/show-all-product">
                   <i className="fas fa-bolt" />
