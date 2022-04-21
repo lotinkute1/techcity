@@ -46,6 +46,13 @@ function RegisterForm({
         .string()
         .required("Vui lòng nhập email của bạn")
         .email("Địa chỉ email không hợp lệ"),
+      phoneNumber: yup
+        .string()
+        .required("Vui lòng nhập số điện thoại của bạn")
+        .matches(
+          /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im,
+          "Số điện thoại không hợp lệ"
+        ),
 
       password: yup
         .string()
@@ -66,6 +73,7 @@ function RegisterForm({
     defaultValues: {
       fullName: "",
       email: "",
+      phoneNumber: "",
       password: "",
       retypePassword: "",
     },
@@ -89,7 +97,7 @@ function RegisterForm({
             onSubmit={form.handleSubmit(handleSubmit)}
             className="auth-form__container"
           >
-            <div className="auth-form__header">
+            <div className="auth-form__header" style={{ padding: "12px" }}>
               <div className="auth-form__heading">Đăng kí</div>
               <span
                 onClick={handleClickOpenLogin}
@@ -104,6 +112,13 @@ function RegisterForm({
               </div>
               <div className="auth-form__group">
                 <InputField name="email" label="Email" form={form} />
+              </div>
+              <div className="auth-form__group">
+                <InputField
+                  name="phoneNumber"
+                  label="Số điện thoại"
+                  form={form}
+                />
               </div>
               <div className="auth-form__group">
                 <PasswordField name="password" label="Mật khẩu" form={form} />
@@ -129,7 +144,7 @@ function RegisterForm({
                 </Link>
               </p>
             </div>
-            <div className="auth-form__controls">
+            <div className="auth-form__controls" style={{ marginTop: "10px" }}>
               <button
                 onClick={handleCloseRegister}
                 className="btn-2 btn-2--normal"

@@ -10,6 +10,7 @@ import HeaderCartPopup from "../../features/HeaderCartPopup/HeaderCartPopup";
 import { typing } from "./searchSlice";
 import "./style.css";
 import StorageKeys from "../../constants";
+import LogoutWithGoogle from "../../features/Auth/components/LogoutWithGoogle";
 
 
 export default function Header() {
@@ -157,6 +158,9 @@ export default function Header() {
                         <Link onClick={hanleLogout} to="/#">
                           Đăng xuất
                         </Link>
+                      </li>
+                      <li>
+                        <LogoutWithGoogle />
                       </li>
                     </ul>
                   </div>
