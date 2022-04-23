@@ -1033,9 +1033,13 @@ p {
   display: flex;
   padding: 15px 10px;
 }
-.comments__comment {
+.comments__comment{
   border-bottom: 1px solid #cececea4;
 }
+.comments__comment:nth-last-child(2){
+  border-bottom: unset;
+}
+
 .comment__ava {
   /* display: flex; */
   width: 3%;
@@ -1374,4 +1378,26 @@ p {
 
 .Toastify__toast-container--top-right{
   transform: translateY(150px) !important;
+}
+.comments__area{
+  
+}
+.comments__controls{
+  display:flex;
+  justify-content:space-between;
+  align-items: center;
+}
+.comments__area .comments__input{
+  width: 100%;
+  resize:none;
+  padding:10px;
+  outline: none;
+  font-size: 1rem;
+  border-radius: 5px;
+  border-color: rgba(182, 182, 182, 0.619);
+}
+.comments__area .btn-cmt{
+  width: 150px;
+  display:block;
+  /* margin-left:calc(100% - 150px); */
 }

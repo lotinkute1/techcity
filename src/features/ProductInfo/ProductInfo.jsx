@@ -20,6 +20,7 @@ import { setclearData } from "./productSlice";
 import ItemsCarousel from "../../components/ItemsCarousel/ItemsCarousel";
 import Comment from "./components/Comment";
 import AdsBanner from "../../components/AdsBanner/AdsBanner";
+import RaitingStars from "./components/RaitingStars";
 
 export default function ProductInfo(props) {
   const navigate = useNavigate();
@@ -38,12 +39,15 @@ export default function ProductInfo(props) {
   const [supplier, setSupplier] = useState({
     ava:loadingImage
   });
-  // const [ratings, setRatings] = useState([]);
+
+  const [stars, setStars] = useState(0);
   const [ratingOfProduct, setRatingOfProduct] = useState([]);
   const countRatingOfProduct = useMemo(
     () => ratingOfProduct.length,
     [ratingOfProduct]
   );
+  const [commentVal,setCommentVal] = useState('');
+
   // console.log("countRatingOfProduct: ", countRatingOfProduct);
 
   // const [productList, setProductList] = useState([]);
@@ -124,7 +128,10 @@ export default function ProductInfo(props) {
     getAllProduct();
     getRaitingsByProductID();
   }, [id]);
-
+  const startChangeHandler = (starts) => {
+    // console.log(starts);
+    setStars(starts);
+  }
   // useEffect(() => {
   //   if (product.category_id) getCategory();
   //   if (product.user_id) getSupplier();
@@ -221,6 +228,7 @@ export default function ProductInfo(props) {
   const renderComments = () => {
     if (ratingOfProduct && ratingOfProduct.length > 0) {
       return ratingOfProduct.map((comment, index) => {
+        // console.log(comment.raiting_stars);
         return (
           <Comment
             key={index}
@@ -228,6 +236,7 @@ export default function ProductInfo(props) {
             create_date={comment.created_at}
             starts={comment.raiting_stars}
             user_id={comment.user_id}
+            currentUser = {comment?.currentUser}
           />
         );
       });
@@ -276,7 +285,32 @@ export default function ProductInfo(props) {
   //     }
   //   }
   // };
-  
+  const [currentUser,setCurrentUser]=useState(()=>{return JSON.parse(localStorage.getItem('userLogged')) || null})
+  const commentHandlerBtn =async (e)=>{
+    if(!currentUser){ 
+      toast.error("Vui lòng đăng nhập");
+      return
+    }
+    // console.log(ratingOfProduct );
+    // console.log(commentVal);
+    const currentComment = {
+      comment_content: commentVal,
+      product_id: id,
+      raiting_stars: stars,
+      user_id: currentUser.id,
+      currentUser: currentUser
+    }
+    // console.log(currentComment);
+    try {
+      await ratingApi.addRating(currentComment);
+    }catch(err) {
+      console.log(err);
+    }
+    // console.log(currentComment);
+    setRatingOfProduct(prev=>[...prev,currentComment]);
+    setCommentVal('');
+    setStars(0);
+  }
 
   return (
     <>
@@ -521,6 +555,16 @@ export default function ProductInfo(props) {
         <div className="comments__wrapper">
           {/* comment */}
           {renderComments()}
+          <div className="comments__area">  
+            <textarea className="comments__input" onChange={(e)=>setCommentVal(e.target.value)} name="" id="" cols="30" rows="5" value={commentVal} ></textarea>
+          <div className="comments__controls">
+
+            <button onClick={(e)=>commentHandlerBtn(e)} className="btn btn-cmt">
+              gửi
+            </button>
+            <RaitingStars stars = {stars}  startChange={startChangeHandler}/>
+          </div>
+            </div>
         </div>
         {/* <div className="comments__pagination">
           <ul className="pagination">

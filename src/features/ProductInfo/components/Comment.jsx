@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import userApi from "../../../api/userApi";
 
-export default function Comment({ content="", create_date="", starts="", user_id="" }) {
+export default function Comment({ content="", create_date="", starts=0, user_id="",currentUser={}}) {
   const [user,setUser] = useState(null);
 
   const getUser = async () => {
+    if(!currentUser 
+    && !(Object.keys(currentUser).length === 0)
+    && !(Object.getPrototypeOf(currentUser) === Object.prototype)) return;
     try {
       const response = await userApi.getUserById(user_id);
       const {data}= response;
@@ -14,7 +17,7 @@ export default function Comment({ content="", create_date="", starts="", user_id
     }
   };
   const renderStarts=() =>{
-    const temp =Array.from(Array(starts).keys());
+    const temp =Array.from(Array(Number(starts)).keys());
     return temp.map((start, index)=>(
         <i key={index} className="fas fa-star" />
     ))
@@ -49,12 +52,12 @@ export default function Comment({ content="", create_date="", starts="", user_id
     <div className="comments__comment">
       <div className="comment__ava">
         <img
-          src={user?.ava}
+          src={currentUser.ava||user?.ava}
           alt=""
         />
       </div>
       <div className="comment__main">
-        <div className="comment__name">{user?.name}</div>
+        <div className="comment__name">{currentUser.name||user?.name}</div>
         <div className="raiting-starts">
           {renderStarts()}
         </div>
