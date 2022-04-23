@@ -14,7 +14,7 @@ export default function ItemCard({
 }) {
   // console.log({itemID,productName,})
   
-  // const data= useSelector((state)=>state.itemCard.data);
+  const clearData= useSelector((state)=>state.product.tempVal);
   const dispatch = useDispatch();
   const addToCartHandler = () => {
     if(localStorage.getItem(Storage.USER)){
