@@ -1,27 +1,28 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import InputField from "../../../../components/form-control/InputField";
-import PasswordField from "../../../../components/form-control/PasswordField";
-import { makeStyles } from "@mui/styles";
-import { LinearProgress } from "@mui/material";
-import { Link } from "react-router-dom";
-import LoginWithGoogle from "../LoginWithGoogle";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import InputField from '../../../../components/form-control/InputField';
+import PasswordField from '../../../../components/form-control/PasswordField';
+import { makeStyles } from '@mui/styles';
+import { LinearProgress } from '@mui/material';
+import { Link } from 'react-router-dom';
+import LoginWithGoogle from '../LoginWithGoogle';
 
 LoginForm.propTypes = {
   onSubmit: PropTypes.func,
   handleCloseLogin: PropTypes.func,
   handleClickOpenRegister: PropTypes.func,
+  handleLoginWithGoogle: PropTypes.func,
 };
 
 const useStyles = makeStyles((theme) => ({
   root: {},
 
   progress: {
-    position: "absolute",
-    top: "6px",
+    position: 'absolute',
+    top: '6px',
     left: 0,
     right: 0,
   },
@@ -31,6 +32,7 @@ function LoginForm({
   handleCloseLogin = null,
   handleClickOpenRegister = null,
   onSubmit,
+  handleLoginWithGoogle,
 }) {
   const classes = useStyles();
 
@@ -38,21 +40,21 @@ function LoginForm({
     .object({
       email: yup
         .string()
-        .required("Vui lòng nhập email của bạn")
-        .email("Địa chỉ email không hợp lệ"),
+        .required('Vui lòng nhập email của bạn')
+        .email('Địa chỉ email không hợp lệ'),
 
-      password: yup.string().required("Vui lòng nhập mật khẩu"),
+      password: yup.string().required('Vui lòng nhập mật khẩu'),
     })
     .required();
 
   const form = useForm({
-    mode: "onBlur",
+    mode: 'onBlur',
 
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
-    reValidateMode: "onSubmit",
+    reValidateMode: 'onSubmit',
     resolver: yupResolver(schema),
   });
 
@@ -120,7 +122,7 @@ function LoginForm({
           </form>
 
           <div className="auth-form__socials">
-            <Link
+            {/* <Link
               className="auth-form__socials-google btn-2 btn--size-s btn--with-icon"
               to="#"
             >
@@ -128,8 +130,8 @@ function LoginForm({
               <span className="auth-form__socials--title">
                 Kết nối với Google
               </span>
-            </Link>
-            <LoginWithGoogle />
+            </Link> */}
+            <LoginWithGoogle handleLoginWithGoogle={handleLoginWithGoogle} />
           </div>
         </div>
       </div>

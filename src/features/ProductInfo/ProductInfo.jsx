@@ -21,6 +21,7 @@ import ItemsCarousel from "../../components/ItemsCarousel/ItemsCarousel";
 import Comment from "./components/Comment";
 import AdsBanner from "../../components/AdsBanner/AdsBanner";
 import RaitingStars from "./components/RaitingStars";
+import StorageKeys from "../../constants";
 
 export default function ProductInfo(props) {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ export default function ProductInfo(props) {
   // const [productNumber, setProductNumber] = useState(0);
   const [category, setCategory] = useState(null);
   const [supplier, setSupplier] = useState({
-    ava:loadingImage
+    ava: loadingImage,
   });
 
   const [stars, setStars] = useState(0);
@@ -46,7 +47,7 @@ export default function ProductInfo(props) {
     () => ratingOfProduct.length,
     [ratingOfProduct]
   );
-  const [commentVal,setCommentVal] = useState('');
+  const [commentVal, setCommentVal] = useState("");
 
   // console.log("countRatingOfProduct: ", countRatingOfProduct);
 
@@ -131,7 +132,7 @@ export default function ProductInfo(props) {
   const startChangeHandler = (starts) => {
     // console.log(starts);
     setStars(starts);
-  }
+  };
   // useEffect(() => {
   //   if (product.category_id) getCategory();
   //   if (product.user_id) getSupplier();
@@ -161,7 +162,7 @@ export default function ProductInfo(props) {
     clearData();
     window.scrollTo(0, 0);
   }, [id]);
-  
+
   const clearData = () => {
     setProduct({
       img: loadingImage,
@@ -170,7 +171,7 @@ export default function ProductInfo(props) {
       img3: loadingImage,
       img4: loadingImage,
     });
-    setSupplier({ava:loadingImage});
+    setSupplier({ ava: loadingImage });
     setRatingOfProduct(0);
   };
   // increment and decrement quantily option
@@ -236,7 +237,7 @@ export default function ProductInfo(props) {
             create_date={comment.created_at}
             starts={comment.raiting_stars}
             user_id={comment.user_id}
-            currentUser = {comment?.currentUser}
+            currentUser={comment?.currentUser}
           />
         );
       });
@@ -285,11 +286,22 @@ export default function ProductInfo(props) {
   //     }
   //   }
   // };
-  const [currentUser,setCurrentUser]=useState(()=>{return JSON.parse(localStorage.getItem('userLogged')) || null})
-  const commentHandlerBtn =async (e)=>{
-    if(!currentUser){ 
+  useEffect(() => {
+    const localStorageSetHandler = function (e) {
+      setTimeout(() => {
+        setCurrentUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
+      }, 1000);
+    };
+    document.addEventListener("itemInserted", localStorageSetHandler);
+  }, []);
+
+  const [currentUser, setCurrentUser] = useState(
+    JSON.parse(localStorage.getItem(StorageKeys.USER))
+  );
+  const commentHandlerBtn = async (e) => {
+    if (!currentUser) {
       toast.error("Vui lòng đăng nhập");
-      return
+      return;
     }
     // console.log(ratingOfProduct );
     // console.log(commentVal);
@@ -298,19 +310,19 @@ export default function ProductInfo(props) {
       product_id: id,
       raiting_stars: stars,
       user_id: currentUser.id,
-      currentUser: currentUser
-    }
+      currentUser: currentUser,
+    };
     // console.log(currentComment);
     try {
       await ratingApi.addRating(currentComment);
-    }catch(err) {
+    } catch (err) {
       console.log(err);
     }
     // console.log(currentComment);
-    setRatingOfProduct(prev=>[...prev,currentComment]);
-    setCommentVal('');
+    setRatingOfProduct((prev) => [...prev, currentComment]);
+    setCommentVal("");
     setStars(0);
-  }
+  };
 
   return (
     <>
@@ -555,16 +567,26 @@ export default function ProductInfo(props) {
         <div className="comments__wrapper">
           {/* comment */}
           {renderComments()}
-          <div className="comments__area">  
-            <textarea className="comments__input" onChange={(e)=>setCommentVal(e.target.value)} name="" id="" cols="30" rows="5" value={commentVal} ></textarea>
-          <div className="comments__controls">
-
-            <button onClick={(e)=>commentHandlerBtn(e)} className="btn btn-cmt">
-              gửi
-            </button>
-            <RaitingStars stars = {stars}  startChange={startChangeHandler}/>
-          </div>
+          <div className="comments__area">
+            <textarea
+              className="comments__input"
+              onChange={(e) => setCommentVal(e.target.value)}
+              name=""
+              id=""
+              cols="30"
+              rows="5"
+              value={commentVal}
+            ></textarea>
+            <div className="comments__controls">
+              <button
+                onClick={(e) => commentHandlerBtn(e)}
+                className="btn btn-cmt"
+              >
+                gửi
+              </button>
+              <RaitingStars stars={stars} startChange={startChangeHandler} />
             </div>
+          </div>
         </div>
         {/* <div className="comments__pagination">
           <ul className="pagination">

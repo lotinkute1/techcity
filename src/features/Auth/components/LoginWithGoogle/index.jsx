@@ -1,18 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { GoogleLogin } from "react-google-login";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { GoogleLogin } from 'react-google-login';
+import { clientId } from '../../../../constants/index';
 
-const clientId = "99562578495-ufvv74ik8c3tia6aon38pdepdf533dhc.apps.googleusercontent.com";
+LoginWithGoogle.propTypes = {
+  handleLoginWithGoogle: PropTypes.func,
+};
 
-LoginWithGoogle.propTypes = {};
-
-function LoginWithGoogle(props) {
+function LoginWithGoogle({ handleLoginWithGoogle }) {
   const onSuccess = (res) => {
-    console.log('onSuccess',res);
+    const { tokenId } = res;
+    if (tokenId) handleLoginWithGoogle(tokenId);
   };
-  const onFailure = (res) =>{
-      console.log('onFailure',res);
-  }
+  const onFailure = (res) => {
+    console.log('onFailure', res);
+  };
 
   return (
     <GoogleLogin
@@ -20,7 +22,7 @@ function LoginWithGoogle(props) {
       buttonText="Login with google"
       onSuccess={onSuccess}
       onFailure={onFailure}
-      cookiePolicy={"single_host_origin"}
+      cookiePolicy={'single_host_origin'}
       isSignedIn={true}
     />
   );
