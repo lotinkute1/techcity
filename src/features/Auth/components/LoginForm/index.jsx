@@ -8,6 +8,7 @@ import PasswordField from "../../../../components/form-control/PasswordField";
 import { makeStyles } from "@mui/styles";
 import { LinearProgress } from "@mui/material";
 import { Link } from "react-router-dom";
+import LoginWithGoogle from "../LoginWithGoogle";
 
 LoginForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -128,6 +129,7 @@ function LoginForm({
                 Kết nối với Google
               </span>
             </Link>
+            <LoginWithGoogle />
           </div>
         </div>
       </div>
