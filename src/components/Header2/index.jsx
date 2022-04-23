@@ -1,17 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import queryString from "query-string";
+import React, { useEffect, useRef, useState } from "react";
+import { useGoogleLogout } from "react-google-login";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import queryString from 'query-string'
 import logo from "../../assets/images/logo-web.png";
+import StorageKeys, { clientId } from "../../constants";
 import Login from "../../features/Auth/components/Login";
 import Register from "../../features/Auth/components/Register";
 import { logout } from "../../features/Auth/userSlice";
 import HeaderCartPopup from "../../features/HeaderCartPopup/HeaderCartPopup";
 import { typing } from "./searchSlice";
 import "./style.css";
-import StorageKeys from "../../constants";
-import LogoutWithGoogle from "../../features/Auth/components/LogoutWithGoogle";
-
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -25,17 +24,23 @@ export default function Header() {
   const [inputValue, setInputValue] = useState("");
   const isLoggedIn = !!loggedInUser?.id;
 
+  function refreshPage() {
+    window.location.reload(false);
+  }
+
   const hanleLogout = () => {
     dispatch(logout());
+    signOut();
+    refreshPage();
   };
 
-  const searchQueryParamRef = useRef({})
+  const searchQueryParamRef = useRef({});
 
   const handleInputChange = (e) => {
     const filter = {
       filterType: "name",
-      filterVal: e.target.value
-    }
+      filterVal: e.target.value,
+    };
     searchQueryParamRef.current = queryString.stringify(filter);
     setInputValue(e.target.value);
     const action = typing(e.target.value);
@@ -45,7 +50,7 @@ export default function Header() {
   };
 
   const handleSearchClick = () => {
-    navigate("/show-all-product?"+ searchQueryParamRef.current);
+    navigate("/show-all-product?" + searchQueryParamRef.current);
   };
 
   const handleClickOpenRegister = () => {
@@ -66,6 +71,19 @@ export default function Header() {
   const handleCloseLogin = () => {
     setOpenLogin(false);
   };
+
+  const handleLogoutGoogleSuccess = () => {
+    console.log("Logout successfully !!!");
+  };
+  const handleLogoutGoogleFailure = () => {
+    console.log("Logout failure");
+  };
+  const { signOut } = useGoogleLogout({
+    clientId,
+    onLogoutSuccess: handleLogoutGoogleSuccess,
+    onFailure: handleLogoutGoogleFailure,
+  });
+
   useEffect(() => {
     const localStorageSetHandler = function (e) {
       setTimeout(() => {
@@ -73,7 +91,7 @@ export default function Header() {
       }, 1000);
     };
     document.addEventListener("itemInserted", localStorageSetHandler);
-  },[])
+  }, []);
   return (
     <div id="header" className="">
       <div className="div-wrapper">
@@ -158,9 +176,6 @@ export default function Header() {
                         <Link onClick={hanleLogout} to="/#">
                           Đăng xuất
                         </Link>
-                      </li>
-                      <li>
-                        <LogoutWithGoogle />
                       </li>
                     </ul>
                   </div>

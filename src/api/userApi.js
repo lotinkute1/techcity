@@ -1,3 +1,4 @@
+import axios from "axios";
 import axiosClient from "./axiosClient";
 
 const userApi = {
@@ -20,6 +21,17 @@ const userApi = {
   updateUser(data) {
     const url = `user/updateUser/${data.id}`;
     return axiosClient.put(url, data);
+  },
+
+  // check if the user exists
+  getUserInGoogle(token) {
+    const url = `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${token}`;
+    return axios.get(url);
+  },
+
+  loginWithGoogle(data) {
+    const url = "/googleLogin";
+    return axiosClient.post(url, data);
   },
 };
 
