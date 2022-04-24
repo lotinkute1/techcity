@@ -272,9 +272,9 @@ export default function Header() {
               </li>
 
               <li className="nav-item">
-                <Link className="nav-category" to="/show-all-product">
+                <Link className="nav-category" to="/show-all-product/4">
                   <i className="far fa-keyboard" />
-                  <span>Phụ kiện</span>
+                  <span>Linh Kiện PC</span>
                 </Link>
                 {/* <ul className="subnav">
                   <h4>Hãng sản xuất</h4>
@@ -290,9 +290,9 @@ export default function Header() {
                 </ul> */}
               </li>
               <li className="nav-item">
-                <Link className="nav-category" to="/show-all-product">
+                <Link className="nav-category" to="/show-all-product/5">
                   <i className="fas fa-headphones-alt" />
-                  <span>Âm thanh</span>
+                  <span>Phụ Kiện Điện Thoại</span>
                 </Link>
                 {/* <ul className="subnav">
                   <h4>Hãng sản xuất</h4>
@@ -308,12 +308,12 @@ export default function Header() {
                 </ul> */}
               </li>
 
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link className="nav-category" to="/show-all-product">
                   <i className="fas fa-laptop-house" />
                   <span>Smart home</span>
                 </Link>
-                {/* <ul className="subnav">
+                <ul className="subnav">
                   <h4>Hãng sản xuất</h4>
                   <li>
                     <Link to="/show-all-product">Apple</Link>
@@ -324,8 +324,8 @@ export default function Header() {
                   <li>
                     <Link to="/show-all-product">Xiaomi</Link>
                   </li>
-                </ul> */}
-              </li>
+                </ul>
+              </li> */}
               <li className="nav-item">
                 <Link className="nav-category" to="/show-all-product">
                   <i className="fas fa-bolt" />
