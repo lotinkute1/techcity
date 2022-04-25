@@ -36,7 +36,10 @@ html {
 .btn:focus {
   box-shadow: none;
 }
-
+.btn:disabled{
+  pointer-events: none;
+  opacity: 0.4;
+}
 a {
   text-decoration: none;
   color: inherit;
@@ -1400,4 +1403,20 @@ p {
   width: 150px;
   display:block;
   /* margin-left:calc(100% - 150px); */
+}
+input.input-error{
+  border-color:  red ;
+}
+.css-1k51tf5-MuiTooltip-tooltip{
+  color: red !important;
+  background-color:white !important;
+  border: 1px solid red;
+  box-shadow: 0 4px 4px rgba(128, 128, 128, 0.7);
+  margin-top:10px;
+}
+.css-kudwh-MuiTooltip-arrow{
+  color: red !important;
+}
+.MuiTooltip-popper[data-popper-placement*="bottom"] .css-1k51tf5-MuiTooltip-tooltip{
+  margin-top:10px !important;
 }
