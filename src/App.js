@@ -4,6 +4,8 @@ import "./assets/js/index";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header2/index";
 import Router from "./features/Router/Router";
+import ButtonChatBox from "./features/ChatMessager/ButtonChatBox";
+
 
 function App() {
 
@@ -43,6 +45,7 @@ function App() {
           <Router />
         </div>
       </div>
+      <ButtonChatBox />
       <Footer />
     </div>
   );
