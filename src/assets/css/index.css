@@ -459,7 +459,7 @@ p {
 }
 
 .scroll-top a {
-  color: inherit;
+  color: #fed700 !important;
 }
 
 .scroll-call {
@@ -958,6 +958,7 @@ p {
 
 .shop-info__info {
   margin-left: 20px;
+  margin-right: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;

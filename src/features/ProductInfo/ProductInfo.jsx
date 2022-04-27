@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import NumberFormat from "react-number-format";
 import { useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import { toast, ToastContainer } from "react-toastify";
 import GetCategoriesData from "../../api/GetCategoriesData";
@@ -485,9 +485,9 @@ export default function ProductInfo(props) {
       <section className="section shop-info">
         <div className="shop-info__left-content">
           <div className="shop-info__ava">
-            <a href="/#">
+            <Link to={'/supplier/'+supplier.id}>
               <img src={supplier?.ava} alt="" />
-            </a>
+            </Link>
           </div>
           <div className="shop-info__info">
             <div className="shop-info__name">{supplier?.name}</div>
@@ -498,6 +498,7 @@ export default function ProductInfo(props) {
                 className="btn btn-contract"
               />
               <input
+                onClick={() =>navigate('/supplier/'+supplier.id)}
                 type="button"
                 defaultValue="Xem shope"
                 className="btn btn-contract"
