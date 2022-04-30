@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { getDatabase, ref, set } from 'firebase/database';
 import NumberFormat from 'react-number-format';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +15,11 @@ export default function Payment() {
   const [userLogin, setUserLogin] = useState(() => {
     return JSON.parse(localStorage.getItem(StorageKeys.USER));
   });
+
+  const [isPaypalPayment, setIsPaypalPayment] = useState(false);
+
+  // form paypal ref
+  const formRef = useRef(null);
 
   const [cartData, setCartData] = useState(() => {
     if (userLogin) {
@@ -96,8 +101,31 @@ export default function Payment() {
 
   const addOrderHandler = async (order) => {
     try {
-      const response = await orderApi.addOrder(order);
-      const { data } = response;
+      if (!isPaypalPayment) {
+        toast.success('thanh toán thành công, hãy kiểm tra lịch sử mua hàng');
+       
+         navigate('/', { replace: true });
+        const response = await orderApi.addOrder(order);
+        const { data } = response;
+      } else {
+        for (let [key, value] of Object.entries(order)) {
+          let input = document.createElement('input');
+          input.setAttribute('type', 'hidden');
+          input.setAttribute('name', key);
+          if (key === 'order_detail') {
+            input.setAttribute('value', JSON.stringify(value));
+          } else input.setAttribute('value', value);
+          formRef.current.append(input);
+        }
+        let emailInput = document.createElement('input');
+        emailInput.setAttribute('type', 'hidden');
+        emailInput.setAttribute('name', "user");
+         emailInput.setAttribute('value', JSON.stringify( {
+         ...userLogin
+        }));
+        formRef.current.append(emailInput);
+        formRef.current.submit();
+      }
     } catch (error) {
       console.log('Fail to get api order');
     }
@@ -108,9 +136,7 @@ export default function Payment() {
       // add order to db
       addOrderHandler(order);
       // --------------------------------------
-      toast.success('thanh toán thành công, hãy kiểm tra lịch sử mua hàng');
       localStorage.removeItem('cartItems' + userLogin.id);
-      navigate('/', { replace: true });
     } else {
       toast.error('Vui lòng đăng nhập');
     }
@@ -220,7 +246,9 @@ export default function Payment() {
                     <label htmlFor="receiver_name">Họ tên</label>
                     <Tooltip
                       title={
-                        order.recipient_name ? '' : 'vui lòng nhập tên người nhận'
+                        order.recipient_name
+                          ? ''
+                          : 'vui lòng nhập tên người nhận'
                       }
                       arrow
                     >
@@ -306,22 +334,48 @@ export default function Payment() {
                       name="httt_ma"
                       type="radio"
                       className="custom-control-input"
-                      required
-                      defaultValue={1}
-                      defaultChecked
-                      readOnly
+                      checked={!isPaypalPayment}
+                      onClick={() => setIsPaypalPayment(!isPaypalPayment)}
                     />
                     <label className="custom-control-label" htmlFor="httt-1">
                       Thanh toán khi nhận hàng
                     </label>
                   </div>
                 </div>
+
+                <div className="d-block my-3">
+                  <div className="custom-control custom-radio">
+                    <input
+                      id="httt-1"
+                      name="httt_ma"
+                      type="radio"
+                      className="custom-control-input"
+                      checked={isPaypalPayment}
+                      onClick={() => setIsPaypalPayment(!isPaypalPayment)}
+                    />
+                    <label className="custom-control-label" htmlFor="httt-1">
+                      Paypal
+                    </label>
+                  </div>
+                </div>
+
                 <hr className="mb-4" />
+                <form
+                  ref={formRef}
+                  action="http://127.0.0.1:8000/api/paypal"
+                  method="post"
+                ></form>
                 <button
                   className="btn btn-lg btn-block"
                   type="button"
                   name="btnDatHang"
-                  disabled = {(order.recipient_phone_number&&order.recipient_address&&order.recipient_name)?false:true}
+                  disabled={
+                    order.recipient_phone_number &&
+                    order.recipient_address &&
+                    order.recipient_name
+                      ? false
+                      : true
+                  }
                   onClick={(e) => paymentBtnHandler(e)}
                 >
                   Đặt hàng
