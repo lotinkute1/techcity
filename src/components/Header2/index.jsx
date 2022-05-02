@@ -131,13 +131,13 @@ export default function Header() {
                       </div>
                     </Link>
                     <ul className="subnav">
-                      {loggedInUser.role === 1 ? (
+                      {loggedInUser.role === 0 ? (
                         <li>
                           <a href={`http://localhost:3001/${loggedInUser.id}`}>
                             Techcity_admin
                           </a>
                         </li>
-                      ) : loggedInUser.role === 2 ? (
+                      ) : loggedInUser.role === 1 ? (
                         <li>
                           <a href={`http://localhost:3001/${loggedInUser.id}`}>
                             Techcity_admin
