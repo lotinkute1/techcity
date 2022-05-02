@@ -1,16 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import ButtonChatBox from "./ButtonChatBox";
+import ChatBox from "./ChatBox";
 
-ChatMessager.propTypes = {
-    
-};
+ChatMessager.propTypes = {};
 
 function ChatMessager(props) {
-    return (
-        <div>
-            
-        </div>
-    );
+  const [isShowChatBox, setIsShowChatBox] = useState(false);
+  const handleCollapseChatBox = () => {
+    setIsShowChatBox(false);
+  };
+  const handleClickChatButton = ()=>{
+    setIsShowChatBox(true);
+  }
+  return (
+    <>
+      {!isShowChatBox && <ButtonChatBox handleClickChatButton={handleClickChatButton}/>}
+      {isShowChatBox && (
+        <ChatBox handleCollapseChatBox={handleCollapseChatBox} />
+      )}
+    </>
+  );
 }
 
 export default ChatMessager;

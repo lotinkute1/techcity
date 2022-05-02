@@ -1,0 +1,218 @@
+.chatbox__view {
+    position: fixed;
+    bottom: 0;
+    right: 10px;
+    border: 0;
+    width: 506px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 8px #7a6767;
+    z-index: 9999;
+}
+
+.chatbox__window {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+}
+
+.chatbox__left {
+    border-right: 1px solid #eff2f4;
+    width: 283px;
+    flex-shrink: 0;
+}
+
+.chatbox__vendor-name-wrap {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding-left: 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #eff2f4;
+    position: relative;
+}
+
+.chatbox__vendor-name {
+    color: #333;
+    font-size: 15px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 248px;
+    margin: 0;
+    font-weight: 600;
+}
+
+.chatbox__message-box {
+    height: 242px;
+    width: 100%;
+    overflow-y: auto;
+    border-bottom: 1px solid #eff2f4;
+}
+
+.chatbox__message-box::-webkit-scrollbar {
+    width: 8px;
+    transition: all 0.25s ease;
+}
+
+.chatbox__message-box::-webkit-scrollbar-track {
+    background-color: #e4e4e4;
+    border-radius: 100px;
+}
+
+.chatbox__message-box::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+    background-color: rgb(189, 186, 186);
+    box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
+}
+
+.chatbox__message-box .message__suppiler,
+.chatbox__message-box .message__current-user {
+    padding: 8px;
+    width: fit-content;
+    max-width: 240px;
+    margin: 8px 0 8px 8px;
+    border-radius: 8px;
+}
+
+.chatbox__message-box .message__suppiler {
+    background-color: #ccc;
+}
+
+.chatbox__message-box .message__current-user {
+    background-color: #d7e4ff;
+    margin-left: auto;
+}
+
+.chatbox__form-control {
+    display: flex;
+    align-items: center;
+}
+
+.chatbox__input-message {
+    border: 0px;
+    outline: none;
+    word-break: break-word;
+    padding: 8px;
+    width: 100%;
+    overflow-y: auto;
+    margin-bottom: 8px;
+
+    resize: none;
+    max-height: 120px;
+    height: 40px;
+}
+
+.chatbox__conversations {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 314px;
+}
+
+.chatbox__conversations::-webkit-scrollbar {
+    width: 8px;
+    transition: all 0.25s ease;
+}
+
+.chatbox__conversations::-webkit-scrollbar-track {
+    background-color: #e4e4e4;
+    border-radius: 100px;
+}
+
+.chatbox__conversations::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+    background-color: rgb(189, 186, 186);
+    box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
+}
+
+.chatbox__conversation {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    cursor: pointer;
+    width: 215px;
+}
+
+.chatbox__conversation:hover,
+.chatbox__choice-list li:hover {
+    background-color: #f7f8fb;
+}
+
+.chatbox__conversation-logo {
+    --square-size: 32px;
+    width: var(--square-size);
+    height: var(--square-size);
+    flex-shrink: 0;
+}
+
+.chatbox__conversation-content {
+    padding-left: 4px;
+    flex: 1;
+    width: 80%;
+}
+
+.chatbox__conversation-name,
+.chatbox__conversation-lastest {
+    max-width: 80%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-right: 4px;
+}
+
+.chatbox__conversation-name {
+    color: #333;
+    font-size: 13px;
+    line-height: 15px;
+    font-weight: 700;
+}
+
+.chatbox__conversation-lastest {
+    color: #888;
+    font-size: 12px;
+    line-height: 14px;
+}
+
+.chatbox__welcome p {
+    text-align: center;
+}
+
+.chatbox__popup {
+    position: absolute;
+    top: 100%;
+    width: 200px;
+    background-color: #fff;
+    box-shadow: 0 4px 20px 0 rgb(0 0 0 / 44%);
+    position: 1001;
+    border-radius: 4px;
+}
+
+.chatbox__popup-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 8px;
+}
+
+.chatbox__popup-name {
+    font-size: 15px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.chatbox__choice-list {
+    margin-bottom: 0;
+    display: flex;
+}
+
+.chatbox__choice-list li {
+    width: 100%;
+    text-align: center;
+    padding: 8px 0 8px 0;
+    margin: 0 8px 0 8px;
+    border-top: 1px solid #f0f0f0;
+}
