@@ -4,6 +4,7 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import userApi from '../../../../api/userApi';
 import { login, loginWithGoogle } from '../../userSlice';
 import LoginForm from '../LoginForm';
@@ -62,6 +63,10 @@ function Login({ handleClickOpenRegister = null, handleCloseLogin = null }) {
         severity: 'success',
         message: 'Đăng nhập thành công',
       });
+      setTimeout(()=>{
+        console.log("Fail");
+        window.location.reload()
+      },1000)
     } catch (error) {
       setSnakeBar({
         ...snakeBar,
@@ -71,7 +76,7 @@ function Login({ handleClickOpenRegister = null, handleCloseLogin = null }) {
       });
     }
   };
-
+  const navigate = useNavigate();
   const handleLoginWithGoogle = async (tokenId) => {
     try {
       const res = await userApi.getUserInGoogle(tokenId);
@@ -95,6 +100,9 @@ function Login({ handleClickOpenRegister = null, handleCloseLogin = null }) {
         severity: 'success',
         message: 'Đăng nhập thành công',
       });
+      setTimeout(()=>{
+        navigate('/')
+      },1000)
     } catch (error) {
       setSnakeBar({
         ...snakeBar,

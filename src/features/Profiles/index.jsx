@@ -38,7 +38,7 @@ function ProfileFeature(props) {
                 />
                 <div className="profile__user-description">
                   <div className="profile__user-name">{loggedInUser?.name}</div>
-                  <div className="profile__user-edit">Sửa hồ sơ</div>
+                  {/* <div className="profile__user-edit">Sửa hồ sơ</div> */}
                 </div>
               </div>
               <ul className="profile__sub-nav-list">
