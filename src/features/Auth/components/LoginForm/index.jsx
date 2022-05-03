@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -34,6 +34,8 @@ function LoginForm({
   onSubmit,
   handleLoginWithGoogle,
 }) {
+  const buttonLoginRef = useRef(null);
+
   const classes = useStyles();
 
   const schema = yup
@@ -63,6 +65,14 @@ function LoginForm({
   };
   const { isSubmitting } = form.formState;
 
+  // trigger button login when press enter
+  const checkKeyDown = (e) => {
+    if (e.code === 'Enter') {
+      e.preventDefault();
+      buttonLoginRef.current.click();
+    }
+  };
+
   return (
     <div className="modal">
       <div onClick={handleCloseLogin} className="modal__overlay"></div>
@@ -71,6 +81,7 @@ function LoginForm({
           {isSubmitting && <LinearProgress className={classes.progress} />}
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
+            onKeyDown={(e) => checkKeyDown(e)}
             className="auth-form__container"
           >
             <div className="auth-form__header">
@@ -115,6 +126,7 @@ function LoginForm({
                 disabled={isSubmitting}
                 type="submit"
                 className="btn-2 btn-2--primary"
+                ref={buttonLoginRef}
               >
                 ĐĂNG NHẬP
               </button>

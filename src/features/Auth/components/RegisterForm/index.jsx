@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { makeStyles } from "@mui/styles";
 import { LinearProgress } from "@mui/material";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import InputField from "../../../../components/form-control/InputField";
@@ -32,6 +32,8 @@ function RegisterForm({
   handleCloseRegister = null,
   handleClickOpenLogin = null,
 }) {
+  const buttonRegisterRef = useRef(null);
+
   const classes = useStyles();
   const schema = yup
     .object({
@@ -85,6 +87,13 @@ function RegisterForm({
       await onSubmit(values);
     }
   };
+  // trigger button register when press enter
+  const checkKeyDown = (e) => {
+    if (e.code === 'Enter') {
+      e.preventDefault();
+      buttonRegisterRef.current.click();
+    }
+  };
   const { isSubmitting } = form.formState;
 
   return (
@@ -96,6 +105,7 @@ function RegisterForm({
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
             className="auth-form__container"
+            onKeyDown={(e) => checkKeyDown(e)}
           >
             <div className="auth-form__header" style={{ padding: "12px" }}>
               <div className="auth-form__heading">Đăng kí</div>
@@ -156,6 +166,7 @@ function RegisterForm({
                 disabled={isSubmitting}
                 // onClick={handleCloseRegister}
                 className="btn-2 btn-2--primary"
+                ref={buttonRegisterRef}
               >
                 ĐĂNG KÍ
               </button>
