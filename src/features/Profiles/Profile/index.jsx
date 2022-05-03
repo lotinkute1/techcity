@@ -20,7 +20,6 @@ function Profile(props) {
     const localStorageSetHandler = function (e) {
       setTimeout(() => {
         //code của m sẽ ở trong cái setTimeout này
-
         //thường thì m sẽ setState lại nếu local thay đổi như dưới
         setLoggedInUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
       }, 1000);
@@ -40,32 +39,38 @@ function Profile(props) {
     });
   const handleSaveBtn = async (formValue) => {
     try {
-      const configFormValue = {
+      // const configFormValue = {
+      //   id: loggedInUser.id,
+      //   email: formValue.email !== "" ? formValue.email : loggedInUser.email,
+      //   name: formValue.name !== "" ? formValue.name : loggedInUser.name,
+      //   phone_number:
+      //     formValue.phone !== "" ? formValue.phone : loggedInUser.phone_number,
+      //   address:
+      //     formValue.user_address !== ""
+      //       ? formValue.user_address
+      //       : loggedInUser.address,
+      //   ava: formValue.user_ava  ? formValue.user_ava : loggedInUser.ava,
+      //   status: loggedInUser.status,
+      //   role: loggedInUser.status,
+      //   email_verified_at: loggedInUser.email_verified_at,
+      // };
+      let configFormValue = {
         id: loggedInUser.id,
-        email: formValue.email !== "" ? formValue.email : loggedInUser.email,
-        name: formValue.name !== "" ? formValue.name : loggedInUser.name,
-        phone_number:
-          formValue.phone !== "" ? formValue.phone : loggedInUser.phone_number,
-        address:
-          formValue.user_address !== ""
-            ? formValue.user_address
-            : loggedInUser.address,
-        ava: formValue.user_ava  ? formValue.user_ava : loggedInUser.ava,
         status: loggedInUser.status,
         role: loggedInUser.status,
-        email_verified_at: loggedInUser.email_verified_at,
-        created_at: loggedInUser.created_at,
-        updated_at: Date.now(),
-      };
+        ...formValue
+      }
       const response = await userApi.updateUser(configFormValue);
+      configFormValue = {...JSON.parse(localStorage.getItem('userLogged')),...configFormValue}
       localStorage.setItem(StorageKeys.USER, JSON.stringify(configFormValue));
       notify("success", "Cập nhật thông tin thành công !");
-    } catch (error) {
-      notify("error", "Cập nhật thông tin không thành công !");
+    } catch (e) {
+      // console.log(Object.values( e.response.data.message).join("\n"));
+      notify("error", Object.values( e.response.data.message).join('\n'));
       
     }
   };
-
+  
   return (
     <div className="grid__column-10">
       <div className="profile__content profile__content-active">
