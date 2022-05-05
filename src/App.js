@@ -3,10 +3,10 @@ import "./App.css";
 import "./assets/js/index";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header2/index";
+import ChatMessager from "./features/ChatMessager";
 import Router from "./features/Router/Router";
 
 function App() {
-
   const notify = (type = "success", text = "text!") => {
     toast[type](text);
   };
@@ -43,6 +43,7 @@ function App() {
           <Router />
         </div>
       </div>
+      <ChatMessager />
       <Footer />
     </div>
   );
