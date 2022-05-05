@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { makeStyles } from "@mui/styles";
 import { LinearProgress } from "@mui/material";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import InputField from "../../../../components/form-control/InputField";
@@ -32,6 +32,8 @@ function RegisterForm({
   handleCloseRegister = null,
   handleClickOpenLogin = null,
 }) {
+  const buttonRegisterRef = useRef(null);
+
   const classes = useStyles();
   const schema = yup
     .object({
@@ -46,6 +48,13 @@ function RegisterForm({
         .string()
         .required("Vui lòng nhập email của bạn")
         .email("Địa chỉ email không hợp lệ"),
+      phoneNumber: yup
+        .string()
+        .required("Vui lòng nhập số điện thoại của bạn")
+        .matches(
+          /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im,
+          "Số điện thoại không hợp lệ"
+        ),
 
       password: yup
         .string()
@@ -66,6 +75,7 @@ function RegisterForm({
     defaultValues: {
       fullName: "",
       email: "",
+      phoneNumber: "",
       password: "",
       retypePassword: "",
     },
@@ -75,6 +85,13 @@ function RegisterForm({
   const handleSubmit = async (values) => {
     if (onSubmit) {
       await onSubmit(values);
+    }
+  };
+  // trigger button register when press enter
+  const checkKeyDown = (e) => {
+    if (e.code === 'Enter') {
+      e.preventDefault();
+      buttonRegisterRef.current.click();
     }
   };
   const { isSubmitting } = form.formState;
@@ -88,8 +105,9 @@ function RegisterForm({
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
             className="auth-form__container"
+            onKeyDown={(e) => checkKeyDown(e)}
           >
-            <div className="auth-form__header">
+            <div className="auth-form__header" style={{ padding: "12px" }}>
               <div className="auth-form__heading">Đăng kí</div>
               <span
                 onClick={handleClickOpenLogin}
@@ -104,6 +122,13 @@ function RegisterForm({
               </div>
               <div className="auth-form__group">
                 <InputField name="email" label="Email" form={form} />
+              </div>
+              <div className="auth-form__group">
+                <InputField
+                  name="phoneNumber"
+                  label="Số điện thoại"
+                  form={form}
+                />
               </div>
               <div className="auth-form__group">
                 <PasswordField name="password" label="Mật khẩu" form={form} />
@@ -129,7 +154,7 @@ function RegisterForm({
                 </Link>
               </p>
             </div>
-            <div className="auth-form__controls">
+            <div className="auth-form__controls" style={{ marginTop: "10px" }}>
               <button
                 onClick={handleCloseRegister}
                 className="btn-2 btn-2--normal"
@@ -141,6 +166,7 @@ function RegisterForm({
                 disabled={isSubmitting}
                 // onClick={handleCloseRegister}
                 className="btn-2 btn-2--primary"
+                ref={buttonRegisterRef}
               >
                 ĐĂNG KÍ
               </button>

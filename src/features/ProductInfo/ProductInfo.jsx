@@ -1,12 +1,14 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import NumberFormat from "react-number-format";
 import { useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import { toast, ToastContainer } from "react-toastify";
 import GetCategoriesData from "../../api/GetCategoriesData";
 import GetRaitingsData from "../../api/GetRaitingsData";
 import GetUsersData from "../../api/GetUsersData";
+import adsImage from "../../assets/images/ads/ad1.jpg";
+
 import productApi from "../../api/productApi";
 import userApi from "../../api/userApi";
 import ratingApi from "../../api/ratingApi";
@@ -14,10 +16,14 @@ import categoryApi from "../../api/categoryApi";
 import loadingImage from "../../assets/images/loading/Spinner-1s-200px.gif";
 import "../../assets/js/incre_decre_option.js";
 import { addToCart } from "../../components/ItemCard/itemsCardSlice";
+import { setclearData } from "./productSlice";
 import ItemsCarousel from "../../components/ItemsCarousel/ItemsCarousel";
 import Comment from "./components/Comment";
+import AdsBanner from "../../components/AdsBanner/AdsBanner";
+import RaitingStars from "./components/RaitingStars";
+import StorageKeys from "../../constants";
 
-export default function ProductInfo() {
+export default function ProductInfo(props) {
   const navigate = useNavigate();
   // nhan id san pham tu url
   const { id } = useParams();
@@ -29,16 +35,21 @@ export default function ProductInfo() {
     img3: loadingImage,
     img4: loadingImage,
   });
-  const [productNumber, setProductNumber] = useState(0);
+  // const [productNumber, setProductNumber] = useState(0);
   const [category, setCategory] = useState(null);
-  const [supplier, setSupplier] = useState(null);
-  const [ratings, setRatings] = useState([]);
+  const [supplier, setSupplier] = useState({
+    ava: loadingImage,
+  });
+
+  const [stars, setStars] = useState(0);
   const [ratingOfProduct, setRatingOfProduct] = useState([]);
   const countRatingOfProduct = useMemo(
     () => ratingOfProduct.length,
     [ratingOfProduct]
   );
-  console.log("countRatingOfProduct: ", countRatingOfProduct);
+  const [commentVal, setCommentVal] = useState("");
+
+  // console.log("countRatingOfProduct: ", countRatingOfProduct);
 
   // const [productList, setProductList] = useState([]);
   // const [product,setProduct]= useState(null);
@@ -61,79 +72,81 @@ export default function ProductInfo() {
   //    const productSelected = productList.find((product)=> product.id === id);
   //    setProduct(productSelected)
   // },[id])
+  // console.log(category);
   const getAllProduct = async () => {
     try {
       const response = await productApi.getAll();
       const { data } = response;
+      let currentPorduct = data.find((product) => product.id == id);
       setProductList(data);
+      setProduct(currentPorduct);
+      getCategory(currentPorduct.category_id);
+      getSupplier(currentPorduct.user_id);
     } catch (error) {
       console.log("Fail to get all product");
+      console.log(error);
     }
   };
-  const getProduct = async () => {
+  // const getProduct = async () => {
+  //   try {
+  //     const response = await productApi.getById(id);
+  //     const { data } = response;
+  //     setProduct(data);
+  //   } catch (err) {
+  //     console.log("Fail to get product by id");
+  //   }
+  // };
+  const getCategory = async (id) => {
     try {
-      const response = await productApi.getById(id);
+      const response = await categoryApi.getById(id);
       const { data } = response;
-      setProduct(data);
+      setCategory(data);
     } catch (err) {
       console.log("Fail to get product by id");
     }
   };
-  const getCategory = async () => {
-    if(product){
-      try {
-        const response = await categoryApi.getById(product.category_id);
-        const { data } = response;
-        setCategory(data);
-      } catch (err) {
-        console.log("Fail to get product by id");
-      }
-    }
-  };
-  const getSupplier = async () => {
+  const getSupplier = async (id) => {
     try {
-      const response = await userApi.getUserById(product.user_id);
-      const {data}= response;
+      const response = await userApi.getUserById(id);
+      const { data } = response;
       setSupplier(data);
     } catch (err) {
-      console.log('Fail to get api user by id')
+      console.log("Fail to get api user by id");
     }
   };
-  const getAllRating = async () => {
+  const getRaitingsByProductID = async () => {
     try {
-      const response = await ratingApi.getRatings();
-      const {data}= response;
-      setRatings(data);
+      const response = await ratingApi.getRatingById(id);
+      const { data } = response;
+      setRatingOfProduct(data);
     } catch (err) {
-      console.log('Fail to get api ratings by id')
+      console.log("Fail to get api ratings by id");
     }
   };
-  
-  const getRatingsByProductId = ()=>{
-    const temp = ratings.filter((rating)=> rating.product_id === product.id);
-    setRatingOfProduct(temp);
-  }
 
   useEffect(() => {
-    getProduct();
+    // getProduct();
     getAllProduct();
-    getAllRating();
-  }, []);
+    getRaitingsByProductID();
+  }, [id]);
+  const startChangeHandler = (starts) => {
+    // console.log(starts);
+    setStars(starts);
+  };
+  // useEffect(() => {
+  //   if (product.category_id) getCategory();
+  //   if (product.user_id) getSupplier();
+  // }, [product]);
 
-  useEffect(() => {
-    if (product.category_id) getCategory();
-    if (product.user_id) getSupplier();
-  }, [product]);
-
-  useEffect(()=>{
-    if(product.id && ratings && ratings.length > 0){
-      getRatingsByProductId();
-    }
-  },[product, ratings])
-
+  // useEffect(()=>{
+  //   if(product.id && ratings && ratings.length > 0){
+  //     getRatingsByProductId();
+  //   }
+  // },[product, ratings])
 
   // const { category_name } = category[0] ?? { category_name: "" };
 
+  // product images
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
 
@@ -144,66 +157,79 @@ export default function ProductInfo() {
     setNav2(tempRef2.current);
   }, []);
 
-  // scroll top after render
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-  // });
+  // scroll top and delete data after render
+  useEffect(() => {
+    clearData();
+    window.scrollTo(0, 0);
+  }, [id]);
 
+  const clearData = () => {
+    setProduct({
+      img: loadingImage,
+      img1: loadingImage,
+      img2: loadingImage,
+      img3: loadingImage,
+      img4: loadingImage,
+    });
+    setSupplier({ ava: loadingImage });
+    setRatingOfProduct(0);
+  };
   // increment and decrement quantily option
-  useEffect(() => {
-    const increQuantilyBtnOp = document.querySelector(
-      ".quantily-wrapper .btn-option:last-child"
-    );
-    const decreQuantilyBtnOp = document.querySelector(
-      ".quantily-wrapper .btn-option:first-child"
-    );
-    const quantilyInputOp = document.querySelector(".quantily-options__number");
-    if (increQuantilyBtnOp && decreQuantilyBtnOp && quantilyInputOp) {
-      increQuantilyBtnOp.onclick = () => {
-        let numberOption = Number(quantilyInputOp.value);
-        if (numberOption < 999) {
-          numberOption += 1;
-          quantilyInputOp.value = numberOption;
-        }
-      };
-      decreQuantilyBtnOp.onclick = () => {
-        let numberOption = Number(quantilyInputOp.value);
-        if (numberOption > 0 && numberOption <= 999) {
-          numberOption -= 1;
-          quantilyInputOp.value = numberOption;
-        }
-      };
-      quantilyInputOp.oninput = (e) => {
-        if (Number.isInteger(Number(e.target.value))) {
-          console.log(Number(e.target.value));
-          if (Number(e.target.value) < 999 && Number(e.target.value) >= 0) {
-            quantilyInputOp.value = Number(e.target.value);
-          } else quantilyInputOp.value = 999;
-        } else quantilyInputOp.value = 0;
-        // if(e.target.value>=999 || e.target.value<0){
-        //     quantilyInputOp.value=0;
-        // }else quantilyInputOp.value=e.target.value;
-      };
-    }
-  }, []);
+  // useEffect(() => {
+  //   const increQuantilyBtnOp = document.querySelector(
+  //     ".quantily-wrapper .btn-option:last-child"
+  //   );
+  //   const decreQuantilyBtnOp = document.querySelector(
+  //     ".quantily-wrapper .btn-option:first-child"
+  //   );
+  //   const quantilyInputOp = document.querySelector(".quantily-options__number");
+  //   if (increQuantilyBtnOp && decreQuantilyBtnOp && quantilyInputOp) {
+  //     increQuantilyBtnOp.onclick = () => {
+  //       let numberOption = Number(quantilyInputOp.value);
+  //       if (numberOption < 999) {
+  //         numberOption += 1;
+  //         quantilyInputOp.value = numberOption;
+  //       }
+  //     };
+  //     decreQuantilyBtnOp.onclick = () => {
+  //       let numberOption = Number(quantilyInputOp.value);
+  //       if (numberOption > 0 && numberOption <= 999) {
+  //         numberOption -= 1;
+  //         quantilyInputOp.value = numberOption;
+  //       }
+  //     };
+  //     quantilyInputOp.oninput = (e) => {
+  //       if (Number.isInteger(Number(e.target.value))) {
+  //         console.log(Number(e.target.value));
+  //         if (Number(e.target.value) < 999 && Number(e.target.value) >= 0) {
+  //           quantilyInputOp.value = Number(e.target.value);
+  //         } else quantilyInputOp.value = 999;
+  //       } else quantilyInputOp.value = 0;
+  //       // if(e.target.value>=999 || e.target.value<0){
+  //       //     quantilyInputOp.value=0;
+  //       // }else quantilyInputOp.value=e.target.value;
+  //     };
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    // pagination active button
-    const cmtPaginationBtn = document.querySelectorAll(".pagination li");
-    for (let i = 0; i < cmtPaginationBtn.length; i++) {
-      cmtPaginationBtn[i].onclick = (e) => {
-        e.preventDefault();
-        for (let j = 0; j < cmtPaginationBtn.length; j++) {
-          if (cmtPaginationBtn[j])
-            cmtPaginationBtn[j].classList.remove("active");
-        }
-        e.target.closest("li").classList.add("active");
-      };
-    }
-  }, []);
+  // pagination active button
+  // useEffect(() => {
+  //   const cmtPaginationBtn = document.querySelectorAll(".pagination li");
+  //   for (let i = 0; i < cmtPaginationBtn.length; i++) {
+  //     cmtPaginationBtn[i].onclick = (e) => {
+  //       e.preventDefault();
+  //       for (let j = 0; j < cmtPaginationBtn.length; j++) {
+  //         if (cmtPaginationBtn[j])
+  //           cmtPaginationBtn[j].classList.remove("active");
+  //       }
+  //       e.target.closest("li").classList.add("active");
+  //     };
+  //   }
+  // }, []);
   const renderComments = () => {
     if (ratingOfProduct && ratingOfProduct.length > 0) {
       return ratingOfProduct.map((comment, index) => {
+        // console.log(comment.raiting_stars);
         return (
           <Comment
             key={index}
@@ -211,12 +237,14 @@ export default function ProductInfo() {
             create_date={comment.created_at}
             starts={comment.raiting_stars}
             user_id={comment.user_id}
+            currentUser={comment?.currentUser}
           />
         );
       });
     }
   };
   const dispatch = useDispatch();
+
   const addToCartHandler = () => {
     if (localStorage.getItem("userLogged")) {
       dispatch(
@@ -247,16 +275,53 @@ export default function ProductInfo() {
       toast.error("Vui lòng đăng nhập");
     }
   };
-  const incre_incre = (e) => {
-    if (e.target.name == "incre") {
-      if (productNumber < 999) {
-        setProductNumber((x) => x + 1);
-      }
-    } else {
-      if (productNumber > 0) {
-        setProductNumber((x) => x - 1);
-      }
+  // const incre_incre = (e) => {
+  //   if (e.target.name == "incre") {
+  //     if (productNumber < 999) {
+  //       setProductNumber((x) => x + 1);
+  //     }
+  //   } else {
+  //     if (productNumber > 0) {
+  //       setProductNumber((x) => x - 1);
+  //     }
+  //   }
+  // };
+  useEffect(() => {
+    const localStorageSetHandler = function (e) {
+      setTimeout(() => {
+        setCurrentUser(JSON.parse(localStorage.getItem(StorageKeys.USER)));
+      }, 1000);
+    };
+    document.addEventListener("itemInserted", localStorageSetHandler);
+  }, []);
+
+  const [currentUser, setCurrentUser] = useState(
+    JSON.parse(localStorage.getItem(StorageKeys.USER))
+  );
+  const commentHandlerBtn = async (e) => {
+    if (!currentUser) {
+      toast.error("Vui lòng đăng nhập");
+      return;
     }
+    // console.log(ratingOfProduct );
+    // console.log(commentVal);
+    const currentComment = {
+      comment_content: commentVal,
+      product_id: id,
+      raiting_stars: stars,
+      user_id: currentUser.id,
+      currentUser: currentUser,
+    };
+    // console.log(currentComment);
+    try {
+      await ratingApi.addRating(currentComment);
+    } catch (err) {
+      console.log(err);
+    }
+    // console.log(currentComment);
+    setRatingOfProduct((prev) => [...prev, currentComment]);
+    setCommentVal("");
+    setStars(0);
   };
 
   return (
@@ -420,9 +485,9 @@ export default function ProductInfo() {
       <section className="section shop-info">
         <div className="shop-info__left-content">
           <div className="shop-info__ava">
-            <a href="/#">
+            <Link to={'/supplier/'+supplier.id}>
               <img src={supplier?.ava} alt="" />
-            </a>
+            </Link>
           </div>
           <div className="shop-info__info">
             <div className="shop-info__name">{supplier?.name}</div>
@@ -433,6 +498,7 @@ export default function ProductInfo() {
                 className="btn btn-contract"
               />
               <input
+                onClick={() =>navigate('/supplier/'+supplier.id)}
                 type="button"
                 defaultValue="Xem shope"
                 className="btn btn-contract"
@@ -463,7 +529,7 @@ export default function ProductInfo() {
               Danh Mục
             </div>
             <div className="product-more-info__top__category__wrapper">
-              {/* <div>{category[0]?.category_name || ""}</div> */}
+              <div>{category?.category_name || ""}</div>
             </div>
           </div>
           <div className="product-more-info__top__info">
@@ -502,8 +568,28 @@ export default function ProductInfo() {
         <div className="comments__wrapper">
           {/* comment */}
           {renderComments()}
+          <div className="comments__area">
+            <textarea
+              className="comments__input"
+              onChange={(e) => setCommentVal(e.target.value)}
+              name=""
+              id=""
+              cols="30"
+              rows="5"
+              value={commentVal}
+            ></textarea>
+            <div className="comments__controls">
+              <button
+                onClick={(e) => commentHandlerBtn(e)}
+                className="btn btn-cmt"
+              >
+                gửi
+              </button>
+              <RaitingStars stars={stars} startChange={startChangeHandler} />
+            </div>
+          </div>
         </div>
-        <div className="comments__pagination">
+        {/* <div className="comments__pagination">
           <ul className="pagination">
             <li>
               <a href="/#">1</a>
@@ -518,7 +604,7 @@ export default function ProductInfo() {
               <a href="/#">4</a>
             </li>
           </ul>
-        </div>
+        </div> */}
       </section>
       {/* sản phẩm liên quan */}
 
@@ -528,16 +614,20 @@ export default function ProductInfo() {
         title="sản phẩm liên quan"
       />
       {/* banner quản cáo */}
-      <section className="section ads">
+      <AdsBanner
+        adsImg={adsImage}
+        adsHref="https://www.lg.com/vn/tro-giup/bao-hanh?fbclid=IwAR2d9nPyurT1Q3bhTler2Ln7ONkmkqVHR-_k6tNPTrBP23tynFJGqm4iIMU"
+      />
+      {/* <section className="section ads">
         <div>
           <a
             title="ads"
             href="https://www.lg.com/vn/tro-giup/bao-hanh?fbclid=IwAR2d9nPyurT1Q3bhTler2Ln7ONkmkqVHR-_k6tNPTrBP23tynFJGqm4iIMU"
           >
-            <img src="./assets/images/ads/ad1.jpg" alt="" />
+            <img src="./assets/images/ads/ad1.7680967e.jpg" alt="" />
           </a>
         </div>
-      </section>
+      </section> */}
     </>
   );
 }

@@ -36,7 +36,8 @@ function ShowAllProduct(props) {
       ...params,
     };
   }, [location.search]);
-  console.log(queryParams);
+  // console.log('queryParams :');
+  // console.log(queryParams);
 
   // const [filters,setFilters] = useState({
   //   ...

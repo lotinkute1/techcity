@@ -8,22 +8,22 @@ FormInput.propTypes = {
 };
 
 function FormInput({ loggedInUser, onSaveBtn = null }) {
-  const initialFormData = Object.freeze({
-    id:"",
-    email: "",
-    created_at: "",
-    name: "",
-    phone: "",
-    user_address: "",
-    ava: "",
-    status: 1,
-    role: 3,
-  });
+  // const initialFormData = Object.freeze({
+  //   id:"",
+  //   email: "",
+  //   created_at: "",
+  //   name: "",
+  //   phone: "",
+  //   user_address: "",
+  //   ava: "",
+  //   status: 1,
+  //   role: 3,
+  // });
 
  
   
 
-  const [formValue, setFormValue] = useState(initialFormData);
+  const [formValue, setFormValue] = useState({});
   const [showInputEmail, setShowInputEmail] = useState(false);
   const [showInputPhone, setShowInputPhone] = useState(false);
   const [showInputAddress, setShowInputAddress] = useState(false);
@@ -43,7 +43,7 @@ function FormInput({ loggedInUser, onSaveBtn = null }) {
     Array.from(document.querySelectorAll("input[name]")).forEach((input) => {
       input.value = "";
     });
-    setFormValue(initialFormData);
+    setFormValue({});
     setShowInputEmail(false);
     setShowInputPhone(false);
     setShowInputAddress(false);
@@ -82,16 +82,17 @@ function FormInput({ loggedInUser, onSaveBtn = null }) {
             <label>Tên</label>
           </div>
           <div className="form__item-right">
-            <div className="input__wrapper">
+            {/* <div className="input__wrapper"> */}
               <input
+              
                 type="text"
                 name="name"
                 value={formValue?.name}
-                placeholder={loggedInUser.name}
-                className="input__name"
+                placeholder={loggedInUser?.name}
+                className="form-control"
                 onChange={(e) => handleInputChange(e)}
               />
-            </div>
+            {/* </div> */}
           </div>
         </div>
         <div className="form-item">
@@ -100,20 +101,21 @@ function FormInput({ loggedInUser, onSaveBtn = null }) {
           </div>
           <div className="form__item-right">
             <div className="form__user-email">
-              {showInputEmail ? (
+              {/* {showInputEmail ? (*/}
                 <input
                   className="form-control"
                   id="email"
                   type="text"
                   name="email"
                   value={formValue?.email || ""}
+                  placeholder={loggedInUser?.email}
                   onChange={(e) => handleInputChange(e)}
                 />
-              ) : (
+              {/* ) : (
                 <div className="user-email">{loggedInUser?.email}</div>
-              )}
+              )}*/}
 
-              {showInputEmail ? (
+              {/* {showInputEmail ? (
                 <button
                   className="btn-save-email"
                   onClick={(e) => handleSaveInput(e)}
@@ -127,7 +129,7 @@ function FormInput({ loggedInUser, onSaveBtn = null }) {
                 >
                   Thay đổi
                 </button>
-              )}
+              )} */}
             </div>
           </div>
         </div>
@@ -140,20 +142,21 @@ function FormInput({ loggedInUser, onSaveBtn = null }) {
               {/* <div className="user-phone">0332794082</div> */}
               {/* <button className="btn-edit-phone">Thay đổi</button> */}
 
-              {showInputPhone ? (
+              {/* {showInputPhone ? (*/}
                 <input
                   className="form-control"
                   id="phone"
                   type="text"
-                  name="phone"
-                  value={formValue?.phone || ""}
+                  name="phone_number"
+                  placeholder={loggedInUser?.phone_number}
+                  value={formValue?.phone_number || ""}
                   onChange={(e) => handleInputChange(e)}
                 />
-              ) : (
+              {/* ) : (
                 <div className="user-phone">{loggedInUser.phone_number}</div>
-              )}
+              )} */}
 
-              {showInputPhone ? (
+              {/* {showInputPhone ? (
                 <button
                   className="btn-save-phone"
                   onClick={(e) => handleSaveInput(e)}
@@ -167,7 +170,7 @@ function FormInput({ loggedInUser, onSaveBtn = null }) {
                 >
                   Thay đổi
                 </button>
-              )}
+              )} */}
             </div>
           </div>
         </div>
@@ -179,20 +182,21 @@ function FormInput({ loggedInUser, onSaveBtn = null }) {
           </div>
           <div className="form__item-right">
             <div className="form__user-phone">
-              {showInputAddress ? (
+              {/* {showInputAddress ? ( */}
                 <input
                   className="form-control"
-                  id="user_address"
+                  id="address"
                   type="text"
-                  name="user_address"
-                  value={formValue?.user_address || ""}
+                  name="address"
+                  placeholder={loggedInUser?.address}
+                  value={formValue?.address || ""}
                   onChange={(e) => handleInputChange(e)}
                 />
-              ) : (
+              {/* ) : (
                 <div className="user-phone">{loggedInUser.address}</div>
-              )}
+              )} */}
 
-              {showInputAddress ? (
+              {/* {showInputAddress ? (
                 <button
                   className="btn-save-address"
                   onClick={(e) => handleSaveInput(e)}
@@ -206,7 +210,7 @@ function FormInput({ loggedInUser, onSaveBtn = null }) {
                 >
                   Thay đổi
                 </button>
-              )}
+              )} */}
             </div>
           </div>
         </div>
@@ -242,19 +246,19 @@ function FormInput({ loggedInUser, onSaveBtn = null }) {
               alt=""
               className="img_upload"
             />
-            <span className="icon-add">
+            {/* <span className="icon-add">
               <i className="fas fa-plus"></i>
-            </span>
+            </span> */}
           </div>
 
           <input
             className="form-control mt-2 mb-3 input_link-img"
-            id="user_ava"
+            id="ava"
             type="text"
             placeholder="URL image"
-            name="user_ava"
+            name="ava"
             value={
-              formValue.user_ava ? formValue.user_ava : loggedInUser.ava
+              formValue.ava ? formValue.ava : loggedInUser?.ava
             }
             onChange={(e) => handleInputChange(e)}
           />

@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 export default function ItemsCarousel({title, itemData , categoryID}) {
   //   const itemData = GetProductsData(categoryID) || [];
   //   console.log(itemData);
+  // console.log(itemData);
   const renderItems = itemData.map((item) => {
     if (item.category_id == categoryID) {
       return (
@@ -18,8 +19,7 @@ export default function ItemsCarousel({title, itemData , categoryID}) {
           defaultPrice={item.price}
         />
       );
-    }
-    if(!categoryID){
+    }else if(!categoryID){
       return (<ItemCard
           key={item.id}
           itemID={item.id}
