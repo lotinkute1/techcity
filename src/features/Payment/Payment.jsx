@@ -18,7 +18,6 @@ export default function Payment() {
   });
   const [ships, setShips] = useState([]);
   const [isPaypalPayment, setIsPaypalPayment] = useState(false);
-  const [isShipSelect, setIsShipSelect] = useState(0);
   const [shipCost, setShipCost] = useState(0);
 
   // form paypal ref
@@ -183,6 +182,10 @@ export default function Payment() {
   ));
   const getShips = async () => {
     let result = await shipApi.getAll();
+    setOrder({
+      ...order,
+      total: total + result.data[0].ship_price
+    })
     setShipCost(result.data[0].ship_price)
     setShips(result.data);
   };
@@ -191,7 +194,11 @@ export default function Payment() {
   }, []);
   const btnSelectShip = (e) => {
     console.log(e.target.value);
-    setShipCost(e.target.value)
+    setShipCost(e.target.value);
+    setOrder({
+      ...order,
+      total: total +Number( e.target.value)
+    })
   }
   const renderShips = () =>
     ships.map((ship,index) => (
