@@ -4,9 +4,6 @@ import { useDispatch } from "react-redux";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import { toast, ToastContainer } from "react-toastify";
-import GetCategoriesData from "../../api/GetCategoriesData";
-import GetRaitingsData from "../../api/GetRaitingsData";
-import GetUsersData from "../../api/GetUsersData";
 import adsImage from "../../assets/images/ads/ad1.jpg";
 
 import productApi from "../../api/productApi";

@@ -64,7 +64,6 @@ function Login({ handleClickOpenRegister = null, handleCloseLogin = null }) {
         message: 'Đăng nhập thành công',
       });
       setTimeout(()=>{
-        console.log("Fail");
         window.location.reload()
       },1000)
     } catch (error) {
@@ -101,7 +100,7 @@ function Login({ handleClickOpenRegister = null, handleCloseLogin = null }) {
         message: 'Đăng nhập thành công',
       });
       setTimeout(()=>{
-        navigate('/')
+        window.location.reload()
       },1000)
     } catch (error) {
       setSnakeBar({
