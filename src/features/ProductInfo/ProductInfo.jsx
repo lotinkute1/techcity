@@ -1,27 +1,23 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import NumberFormat from "react-number-format";
 import { useDispatch } from "react-redux";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import { toast, ToastContainer } from "react-toastify";
-import GetCategoriesData from "../../api/GetCategoriesData";
-import GetRaitingsData from "../../api/GetRaitingsData";
-import GetUsersData from "../../api/GetUsersData";
-import adsImage from "../../assets/images/ads/ad1.jpg";
-
-import productApi from "../../api/productApi";
-import userApi from "../../api/userApi";
-import ratingApi from "../../api/ratingApi";
 import categoryApi from "../../api/categoryApi";
+import productApi from "../../api/productApi";
+import ratingApi from "../../api/ratingApi";
+import userApi from "../../api/userApi";
+import adsImage from "../../assets/images/ads/ad1.jpg";
 import loadingImage from "../../assets/images/loading/Spinner-1s-200px.gif";
 import "../../assets/js/incre_decre_option.js";
-import { addToCart } from "../../components/ItemCard/itemsCardSlice";
-import { setclearData } from "./productSlice";
-import ItemsCarousel from "../../components/ItemsCarousel/ItemsCarousel";
-import Comment from "./components/Comment";
 import AdsBanner from "../../components/AdsBanner/AdsBanner";
-import RaitingStars from "./components/RaitingStars";
+import { addToCart } from "../../components/ItemCard/itemsCardSlice";
+import ItemsCarousel from "../../components/ItemsCarousel/ItemsCarousel";
 import StorageKeys from "../../constants";
+import Comment from "./components/Comment";
+import RaitingStars from "./components/RaitingStars";
+
 
 export default function ProductInfo(props) {
   const navigate = useNavigate();
