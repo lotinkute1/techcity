@@ -123,9 +123,12 @@ function ChatMessager(props) {
   };
   const filterConversationsOfUser = (allMessage) => {
     if (!allMessage) return;
-    const allMessagesOfCurrentUser = allMessage.filter(
-      (element) => element.user_id === currentUser.id
-    );
+    let allMessagesOfCurrentUser= [];
+    if(currentUser){
+      allMessagesOfCurrentUser = allMessage.filter(
+        (element) => element.user_id === currentUser.id
+      );
+    }
     let duplicate = false;
     let duplicateIndex;
     let temp = [];
