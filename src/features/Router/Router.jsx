@@ -7,6 +7,7 @@ import ProductInfo from "../ProductInfo/ProductInfo";
 import ShowAllProduct from "../ShowAllProduct";
 import ProfileFeature from "../Profiles";
 import Supplier from "../Supplier";
+import FlasSale from "../../components/FlasSale/FlasSale";
 export default function Router() {
   return (
     <Routes>
@@ -19,6 +20,7 @@ export default function Router() {
       <Route path="/show-all-product" element={<ShowAllProduct />} />
       <Route path="/my-account/*" element={<ProfileFeature />} />
       <Route path="/supplier/:id" element={<Supplier />} />
+      <Route path="/flash-sale" element={<FlasSale />} />
 
       <Route path="*" element={<Main to="/Main" />} />
       

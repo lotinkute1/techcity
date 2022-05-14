@@ -341,7 +341,7 @@ export default function Header() {
                 </ul>
               </li> */}
               <li className="nav-item">
-                <Link className="nav-category" to="/show-all-product">
+                <Link className="nav-category" to="/flash-sale">
                   <i className="fas fa-bolt" />
                   <span>Flash sale</span>
                 </Link>
