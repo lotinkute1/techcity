@@ -11,9 +11,21 @@ ChatBox.propTypes = {
 };
 
 function ChatBox(props) {
-  const { handleCollapseChatBox, message, handleInputMessageChange, isShowDetailMessage,  handleClickConversation} = props;
+  const {
+    handleCollapseChatBox,
+    message,
+    handleInputMessageChange,
+    isShowDetailMessage,
+    handleClickConversation,
+    handleClickSendMessage,
+  } = props;
   const [isShowPopup, setIsShowPopup] = useState(false);
-
+ 
+  const onClickSendMessage = () => {
+    if(handleClickSendMessage) {
+      handleClickSendMessage();
+    }
+  }
   const handleShowPopUp = () => {
     setIsShowPopup((prevState) => !prevState);
   };
@@ -28,22 +40,27 @@ function ChatBox(props) {
     }
   };
 
-  const renderConversation = () => (
-    <li className="chatbox__conversation" onClick={onClickConversation}>
-      <div className="chatbox__conversation-logo">
-        <img
-          src="https://cf.shopee.vn/file/a0851f141ffc6a234a275925eb185266_tn"
-          alt=""
-        />
-      </div>
-      <div className="chatbox__conversation-content">
-        <p className="chatbox__conversation-name">unilevervn_beauty</p>
-        <p className="chatbox__conversation-lastest">
-          helloo mn toi ten la helloo mn toi ten la helloo mn toi ten la
-        </p>
-      </div>
-    </li>
-  );
+  const renderConversation = () => {
+    return (
+      <li className="chatbox__conversation" onClick={onClickConversation}>
+        <div className="chatbox__conversation-logo">
+          <img
+            src={
+              'https://cf.shopee.vn/file/a0851f141ffc6a234a275925eb185266_tn' ||
+              'https://static.thenounproject.com/png/363640-200.png'
+            }
+            alt=""
+          />
+        </div>
+        <div className="chatbox__conversation-content">
+          <p className="chatbox__conversation-name">unilevervn_beauty</p>
+          <p className="chatbox__conversation-lastest">
+            helloo mn toi ten la helloo mn toi ten la helloo mn toi ten la
+          </p>
+        </div>
+      </li>
+    );
+  };
 
   const renderWelcome = () => (
     <div className="chatbox__welcome">
@@ -113,7 +130,7 @@ function ChatBox(props) {
                   value={message}
                   onChange={handleMessageChange}
                 ></textarea>
-                <Button variant="outlined" size="small" endIcon={<SendIcon />}>
+                <Button variant="outlined" size="small" endIcon={<SendIcon />} onClick={onClickSendMessage}>
                   Send
                 </Button>
               </div>
