@@ -1,0 +1,165 @@
+.section.discounts {
+    padding: 15px;
+    /* border: 1px solid #cecece; */
+    border-radius: 5px;
+  }
+.discounts_titles{
+    margin: -15px -15px  20px -15px;
+}
+.discounts_img{
+    border-radius: 5px;
+    border: 4px solid #fed700;
+    overflow: hidden;
+    margin-bottom:30px;
+}
+.discount_ticket{
+    margin: auto;
+    width: 685px;
+    box-shadow: 0 0 10px -5px rgba(173, 173, 173, 0.573);
+    position: relative;
+}
+.circle_left{
+    background-color: white;
+    border-radius:50%;
+    width:30px;
+    height:30px;
+    position: absolute;
+    left: -15px;
+    /* clip-path: circle(15px at 0 50%); */
+    /* box-shadow: inset 0 0 10px #c3c3c3; */
+}
+.circle_right{
+    background-color: white;
+    border-radius:50%;
+    width:30px;
+    height:30px;
+    position: absolute;
+    right: -15px;
+    flex:1;
+    
+
+}
+.circle_left:nth-child(1),.circle_right:nth-child(6){
+    top: 5%;
+}
+.circle_left:nth-child(2),.circle_right:nth-child(7){
+    top: 25%;
+}
+.circle_left:nth-child(3),.circle_right:nth-child(8){
+    top: 45%;
+}
+.circle_left:nth-child(4),.circle_right:nth-child(9){
+    top: 65%;
+}
+.circle_left:nth-child(5),.circle_right:nth-child(10){
+    top: 85%;
+}
+.circle_top{
+    background-color: white;
+    border-radius:50%;
+    width:30px;
+    height:30px;
+    position: absolute;
+    right:  392px;
+    top: -15px;
+}
+.circle_bottom{
+    background-color: white;
+    border-radius:50%;
+    width:30px;
+    height:30px;
+    position: absolute;
+    right:  392px;
+    bottom: -15px;
+}
+.discount_ticket_card{
+    display:flex;
+}
+.ticket_left{
+    background-color: #feb600;
+    padding: 30px 60px 30px 60px;
+    text-align: right;
+}
+.ticket_left > p{
+    color: whitesmoke;
+    font-size:12px
+}
+.ticket_left strong{
+    font-size: 30px;
+    font-weight: 600;
+    
+}
+.ticket_title{
+    font-family: fantasy;
+    font-size: 87px;
+    font-weight: 600;
+    line-height: 77px;
+    
+}
+.ticket_title p:first-child{
+    color: whitesmoke;
+    
+}
+.ticket_right{
+    flex:1;
+    padding: 30px 60px 30px 60px;
+    text-align: left;
+    background-color: peachpuff
+}
+.ticket_percent{
+    display:flex;
+    align-items: center;
+    height:140px;
+    margin-left:20px;
+}
+.ticket_percent div:first-child{
+    font-family: monospace;
+    font-size: 145px;
+}
+.ticket_percent div:nth-child(2){
+    height: 77px;
+    line-height: 48px;
+}
+.ticket_percent div:nth-child(2) p:first-child{
+    /* font-family: fantasy; */
+    font-family: monospace;
+    font-size: 90px;
+    
+}
+.ticket_percent div:nth-child(2) p:nth-child(2){
+    font-family: monospace;
+    font-size: 30px;
+    color: orangered;
+}
+.ticket_code{
+    font-size: 18px;
+    padding:10px 10px 10px 15px;
+    display:flex;
+    width: 90%;
+    justify-content: space-between;
+    background-color: antiquewhite;
+    border-radius:8px;
+    margin: auto;
+    align-items: center;
+    
+}
+
+.ticket_code_left{
+    
+}
+.ticket_code_right{
+    background-color: white;
+    border-radius:8px;
+    padding:10px;
+    cursor: pointer;
+}
+/* .ticket_code_right{
+    background-color: white;
+    border-radius:8px;
+    padding:10px;
+    cursor: pointer;
+    
+} */
+.section.discounts >.carousel-cell{
+    margin-bottom: 20px;
+}

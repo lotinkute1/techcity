@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getDatabase, ref, set } from 'firebase/database';
 import NumberFormat from 'react-number-format';
 import { useNavigate } from 'react-router-dom';
@@ -10,13 +10,15 @@ import StorageKeys from '../../constants';
 import orderApi from '../../api/orderApi';
 import { styled, Tooltip } from '@material-ui/core';
 import { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+import shipApi from '../../api/shipApi';
 export default function Payment() {
   let navigate = useNavigate();
   const [userLogin, setUserLogin] = useState(() => {
     return JSON.parse(localStorage.getItem(StorageKeys.USER));
   });
-
+  const [ships, setShips] = useState([]);
   const [isPaypalPayment, setIsPaypalPayment] = useState(false);
+  const [shipCost, setShipCost] = useState(0);
 
   // form paypal ref
   const formRef = useRef(null);
@@ -84,7 +86,7 @@ export default function Payment() {
       recipient_name: userLogin.name,
       recipient_phone_number: userLogin.phone_number,
       status: 1,
-      total: total,
+      total: total + shipCost,
       user_id: userLogin.id, //userData.id here
       created_at: getCurrentDay(),
       updated_at: null,
@@ -103,8 +105,8 @@ export default function Payment() {
     try {
       if (!isPaypalPayment) {
         toast.success('thanh toán thành công, hãy kiểm tra lịch sử mua hàng');
-       
-         navigate('/', { replace: true });
+
+        navigate('/', { replace: true });
         const response = await orderApi.addOrder(order);
         const { data } = response;
       } else {
@@ -119,10 +121,13 @@ export default function Payment() {
         }
         let emailInput = document.createElement('input');
         emailInput.setAttribute('type', 'hidden');
-        emailInput.setAttribute('name', "user");
-         emailInput.setAttribute('value', JSON.stringify( {
-         ...userLogin
-        }));
+        emailInput.setAttribute('name', 'user');
+        emailInput.setAttribute(
+          'value',
+          JSON.stringify({
+            ...userLogin,
+          })
+        );
         formRef.current.append(emailInput);
         formRef.current.submit();
       }
@@ -175,7 +180,45 @@ export default function Payment() {
       </span>
     </li>
   ));
-
+  const getShips = async () => {
+    let result = await shipApi.getAll();
+    setOrder({
+      ...order,
+      total: total + result.data[0].ship_price
+    })
+    setShipCost(result.data[0].ship_price)
+    setShips(result.data);
+  };
+  useEffect(() => {
+    getShips();
+  }, []);
+  const btnSelectShip = (e) => {
+    console.log(e.target.value);
+    setShipCost(e.target.value);
+    setOrder({
+      ...order,
+      total: total +Number( e.target.value)
+    })
+  }
+  const renderShips = () =>
+    ships.map((ship,index) => (
+      <div key={index} className="d-block my-3">
+        <div className="custom-control custom-radio">
+          <input
+            id={"shipRadioBtn"+index}
+            name={"shipRadioBtn"}
+            type="radio"
+            value={ship.ship_price}
+            defaultChecked={index==0}
+            className={"custom-control-input"}
+            onClick={(e)=>btnSelectShip(e)}
+          />
+          <label className="custom-control-label" htmlFor={"shipRadioBtn"+index}>
+            {ship.ship_company}
+          </label>
+        </div>
+      </div>
+    ));
   return (
     <section className="section payment">
       {/* notification */}
@@ -221,11 +264,38 @@ export default function Payment() {
                 </h4>
                 <ul className="list-group mb-3">
                   {renderPaymentItems}
-
+                  <li className="list-group-item d-flex justify-content-between">
+                    <span>Tổng giá sản phẩm</span>
+                    <NumberFormat
+                      value={total}
+                      className=""
+                      displayType={'text'}
+                      thousandSeparator={'.'}
+                      decimalSeparator={','}
+                      prefix={'₫'}
+                      renderText={(value, props) => (
+                        <strong {...props}>{value}</strong>
+                      )}
+                    />
+                  </li>
+                  <li className="list-group-item d-flex justify-content-between">
+                    Phí ship
+                    <NumberFormat
+                      value={shipCost }
+                      className=""
+                      displayType={'text'}
+                      thousandSeparator={'.'}
+                      decimalSeparator={','}
+                      prefix={'₫'}
+                      renderText={(value, props) => (
+                        <strong {...props}>{value}</strong>
+                      )}
+                    />
+                  </li>
                   <li className="list-group-item d-flex justify-content-between">
                     <span>Tổng thành tiền</span>
                     <NumberFormat
-                      value={total}
+                      value={Number( total) +Number( shipCost)}
                       className=""
                       displayType={'text'}
                       thousandSeparator={'.'}
@@ -326,6 +396,9 @@ export default function Payment() {
                     />
                   </div>
                 </div>
+                <hr className="mb-4" />
+                <h4 className="my-4">Hình thức giao hàng</h4>
+                  {renderShips()}
                 <h4 className="my-4">Hình thức thanh toán</h4>
                 <div className="d-block my-3">
                   <div className="custom-control custom-radio">
@@ -335,7 +408,7 @@ export default function Payment() {
                       type="radio"
                       className="custom-control-input"
                       checked={!isPaypalPayment}
-                      onClick={() => setIsPaypalPayment(!isPaypalPayment)}
+                      onClick={() => setIsPaypalPayment(false)}
                     />
                     <label className="custom-control-label" htmlFor="httt-1">
                       Thanh toán khi nhận hàng
@@ -346,14 +419,14 @@ export default function Payment() {
                 <div className="d-block my-3">
                   <div className="custom-control custom-radio">
                     <input
-                      id="httt-1"
+                      id="httt-2"
                       name="httt_ma"
                       type="radio"
                       className="custom-control-input"
                       checked={isPaypalPayment}
-                      onClick={() => setIsPaypalPayment(!isPaypalPayment)}
+                      onClick={() => setIsPaypalPayment(true)}
                     />
-                    <label className="custom-control-label" htmlFor="httt-1">
+                    <label className="custom-control-label" htmlFor="httt-2">
                       Paypal
                     </label>
                   </div>

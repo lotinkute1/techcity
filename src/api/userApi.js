@@ -33,6 +33,14 @@ const userApi = {
     const url = "/googleLogin";
     return axiosClient.post(url, data);
   },
+  getUserFilter(data) {
+    const url = `user/userFilter?${data}`;
+    return axiosClient.get(url);
+  },
+  getPopularSuppliers(data){
+    const url = `user/getPopularSuppliers/${data}`;
+    return axiosClient.get(url);
+  }
 };
 
 export default userApi;

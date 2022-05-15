@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import { toast, ToastContainer } from "react-toastify";
 import categoryApi from "../../api/categoryApi";
+
 import productApi from "../../api/productApi";
 import ratingApi from "../../api/ratingApi";
 import userApi from "../../api/userApi";

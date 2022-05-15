@@ -24,6 +24,12 @@ export default function Header() {
   const [inputValue, setInputValue] = useState("");
   const isLoggedIn = !!loggedInUser?.id;
 
+  const getToken = () =>{
+    const rawToken = localStorage.getItem(StorageKeys.TOKEN) || null;
+    const accessToken = rawToken ? rawToken.split('|')[1] : null;
+    return accessToken;
+  }
+
   function refreshPage() {
     window.location.reload(false);
   }
@@ -137,7 +143,7 @@ export default function Header() {
                         <img
                           src={
                             loggedInUser.ava ||
-                            "https://static.thenounproject.com/png/363640-200.png"
+                            'https://static.thenounproject.com/png/363640-200.png'
                           }
                           alt=""
                         />
@@ -152,18 +158,26 @@ export default function Header() {
                     <ul className="subnav">
                       {loggedInUser.role == 0 ? (
                         <li>
-                          <a href={`http://localhost:3001/${loggedInUser.id}`}>
+                          <a
+                            href={`http://localhost:3001/${
+                              loggedInUser.id
+                            }/${getToken()}`}
+                          >
                             Techcity_admin
                           </a>
                         </li>
                       ) : loggedInUser.role == 1 ? (
                         <li>
-                          <a href={`http://localhost:3001/${loggedInUser.id}`}>
+                          <a
+                            href={`http://localhost:3001/${
+                              loggedInUser.id
+                            }/${getToken()}`}
+                          >
                             Techcity_admin
                           </a>
                         </li>
                       ) : (
-                        ""
+                        ''
                       )}
 
                       <li>
@@ -187,7 +201,7 @@ export default function Header() {
               {!isLoggedIn && (
                 <>
                   <div className="header__user-not-login">
-                    <span onClick={handleClickOpenRegister}>Đăng ký</span> /{" "}
+                    <span onClick={handleClickOpenRegister}>Đăng ký</span> /{' '}
                     <span onClick={handleClickOpenLogin}>Đăng nhập</span>
                   </div>
                 </>
@@ -327,7 +341,7 @@ export default function Header() {
                 </ul>
               </li> */}
               <li className="nav-item">
-                <Link className="nav-category" to="/show-all-product">
+                <Link className="nav-category" to="/flash-sale">
                   <i className="fas fa-bolt" />
                   <span>Flash sale</span>
                 </Link>
