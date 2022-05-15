@@ -1,8 +1,11 @@
+import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
+import userApi from "./api/userApi";
 import "./App.css";
 import "./assets/js/index";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header2/index";
+import SupplierList from "./components/SupplierList/SupplierList";
 import ChatMessager from "./features/ChatMessager";
 import Router from "./features/Router/Router";
 
@@ -10,9 +13,24 @@ function App() {
   const notify = (type = "success", text = "text!") => {
     toast[type](text);
   };
+  const [suppliers, setSupliers] = useState([]);
 
+  useEffect(()=>{
+    getSupliers();
+  },[])
+  const getSupliers = async () => {
+    try{
+      const response = await userApi.getPopularSuppliers('total_products_sold');
+      var {data,message} = response;
+      setSupliers(data);
+    }catch(error){
+      console.error(message);
+    }
+  }
   return (
     <div className="wrapper">
+      <SupplierList suppliers = {suppliers}/>
+
       {/* notification */}
       <ToastContainer
         position="top-right"
