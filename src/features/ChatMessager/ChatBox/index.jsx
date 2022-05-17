@@ -14,6 +14,7 @@ function ChatBox(props) {
   const {
     handleCollapseChatBox,
     message,
+    conversations,
     handleInputMessageChange,
     isShowDetailMessage,
     handleClickConversation,
@@ -41,25 +42,45 @@ function ChatBox(props) {
   };
 
   const renderConversation = () => {
-    return (
-      <li className="chatbox__conversation" onClick={onClickConversation}>
-        <div className="chatbox__conversation-logo">
-          <img
-            src={
-              'https://cf.shopee.vn/file/a0851f141ffc6a234a275925eb185266_tn' ||
-              'https://static.thenounproject.com/png/363640-200.png'
-            }
-            alt=""
-          />
-        </div>
-        <div className="chatbox__conversation-content">
-          <p className="chatbox__conversation-name">unilevervn_beauty</p>
-          <p className="chatbox__conversation-lastest">
-            helloo mn toi ten la helloo mn toi ten la helloo mn toi ten la
-          </p>
-        </div>
-      </li>
-    );
+    return conversations.map((conversation, index) => {
+      const { userInfo_2, message_text } = conversation;
+      return (
+        <li key={index} className="chatbox__conversation" onClick={onClickConversation}>
+          <div className="chatbox__conversation-logo">
+            <img
+              src={
+                userInfo_2?.ava ||
+                'https://static.thenounproject.com/png/363640-200.png'
+              }
+              alt=""
+            />
+          </div>
+          <div className="chatbox__conversation-content">
+            <p className="chatbox__conversation-name">{userInfo_2?.name}</p>
+            <p className="chatbox__conversation-lastest">{message_text}</p>
+          </div>
+        </li>
+      );
+    });
+    // return (
+    //   <li className="chatbox__conversation" onClick={onClickConversation}>
+    //     <div className="chatbox__conversation-logo">
+    //       <img
+    //         src={
+    //           'https://cf.shopee.vn/file/a0851f141ffc6a234a275925eb185266_tn' ||
+    //           'https://static.thenounproject.com/png/363640-200.png'
+    //         }
+    //         alt=""
+    //       />
+    //     </div>
+    //     <div className="chatbox__conversation-content">
+    //       <p className="chatbox__conversation-name">unilevervn_beauty</p>
+    //       <p className="chatbox__conversation-lastest">
+    //         helloo mn toi ten la helloo mn toi ten la helloo mn toi ten la
+    //       </p>
+    //     </div>
+    //   </li>
+    // );
   };
 
   const renderWelcome = () => (
@@ -77,11 +98,11 @@ function ChatBox(props) {
       <div className="chatbox__popup-header">
         <div className="chatbox__conversation-logo">
           <img
-            src="https://cf.shopee.vn/file/a0851f141ffc6a234a275925eb185266_tn"
+            src="https://scontent.fsgn2-4.fna.fbcdn.net/v/t1.15752-9/82554483_1511973895625772_4748584226926886912_n.jpg?stp=dst-jpg_p100x100&_nc_cat=109&ccb=1-5&_nc_sid=4de414&_nc_ohc=6KdPdlQ4RMYAX8oB-Q_&_nc_ht=scontent.fsgn2-4.fna&oh=03_AVIEg_nA_Ulo6CPGvsNxx-xRcjpwRj1xWml8MWzQZh1tRQ&oe=6281367A"
             alt=""
           />
         </div>
-        <h3 className="chatbox__popup-name">unilevervn_beauty</h3>
+        <h3 className="chatbox__popup-name">dat</h3>
       </div>
       <ul className="chatbox__choice-list">
         <li>Xem thông tin cá nhân</li>
@@ -98,7 +119,7 @@ function ChatBox(props) {
             <>
               <div className="chatbox__vendor-name-wrap">
                 <h5 className="chatbox__vendor-name" onClick={handleShowPopUp}>
-                  unilevervn_beauty <ExpandMoreIcon />
+                dat <ExpandMoreIcon />
                 </h5>
                 {isShowPopup && renderPopup()}
               </div>
@@ -107,19 +128,20 @@ function ChatBox(props) {
                   <p className="message__suppiler">
                     Duy nhất 25.03 Voucher giảm 12%
                   </p>
-                  <p className="message__current-user">hello mn</p>
+                  <p className="message__current-user">Iphone nào đang hot</p>
                   <p className="message__suppiler">
-                    Duy nhất 25.03 Voucher giảm 12%
+                    Iphone 13 nha bạn
+                  </p>
+                  <p className="message__current-user">hiệu năng có ổn không bạn</p>
+                  <p className="message__suppiler">
+                    Dùng tác vụ bình thường rất sướng nha bạn
                   </p>
                   <p className="message__current-user">hello mn</p>
                   <p className="message__suppiler">
-                    Duy nhất 25.03 Voucher giảm 12%
+                   bạn muốn mình tư vấn thêm không ?
                   </p>
-                  <p className="message__current-user">hello mn</p>
-                  <p className="message__suppiler">
-                    Duy nhất 25.03 Voucher giảm 12%
-                  </p>
-                  <p className="message__current-user">hello mn</p>
+                  <p className="message__current-user">shop tư vấn nhiệt tình quá</p>
+                  <p className="message__current-user">mình đặt 1 cái nhaaaa</p>
                 </div>
               </div>
               <div className="chatbox__form-control">
@@ -140,6 +162,23 @@ function ChatBox(props) {
         </div>
         <ul className="chatbox__conversations">
           {renderConversation()}
+          <li className="chatbox__conversation" onClick={onClickConversation}>
+        <div className="chatbox__conversation-logo">
+          <img
+            src={
+              'https://scontent.fsgn2-4.fna.fbcdn.net/v/t1.15752-9/82554483_1511973895625772_4748584226926886912_n.jpg?stp=dst-jpg_p100x100&_nc_cat=109&ccb=1-5&_nc_sid=4de414&_nc_ohc=6KdPdlQ4RMYAX8oB-Q_&_nc_ht=scontent.fsgn2-4.fna&oh=03_AVIEg_nA_Ulo6CPGvsNxx-xRcjpwRj1xWml8MWzQZh1tRQ&oe=6281367A' ||
+              'https://static.thenounproject.com/png/363640-200.png'
+            }
+            alt=""
+          />
+        </div>
+        <div className="chatbox__conversation-content">
+          <p className="chatbox__conversation-name">dat</p>
+          <p className="chatbox__conversation-lastest">
+          mình đặt 1 cái nhaaaa
+          </p>
+        </div>
+      </li>
         </ul>
       </div>
     </div>
