@@ -13,6 +13,10 @@ const chatBoxApi = {
     const url = `message/getMessagesByConversationId/${id}`;
     return axiosClient.get(url);
   },
+  async getConversationById (id) {
+    const url = `message/getConversationById/${id}`;
+    return await axiosClient.get(url);
+  },
 };
 
 export default chatBoxApi;

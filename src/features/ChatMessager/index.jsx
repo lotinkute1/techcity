@@ -137,11 +137,47 @@ function ChatMessager(props) {
         temp.push(allMessagesOfCurrentUser[i]);
       }
     }
-    console.log(temp);
     return temp;
+  };
+  const getDataByConversation = async (obj) => {
+    const conversations = obj.map(async (item) => {
+      //   try {
+      //     const { data } = await chatBoxApi.getConversationById(
+      //       item.conversation_id
+      //     );
+      //     console.log('data', data)
+      //     const temp = {
+      //       userInfo_1: data.userone,
+      //       userInfo_2: data.usertwo,
+      //     }
+      //     const conversation = {...item, ...temp}
+      //     console.log('conversation', conversation)
+      //     return conversation;
+      //   } catch (error) {
+      //     console.log('fail to call api getConversationById');
+      //   }
+      // });
+      chatBoxApi
+        .getConversationById(item.conversation_id)
+        .then((res) => res.json() )
+        .then(res => {
+          const { data } = res;
+          const temp = {
+            userInfo_1: data.userone,
+            userInfo_2: data.usertwo,
+          };
+          const conversation = { ...item, ...temp };
+          console.log('conversation', conversation);
+          return conversation;
+        })
+        .catch((err) => console.log('fail to call api getConversationById'));
+    });
+    return conversations;
   };
   useEffect(() => {
     const latestMessage = filterConversationsOfUser(allMessage);
+    console.log('hello',getDataByConversation(latestMessage));
+    // getDataByConversation(latestMessage);
     const fakeData = [
       {
         id: 12,
