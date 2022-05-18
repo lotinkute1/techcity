@@ -11,6 +11,7 @@ import orderApi from '../../api/orderApi';
 import { styled, Tooltip } from '@material-ui/core';
 import { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import shipApi from '../../api/shipApi';
+import discountApi from '../../api/discountApi';
 export default function Payment() {
   let navigate = useNavigate();
   const [userLogin, setUserLogin] = useState(() => {
@@ -19,7 +20,8 @@ export default function Payment() {
   const [ships, setShips] = useState([]);
   const [isPaypalPayment, setIsPaypalPayment] = useState(false);
   const [shipCost, setShipCost] = useState(0);
-
+  const [discountCode,setDiscountCode]=useState('');
+  const [discountProducts,setDiscountProducts]=useState([]);
   // form paypal ref
   const formRef = useRef(null);
 
@@ -146,7 +148,15 @@ export default function Payment() {
       toast.error('Vui lòng đăng nhập');
     }
   };
-
+  const isDiscountOnProduct = (itemID)=>{
+    return discountProducts?.map((product)=>product.product_id).includes(itemID)
+  }
+  const deCrePriceByPercent = (price,percent)=>{
+    price = Number(price);
+    percent = Number(percent);
+    let result = (price*(100-percent))/100;
+    return result;
+  }
   const renderPaymentItems = cartData.map((item, index) => (
     <li
       key={index}
@@ -162,22 +172,41 @@ export default function Payment() {
             thousandSeparator={'.'}
             decimalSeparator={','}
             prefix={'₫'}
-            renderText={(value, props) => <span {...props}>{value} </span>}
+            renderText={(value, props) => <span  {...props}>{value} </span>}
           />
           x {item.number}
         </small>
       </div>
-      <span className="text-muted">
-        <NumberFormat
-          value={item.defaultPrice * item.number}
-          className=""
-          displayType={'text'}
-          thousandSeparator={'.'}
-          decimalSeparator={','}
-          prefix={'₫'}
-          renderText={(value, props) => <span {...props}>{value} </span>}
-        />
-      </span>
+      <div className="text-right">
+        <span className={"text-muted "+(isDiscountOnProduct(item.itemID)?'number_line_through':'')}>
+          <NumberFormat
+            value={item.defaultPrice * item.number}
+            className=""
+            displayType={'text'}
+            thousandSeparator={'.'}
+            decimalSeparator={','}
+            prefix={'₫'}
+            renderText={(value, props) => <span {...props}>{value} </span>}
+          />
+        </span>
+        {isDiscountOnProduct(item.itemID)&&
+        <>
+          <p className="discount_percent_number" > -{discountProducts.find((product)=> product.product_id==item.itemID).discount_percent}%</p>
+          <span className={"text-muted "}>
+            <NumberFormat
+              value={deCrePriceByPercent( item.defaultPrice * item.number,discountProducts.find((product)=> product.product_id==item.itemID).discount_percent)}
+              className=""
+              displayType={'text'}
+              thousandSeparator={'.'}
+              decimalSeparator={','}
+              prefix={'₫'}
+              renderText={(value, props) => <span {...props}>{value} </span>}
+            />
+          </span>
+        </>
+        }
+        
+      </div>
     </li>
   ));
   const getShips = async () => {
@@ -219,6 +248,45 @@ export default function Payment() {
         </div>
       </div>
     ));
+   
+  
+  const  applyDiscountCodeHandler=async () => {
+    if(discountCode!=''){
+      try{
+
+        var result = await discountApi.checkDiscountCode(discountCode);
+        console.log(result);
+        // console.log(cartData);
+        if(cartData.map((item)=>item.itemID).includes(result.data.product.id)){
+
+          setDiscountCode('');
+          if(!isDiscountOnProduct(result.data.product.id)){
+
+            let newDiscountProduct ={
+              'product_id':result.data.product.id,
+              'discount_percent':result.data.discount.discount_percent,
+              'discount_price':deCrePriceByPercent(result.data.product.price,result.data.discount.discount_percent)
+            }
+            setTotal((preTotal)=>preTotal-((result.data.product.price/100)*result.data.discount.discount_percent))
+            setOrder({
+              ...order,
+              total: total-((result.data.product.price/100)*result.data.discount.discount_percent) + shipCost
+            })
+            setDiscountProducts((pre)=>[...pre,newDiscountProduct])
+            
+            toast.success(`áp dụng mã giảm giá [${discountCode}] cho sản phẩm ${result.data.product.name} thành công !`);
+          }else toast.error(`Mã giảm giá này đã được bạn sử dụng cho sản phẩm ${result.data.product.name}`);
+          console.log(discountProducts);
+        }else toast.error(`Mã giảm giá [${discountCode}] không dùng dược cho các sản phẩm hiện tại !`);
+
+      }catch(err){
+        toast.error(`Mã giảm giá [${discountCode}] không hợp lệ !`);
+      }
+    }
+  }
+
+
+
   return (
     <section className="section payment">
       {/* notification */}
@@ -278,6 +346,11 @@ export default function Payment() {
                       )}
                     />
                   </li>
+                  <li className="list-group-item d-flex justify-content-between discount-field">
+                    <span>Nhập mã giảm giá</span>
+                    <input type="text" value={discountCode} className="discount-code-input" onChange={(e)=>setDiscountCode(e.target.value)}/>
+                    <input type="button" onClick={() =>applyDiscountCodeHandler()} value="giảm" className="btn btn-add-code"/>
+                  </li>
                   <li className="list-group-item d-flex justify-content-between">
                     Phí ship
                     <NumberFormat
@@ -292,6 +365,7 @@ export default function Payment() {
                       )}
                     />
                   </li>
+                  
                   <li className="list-group-item d-flex justify-content-between">
                     <span>Tổng thành tiền</span>
                     <NumberFormat

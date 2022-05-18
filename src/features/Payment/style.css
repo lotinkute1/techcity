@@ -8,3 +8,26 @@
     background-color: #fed700;
     border-color: #fed700;
 }
+.discount-code-input{
+    border: 1px solid #fed700;
+    padding: 5px;
+    width: 100px;
+    background-color: #fed8003f;
+    border-radius: 4px 0 0 4px;
+    text-align: center;
+    transform:translateX(14px);
+}
+.list-group-item {
+    align-items: center;
+}
+.btn.btn-add-code{
+    border-radius: 0 4px 4px 0;
+    padding:6px;
+    font-size: 16px;
+}
+.number_line_through{
+    text-decoration: line-through;
+}
+.discount_percent_number{
+    color:#25d40a;
+}
