@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import discountApi from '../../api/discountApi';
 import './style.css';
 export default function FlasSale() {
@@ -32,6 +33,7 @@ export default function FlasSale() {
   const renderdiscountsDetail = (did) => {
     return discountsDetail?.map((item,index) => {
       if (item.discount_id == did) {
+        // console.log(item);
         return (
           <div key={item.id} className="discount_ticket">
             <div className="circle_left"></div>
@@ -56,9 +58,9 @@ export default function FlasSale() {
                 <strong>lllllllllllllllllll</strong>
               </div>
               <div className="ticket_right">
-                <div className="ticket_product_name">
+                <Link to={'/product_info-'+item.product_id} className="ticket_product_name">
                   {item.discount_product_name}
-                </div>
+                </Link>
                 <div className="ticket_percent">
                   <div>{item.discount_percent}</div>
                   <div>
