@@ -268,15 +268,20 @@ export default function Payment() {
               'discount_price':deCrePriceByPercent(result.data.product.price,result.data.discount.discount_percent)
             }
             setTotal((preTotal)=>preTotal-((result.data.product.price/100)*result.data.discount.discount_percent))
+            let newOrderDetail = order.order_detail.find(item=>item.product_id==result.data.product.id);
+            newOrderDetail.price = newDiscountProduct.discount_price;
+            let newOrderDetailWithout = order.order_detail.filter(item=>item.product_id!=result.data.product.id);
+            // let newOrderDetails =[...order.order_detail] 
             setOrder({
               ...order,
+              order_detail:[...newOrderDetailWithout,newOrderDetail],
               total: total-((result.data.product.price/100)*result.data.discount.discount_percent) + shipCost
             })
             setDiscountProducts((pre)=>[...pre,newDiscountProduct])
             
             toast.success(`áp dụng mã giảm giá [${discountCode}] cho sản phẩm ${result.data.product.name} thành công !`);
           }else toast.error(`Mã giảm giá này đã được bạn sử dụng cho sản phẩm ${result.data.product.name}`);
-          console.log(discountProducts);
+          // console.log(order);
         }else toast.error(`Mã giảm giá [${discountCode}] không dùng dược cho các sản phẩm hiện tại !`);
 
       }catch(err){
