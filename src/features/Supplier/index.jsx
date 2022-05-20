@@ -54,11 +54,12 @@ export default function Supplier() {
         (product) => product.category_id == filterType
       );
     } else productFilter = products;
-    if(productFilter.length==0) return(
-      <div id="Supplier-product-msg">
-        không có sản phẩm nào ở danh mục này cả
-      </div>
-    )
+    if (productFilter.length == 0)
+      return (
+        <div id="Supplier-product-msg">
+          không có sản phẩm nào ở danh mục này cả
+        </div>
+      );
     return productFilter.map((product, index) => {
       return (
         <ItemCard
@@ -75,35 +76,49 @@ export default function Supplier() {
     e.preventDefault();
     switch (e.target.id) {
       case 'supProAll':
-        setFilterType(0)
+        setFilterType(0);
         break;
       case 'supProPhone':
-      setFilterType(1)  
-      break;
+        setFilterType(1);
+        break;
       case 'supProLap':
-      setFilterType(2)  
-      break;
+        setFilterType(2);
+        break;
       case 'supProWatch':
-      setFilterType(6)  
-      break;
+        setFilterType(6);
+        break;
       case 'supProTab':
-      setFilterType(3)  
-      break;
+        setFilterType(3);
+        break;
       case 'supProPCAcc':
-      setFilterType(4)  
-      break;
+        setFilterType(4);
+        break;
       case 'supProPhoneAcc':
-      setFilterType(5)  
-      break;
+        setFilterType(5);
+        break;
       default:
         break;
     }
   };
   useEffect(() => {
+    setSupplier({
+      id: '',
+      name: '',
+      phone_number: '',
+      email: '',
+      address: null,
+      ava: loadingImage,
+      status: '1',
+      role: 0,
+      email_verified_at: null,
+      created_at: '',
+      updated_at: ''
+    });
+    setProducts([])
     getSupplier();
     getProductOfSupplier();
-    window.scrollTo({top:0,behavior:'smooth'})
-  }, []);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [id]);
   return (
     <section className="section">
       <div className="full-supp">
@@ -160,7 +175,7 @@ export default function Supplier() {
           <div className="container suppliter-nav">
             <div className="row menu-supp">
               <ul>
-                <li className={filterType==0 ?'active':''}>
+                <li className={filterType == 0 ? 'active' : ''}>
                   <a
                     onClick={(e) => changeProductCategory(e)}
                     id="supProAll"
@@ -169,7 +184,7 @@ export default function Supplier() {
                     Tất cả
                   </a>
                 </li>
-                <li className={filterType==1 ?'active':''}>
+                <li className={filterType == 1 ? 'active' : ''}>
                   <a
                     onClick={(e) => changeProductCategory(e)}
                     id="supProPhone"
@@ -178,7 +193,7 @@ export default function Supplier() {
                     Điện thoại
                   </a>
                 </li>
-                <li className={filterType==2 ?'active':''}>
+                <li className={filterType == 2 ? 'active' : ''}>
                   <a
                     onClick={(e) => changeProductCategory(e)}
                     id="supProLap"
@@ -187,7 +202,7 @@ export default function Supplier() {
                     Laptop
                   </a>
                 </li>
-                <li className={filterType==6 ?'active':''}>
+                <li className={filterType == 6 ? 'active' : ''}>
                   <a
                     onClick={(e) => changeProductCategory(e)}
                     id="supProWatch"
@@ -196,7 +211,7 @@ export default function Supplier() {
                     Đồng hồ
                   </a>
                 </li>
-                <li className={filterType==3 ?'active':''}>
+                <li className={filterType == 3 ? 'active' : ''}>
                   <a
                     onClick={(e) => changeProductCategory(e)}
                     id="supProTab"
@@ -205,7 +220,7 @@ export default function Supplier() {
                     Tablet
                   </a>
                 </li>
-                <li className={filterType==4 ?'active':''}>
+                <li className={filterType == 4 ? 'active' : ''}>
                   <a
                     onClick={(e) => changeProductCategory(e)}
                     id="supProPCAcc"
@@ -214,7 +229,7 @@ export default function Supplier() {
                     Linh Kiện PC
                   </a>
                 </li>
-                <li className={filterType==5 ?'active':''}>
+                <li className={filterType == 5 ? 'active' : ''}>
                   <a
                     onClick={(e) => changeProductCategory(e)}
                     id="supProPhoneAcc"
