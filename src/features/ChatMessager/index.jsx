@@ -11,89 +11,83 @@ function ChatMessager(props) {
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem(StorageKeys.USER))
   );
-  const [message, setMessage] = useState(undefined);
+  const [message, setMessage] = useState(undefined); // input
   const [isShowDetailMessage, setIsShowDetailMessage] = useState(false);
-  const [allMessages, setAllMessages] = useState(null);
-  const [conversations, setConversations] = useState(null);
-  const messageToConversationId = [
-    {
-      id: 11,
-      message_text: 'day la hoang ne',
-      conversation_id: 13,
-      user_id: 11,
-    },
-    {
-      id: 13,
-      message_text: 'tin nhan 1, user 2',
-      conversation_id: 13,
-      user_id: 2,
-    },
-    {
-      id: 14,
-      message_text: 'tin nhan 2, user 2',
-      conversation_id: 13,
-      user_id: 2,
-    },
-    {
-      id: 15,
-      message_text: 'ban an com chua',
-      conversation_id: 13,
-      user_id: 11,
-    },
-  ];
+  const [allMessages, setAllMessages] = useState([]);
+  const [conversations, setConversations] = useState([]);
+  const [allMessageByConversationId, setAllMessageByConversationId] = useState(
+    []
+  );
+  const [infoByConversationId, setInfoByConversationId] = useState(null);
+  const [receiver, setReceiver] = useState(null);
+  const [latestMessage, setLatestMessage] = useState(null);
 
-  const allMessage = [
-    {
-      id: 11,
-      message_text: 'day la hoang ne',
-      conversation_id: 13,
-      user_id: 11,
-    },
-    {
-      id: 12,
-      message_text: 'ban an com chua',
-      conversation_id: 13,
-      user_id: 11,
-    },
-    {
-      id: 13,
-      message_text: 'chua',
-      conversation_id: 15,
-      user_id: 11,
-    },
-    {
-      id: 17,
-      message_text: 'buoi trua an buoi chua',
-      conversation_id: 15,
-      user_id: 11,
-    },
-    {
-      id: 14,
-      message_text: 'toi dang doi ban 12',
-      conversation_id: 15,
-      user_id: 12,
-    },
-    {
-      id: 15,
-      message_text: 'toi dang doi ban 13',
-      conversation_id: 15,
-      user_id: 13,
-    },
-    {
-      id: 16,
-      message_text: 'toi dang doi ban 13',
-      conversation_id: 15,
-      user_id: 13,
-    },
-  ];
-  const usersByConversationId = {
-    sender_id: 11,
-    receiver_id: 2,
-  };
+  const getAllMessages = async ()=>{
+    const { data } = await chatBoxApi.getAllMessages();
+    setAllMessages(data);
+  }
+  useEffect(()=>{
+    getAllMessages();
+  },[])
 
-  const handleClickConversation = () => {
+  // const allMessage = [
+  //   {
+  //     id: 11,
+  //     message_text: 'day la hoang ne',
+  //     conversation_id: 13,
+  //     user_id: 11,
+  //   },
+  //   {
+  //     id: 12,
+  //     message_text: 'ban an com chua',
+  //     conversation_id: 13,
+  //     user_id: 11,
+  //   },
+  //   {
+  //     id: 13,
+  //     message_text: 'chua',
+  //     conversation_id: 15,
+  //     user_id: 11,
+  //   },
+  //   {
+  //     id: 17,
+  //     message_text: 'buoi trua an buoi chua',
+  //     conversation_id: 15,
+  //     user_id: 11,
+  //   },
+  //   {
+  //     id: 14,
+  //     message_text: 'toi dang doi ban 12',
+  //     conversation_id: 15,
+  //     user_id: 12,
+  //   },
+  //   {
+  //     id: 15,
+  //     message_text: 'toi dang doi ban 13',
+  //     conversation_id: 15,
+  //     user_id: 13,
+  //   },
+  //   {
+  //     id: 16,
+  //     message_text: 'toi dang doi ban 13',
+  //     conversation_id: 15,
+  //     user_id: 13,
+  //   },
+  // ];
+
+  const handleClickConversation = async (conversation_id) => {
+    const { data } = await chatBoxApi.getMessagesByConversationId(
+      conversation_id
+    );
+    const conversationId = data[0].conversation_id;
+    const receiver = conversations.find(
+      (item) => item.conversation_id === conversationId
+    );
+    const { userInfo_2 } = receiver;
+    setInfoByConversationId(receiver);
+    setReceiver(userInfo_2);
+    setAllMessageByConversationId(data);
     setIsShowDetailMessage(true);
-    
   };
   const handleInputMessageChange = (message) => {
     setMessage(message);
@@ -103,148 +97,77 @@ function ChatMessager(props) {
   };
   const handleClickChatButton = () => {
     //get api all message
-    setAllMessages(allMessage);
+    setAllMessages(allMessages);
     setIsShowChatBox(true);
   };
   const filterConversationsOfUser = (allMessage) => {
     if (!allMessage) return;
-    let allMessagesOfCurrentUser = [];
+    let messagesOfCurrentUser = [];
+    // find index
     if (currentUser) {
-      allMessagesOfCurrentUser = allMessage.filter(
+      messagesOfCurrentUser = allMessage.filter(
         (element) => element.user_id === currentUser.id
       );
     }
-    let duplicate = false;
-    let duplicateIndex;
-    let temp = [];
-    for (let i = 0; i < allMessagesOfCurrentUser.length; i++) {
-      // eslint-disable-next-line no-loop-func
-      temp.forEach((element, index) => {
-        if (
-          element.conversation_id ===
-          allMessagesOfCurrentUser[i].conversation_id
-        ) {
-          duplicate = true;
-          duplicateIndex = index;
-        } else {
-          duplicate = false;
-          duplicateIndex = null;
-        }
-      });
-      if (duplicate) {
-        temp[duplicateIndex] = allMessagesOfCurrentUser[i];
+    const temp = [];
+
+    messagesOfCurrentUser.forEach((message, index) => {
+      const currentMessageIndex = temp.findIndex(
+        (item, index) => item.conversation_id === message.conversation_id
+      );
+      if (currentMessageIndex === -1) {
+        temp.push(message);
       } else {
-        temp.push(allMessagesOfCurrentUser[i]);
+        temp[currentMessageIndex] = message;
       }
-    }
+    });
     return temp;
   };
-  const getDataByConversation = async (obj) => {
-    const conversations = obj.map(async (item) => {
-      //   try {
-      //     const { data } = await chatBoxApi.getConversationById(
-      //       item.conversation_id
-      //     );
-      //     console.log('data', data)
-      //     const temp = {
-      //       userInfo_1: data.userone,
-      //       userInfo_2: data.usertwo,
-      //     }
-      //     const conversation = {...item, ...temp}
-      //     console.log('conversation', conversation)
-      //     return conversation;
-      //   } catch (error) {
-      //     console.log('fail to call api getConversationById');
-      //   }
-      // });
+  const getDataByConversation = (arr) => {
+    arr.forEach((item) => {
       chatBoxApi
         .getConversationById(item.conversation_id)
-        .then((res) => res.json() )
-        .then(res => {
+        .then((res) => {
           const { data } = res;
           const temp = {
             userInfo_1: data.userone,
             userInfo_2: data.usertwo,
           };
           const conversation = { ...item, ...temp };
-          console.log('conversation', conversation);
-          return conversation;
+          setConversations((prev) =>
+            !prev
+              .map((i) => i.conversation_id)
+              .includes(conversation.conversation_id)
+              ? [...prev, conversation]
+              : prev
+          );
         })
         .catch((err) => console.log('fail to call api getConversationById'));
     });
-    return conversations;
   };
   useEffect(() => {
-    const latestMessage = filterConversationsOfUser(allMessage);
-    console.log('hello',getDataByConversation(latestMessage));
-    // getDataByConversation(latestMessage);
-    const fakeData = [
-      {
-        id: 12,
-        message_text: 'ban an com chua',
-        conversation_id: 13,
-        user_id: 11,
-        userInfo_1: {
-          id: 11,
-          name: 'Nguyễn Hữu Minh Huy',
-          phone_number: '0784508270',
-          email: 'lotinkute1@gmail.com',
-          address: '93/3 Nguyễn Tất Thành',
-          ava: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t1.18169-9/13533134_1819871714914612_3762039182450611525_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=a4a2d7&_nc_ohc=ZzbG9lbGQOcAX-tbDci&tn=kkOrLYcznpFAuopx&_nc_ht=scontent.fsgn2-4.fna&oh=00_AT-Q2zqcIiBZxdXpbh3xVeuMncpPZn-f-fMfADtGrHXixg&oe=6293C634',
-          status: '1',
-          role: 1,
-          email_verified_at: null,
-        },
-        userInfo_2: {
-          id: 1,
-          name: 'Margaret Larkin',
-          phone_number: '0353422895',
-          email: 'sammy.beahan@example.net',
-          address: '47418 Wiegand Point\nWest Jadonside, MI 67394-7749',
-          ava: '09DMTWHozdumQc0o18gDcNtnhc5bfpoDgJD1Sxqu',
-          status: '1',
-          role: 2,
-          email_verified_at: null,
-        },
-      },
-      {
-        id: 17,
-        message_text: 'buoi trua an buoi chua',
-        conversation_id: 15,
-        user_id: 11,
-        userInfo_1: {
-          id: 9,
-          name: 'Ms. Katrina Treutel Jr.',
-          phone_number: '0193626695',
-          email: 'schinner.nichole@example.com',
-          address: '96203 Nat Creek\nDibbertchester, AK 06744',
-          ava: 'mwcnjbdwtUwJGO74YS1jKFTZYTClTsSsthsLIRKZ',
-          status: '0',
-          role: 1,
-          email_verified_at: null,
-        },
-        userInfo_2: {
-          id: 12,
-          name: 'dat',
-          phone_number: '125126123123',
-          email: 'lotinkute33@gmail.com',
-          address: null,
-          ava: 'https://scontent.fsgn2-4.fna.fbcdn.net/v/t1.15752-9/82554483_1511973895625772_4748584226926886912_n.jpg?stp=dst-jpg_p100x100&_nc_cat=109&ccb=1-5&_nc_sid=4de414&_nc_ohc=6KdPdlQ4RMYAX8oB-Q_&_nc_ht=scontent.fsgn2-4.fna&oh=03_AVIEg_nA_Ulo6CPGvsNxx-xRcjpwRj1xWml8MWzQZh1tRQ&oe=6281367A',
-          status: '1',
-          role: 1,
-          email_verified_at: null,
-        },
-      },
-    ];
-    setConversations(fakeData);
+    const latestMessage = filterConversationsOfUser(allMessages);
+    setLatestMessage(latestMessage)
+    getDataByConversation(latestMessage);
   }, [allMessages]);
   const handleClickSendMessage = async () => {
     if (message) {
       const formData = {
         message_text: message,
+        user2_id: receiver.id,
+        conversation_id: infoByConversationId.conversation_id,
       };
-      const res = await chatBoxApi.addMessage(message);
-      console.log(res);
+      try {
+        const res = await chatBoxApi.addMessage(formData);
+        const { data } = await chatBoxApi.getMessagesByConversationId(
+          infoByConversationId.conversation_id
+        );
+        setMessage('');
+        setAllMessageByConversationId(data);
+        // window.scrollTo({top:0,behavior:'smooth'})
+      } catch (error) {
+        console.log('Fail to call createMessage api');
+      }
     }
   };
   return (
@@ -261,6 +184,8 @@ function ChatMessager(props) {
           handleClickConversation={handleClickConversation}
           handleClickSendMessage={handleClickSendMessage}
           conversations={conversations}
+          allMessageByConversationId={allMessageByConversationId}
+          receiver={receiver}
         />
       )}
     </>
