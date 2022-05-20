@@ -9,6 +9,7 @@ import { sliderBannerSetting } from '../settings/slickSetting';
 import loadingImage from '../../assets/images/loading/Spinner-1s-200px.gif';
 import discountApi from '../../api/discountApi';
 import { async } from '@firebase/util';
+import { Link } from 'react-router-dom';
 export default function Banner() {
   //  console.log(GetDiscountsData())
 
@@ -32,9 +33,9 @@ export default function Banner() {
      discounts?.map((item) => {
       return (
         <div key={item.id} className="carousel-cell">
-          <a href="/#">
+          <Link to="/flash-sale">
             <img src={item.discount_img} alt=""></img>
-          </a>
+          </Link>
         </div>
       );
     });
