@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import discountApi from '../../api/discountApi';
 import { sliderBannerSetting } from '../settings/slickSetting';
+import { Link } from 'react-router-dom';
 export default function Banner() {
   const [discounts, setDiscounts] = useState([]);
   const getDiscountData =async ()=>{
@@ -25,9 +26,9 @@ export default function Banner() {
      discounts?.map((item) => {
       return (
         <div key={item.id} className="carousel-cell">
-          <a href="/#">
+          <Link to="/flash-sale">
             <img src={item.discount_img} alt=""></img>
-          </a>
+          </Link>
         </div>
       );
     });

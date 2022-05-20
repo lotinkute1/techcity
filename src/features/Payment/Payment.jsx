@@ -268,6 +268,7 @@ export default function Payment() {
             newOrderDetail.price = newDiscountProduct.discount_price;
             let newOrderDetailWithout = order.order_detail.filter(item=>item.product_id!=result.data.product.id);
             // let newOrderDetails =[...order.order_detail] 
+            console.log(total-((result.data.product.price/100)*result.data.discount.discount_percent) + shipCost);
             setOrder({
               ...order,
               order_detail:[...newOrderDetailWithout,newOrderDetail],
