@@ -1432,3 +1432,6 @@ input.input-error{
   box-shadow:unset !important;
   top:63px !important;
 }
+#botmanWidgetRoot .desktop-closed-message-avatar img{
+  border-radius: unset !important;
+}
