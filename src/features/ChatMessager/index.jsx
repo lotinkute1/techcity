@@ -84,7 +84,7 @@ function ChatMessager(props) {
     );
     console.log('receiver',receiver)
     const { userInfo_1, userInfo_2 } = receiver;
-    const ngnhan = currentUser.id === userInfo_1 ? userInfo_2 : userInfo_1;
+    const ngnhan = currentUser.id === userInfo_1.id ? userInfo_2 : userInfo_1;
     setInfoByConversationId(receiver);
     setReceiver(ngnhan);
     setAllMessageByConversationId(data);
