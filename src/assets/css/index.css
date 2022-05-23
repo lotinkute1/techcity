@@ -1419,3 +1419,19 @@ input.input-error{
 .MuiTooltip-popper[data-popper-placement*="bottom"] .css-1k51tf5-MuiTooltip-tooltip{
   margin-top:10px !important;
 }
+#botmanWidgetRoot > div:first-child{
+  min-width: unset !important;
+  width: 85px;
+  right: 133px !important;
+}
+#botmanWidgetRoot .desktop-closed-message-avatar{
+  background-color: transparent !important;
+  padding: 5px;
+  /* bottom: 100px !important; */
+  right:20px !important;
+  box-shadow:unset !important;
+  top:63px !important;
+}
+#botmanWidgetRoot .desktop-closed-message-avatar img{
+  border-radius: unset !important;
+}
