@@ -3,23 +3,17 @@ import React, { useEffect, useState } from 'react';
 // import slide2 from "../../assets/images/slides/slide2.webp";
 // import slide3 from "../../assets/images/slides/slide3.webp";
 // import slide4 from "../../assets/images/slides/slide4.webp";
-import GetDiscountsData from '../../api/GetDiscountsData';
 import Slider from 'react-slick';
-import { sliderBannerSetting } from '../settings/slickSetting';
-import loadingImage from '../../assets/images/loading/Spinner-1s-200px.gif';
 import discountApi from '../../api/discountApi';
+import { sliderBannerSetting } from '../settings/slickSetting';
 import { async } from '@firebase/util';
 import { Link } from 'react-router-dom';
 export default function Banner() {
-  //  console.log(GetDiscountsData())
-
-  // const discountsData = GetDiscountsData();
   const [discounts, setDiscounts] = useState([]);
   const getDiscountData =async ()=>{
     try {
       let result =await discountApi.getAll();
       var {data,message} = result;
-      console.log(result);
       setDiscounts(data);
     } catch (e) {
       console.log(message);

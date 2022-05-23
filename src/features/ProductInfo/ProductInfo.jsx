@@ -1,24 +1,24 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import NumberFormat from "react-number-format";
 import { useDispatch } from "react-redux";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import { toast, ToastContainer } from "react-toastify";
-import adsImage from "../../assets/images/ads/ad1.jpg";
+import categoryApi from "../../api/categoryApi";
 
 import productApi from "../../api/productApi";
-import userApi from "../../api/userApi";
 import ratingApi from "../../api/ratingApi";
-import categoryApi from "../../api/categoryApi";
+import userApi from "../../api/userApi";
+import adsImage from "../../assets/images/ads/ad1.jpg";
 import loadingImage from "../../assets/images/loading/Spinner-1s-200px.gif";
 import "../../assets/js/incre_decre_option.js";
-import { addToCart } from "../../components/ItemCard/itemsCardSlice";
-import { setclearData } from "./productSlice";
-import ItemsCarousel from "../../components/ItemsCarousel/ItemsCarousel";
-import Comment from "./components/Comment";
 import AdsBanner from "../../components/AdsBanner/AdsBanner";
-import RaitingStars from "./components/RaitingStars";
+import { addToCart } from "../../components/ItemCard/itemsCardSlice";
+import ItemsCarousel from "../../components/ItemsCarousel/ItemsCarousel";
 import StorageKeys from "../../constants";
+import Comment from "./components/Comment";
+import RaitingStars from "./components/RaitingStars";
+
 
 export default function ProductInfo(props) {
   const navigate = useNavigate();
@@ -409,10 +409,10 @@ export default function ProductInfo(props) {
             <NumberFormat
               value={product.price}
               className=""
-              displayType={"text"}
-              thousandSeparator={"."}
-              decimalSeparator={","}
-              prefix={"₫"}
+              displayType={'text'}
+              thousandSeparator={'.'}
+              decimalSeparator={','}
+              prefix={'₫'}
               renderText={(value, props) => <h1 {...props}>{value}</h1>}
             />
             <span>
@@ -482,20 +482,22 @@ export default function ProductInfo(props) {
       <section className="section shop-info">
         <div className="shop-info__left-content">
           <div className="shop-info__ava">
-            <Link to={'/supplier/'+supplier.id}>
+            <Link to={'/supplier/' + supplier.id}>
               <img src={supplier?.ava} alt="" />
             </Link>
           </div>
           <div className="shop-info__info">
             <div className="shop-info__name">{supplier?.name}</div>
             <div>
+              {currentUser.id !== supplier.id && (
+                <input
+                  type="button"
+                  defaultValue="Chat ngay"
+                  className="btn btn-contract"
+                />
+              )}
               <input
-                type="button"
-                defaultValue="Chat ngay"
-                className="btn btn-contract"
-              />
-              <input
-                onClick={() =>navigate('/supplier/'+supplier.id)}
+                onClick={() => navigate('/supplier/' + supplier.id)}
                 type="button"
                 defaultValue="Xem shope"
                 className="btn btn-contract"
@@ -508,7 +510,7 @@ export default function ProductInfo(props) {
             <span>Đánh giá</span> 22.000
           </div>
           <div className="shop-info__join-date">
-            3 <span>Năm trước</span>{" "}
+            3 <span>Năm trước</span>{' '}
           </div>
           <div className="shop-info__products">
             173 <span>Sản phẩm</span>
@@ -526,7 +528,7 @@ export default function ProductInfo(props) {
               Danh Mục
             </div>
             <div className="product-more-info__top__category__wrapper">
-              <div>{category?.category_name || ""}</div>
+              <div>{category?.category_name || ''}</div>
             </div>
           </div>
           <div className="product-more-info__top__info">

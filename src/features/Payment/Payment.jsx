@@ -1,16 +1,12 @@
+import { Tooltip } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
-import { getDatabase, ref, set } from 'firebase/database';
 import NumberFormat from 'react-number-format';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import { v4 as uuidv4 } from 'uuid';
-import GetUsersData from '../../api/GetUsersData';
-import './style.css';
-import StorageKeys from '../../constants';
 import orderApi from '../../api/orderApi';
-import { styled, Tooltip } from '@material-ui/core';
-import { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import shipApi from '../../api/shipApi';
+import StorageKeys from '../../constants';
+import './style.css';
 import discountApi from '../../api/discountApi';
 export default function Payment() {
   let navigate = useNavigate();

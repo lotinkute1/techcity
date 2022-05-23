@@ -143,6 +143,8 @@
     width: var(--square-size);
     height: var(--square-size);
     flex-shrink: 0;
+    border-radius: 50%;
+    overflow: hidden;
 }
 
 .chatbox__conversation-content {

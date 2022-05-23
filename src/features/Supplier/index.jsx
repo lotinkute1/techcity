@@ -48,8 +48,7 @@ export default function Supplier() {
   };
   const [filterType, setFilterType] = useState(0);
   const renderProductOfSupplier = () => {
-    let productFilter = [];
-    // debugger;
+    let productFilter=[]
     if (filterType != 0) {
       productFilter = products.filter(
         (product) => product.category_id == filterType
