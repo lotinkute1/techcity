@@ -20,15 +20,14 @@ function ChatMessager(props) {
   );
   const [infoByConversationId, setInfoByConversationId] = useState(null);
   const [receiver, setReceiver] = useState(null);
-  const [latestMessage, setLatestMessage] = useState(null);
+  const [latestMessage, setLatestMessage] = useState([]);
+  const [messagesOfCurrentUser, setMessagesOfCurrentUser] = useState([]);
 
   const getAllMessages = async ()=>{
     const { data } = await chatBoxApi.getAllMessages();
     setAllMessages(data);
   }
-  useEffect(()=>{
-    getAllMessages();
-  },[])
+  
 
   // const allMessage = [
   //   {
@@ -83,9 +82,11 @@ function ChatMessager(props) {
     const receiver = conversations.find(
       (item) => item.conversation_id === conversationId
     );
-    const { userInfo_2 } = receiver;
+    console.log('receiver',receiver)
+    const { userInfo_1, userInfo_2 } = receiver;
+    const ngnhan = currentUser.id === userInfo_1 ? userInfo_2 : userInfo_1;
     setInfoByConversationId(receiver);
-    setReceiver(userInfo_2);
+    setReceiver(ngnhan);
     setAllMessageByConversationId(data);
     setIsShowDetailMessage(true);
   };
@@ -100,56 +101,103 @@ function ChatMessager(props) {
     setAllMessages(allMessages);
     setIsShowChatBox(true);
   };
-  const filterConversationsOfUser = (allMessage) => {
-    if (!allMessage) return;
-    let messagesOfCurrentUser = [];
-    // find index
-    if (currentUser) {
-      messagesOfCurrentUser = allMessage.filter(
-        (element) => element.user_id === currentUser.id
-      );
-    }
-    const temp = [];
+  const getMessageOfCurrentUser = (allMessage) => {
+    if (allMessage && allMessage.length > 0 && currentUser) {
+      // let messagesOfCurrentUser = [];
+      // console.log('step 1');
+      // find index
+      allMessage.forEach((item) => {
+        chatBoxApi
+          .getConversationById(item.conversation_id)
+          .then((res) => {
+            const { data } = res;
+            const temp1 = {
+              userInfo_1: data.userone,
+              userInfo_2: data.usertwo,
+            };
+            const conversation = { ...item, ...temp1 };
+            const { userInfo_1, userInfo_2 } = conversation;
+            // console.log('step 2', conversation);
 
-    messagesOfCurrentUser.forEach((message, index) => {
-      const currentMessageIndex = temp.findIndex(
-        (item, index) => item.conversation_id === message.conversation_id
-      );
-      if (currentMessageIndex === -1) {
-        temp.push(message);
-      } else {
-        temp[currentMessageIndex] = message;
-      }
-    });
-    return temp;
-  };
-  const getDataByConversation = (arr) => {
-    arr.forEach((item) => {
-      chatBoxApi
-        .getConversationById(item.conversation_id)
-        .then((res) => {
-          const { data } = res;
-          const temp = {
-            userInfo_1: data.userone,
-            userInfo_2: data.usertwo,
-          };
-          const conversation = { ...item, ...temp };
-          setConversations((prev) =>
-            !prev
-              .map((i) => i.conversation_id)
-              .includes(conversation.conversation_id)
-              ? [...prev, conversation]
-              : prev
+            if (
+              userInfo_1.id === currentUser.id ||
+              userInfo_2.id === currentUser.id
+            ) {
+              // messagesOfCurrentUser.push(conversation);
+              setMessagesOfCurrentUser((prev) => ([ ...prev, conversation]));
+            }
+          })
+          .catch((err) =>
+            console.log('fail to call api getConversationById', err)
           );
-        })
-        .catch((err) => console.log('fail to call api getConversationById'));
-    });
+      });
+    }
+  };
+  console.log('setMessagesOfCurrentUser', messagesOfCurrentUser)
+
+  const filterConversationsOfUser = (messagesOfCurrentUser)=>{
+    let temp = [];
+    if(messagesOfCurrentUser && messagesOfCurrentUser.length > 0) {
+      messagesOfCurrentUser.forEach((message, index) => {
+        const currentMessageIndex = temp.findIndex(
+          (item, index) => item.conversation_id === message.conversation_id
+        );
+        if (currentMessageIndex === -1) {
+          temp.push(message);
+        } else {
+          temp[currentMessageIndex] = message;
+        }
+      })
+    }
+    return temp
+  }
+
+  const getDataByConversation = (arr) => {
+    console.log('arr', arr);
+    if (arr && arr.length > 0) {
+      arr.forEach((item) => {
+        chatBoxApi
+          .getConversationById(item.conversation_id)
+          .then((res) => {
+            const { data } = res;
+            const temp = {
+              userInfo_1: data.userone,
+              userInfo_2: data.usertwo,
+            };
+            const conversation = { ...item, ...temp };
+            setConversations((prev) =>
+              !prev
+                .map((i) => i.conversation_id)
+                .includes(conversation.conversation_id)
+                ? [...prev, conversation]
+                : prev
+            );
+          })
+          .catch((err) => console.log('fail to call api getConversationById'));
+      });
+    }
   };
   useEffect(() => {
-    const latestMessage = filterConversationsOfUser(allMessages);
-    setLatestMessage(latestMessage)
-    getDataByConversation(latestMessage);
+    getAllMessages();
+  }, []);
+  useEffect(() => {
+    getMessageOfCurrentUser(allMessages);
   }, [allMessages]);
+
+  console.log('messagesOfCurrentUser', messagesOfCurrentUser)
+  useEffect(()=>{
+    if (messagesOfCurrentUser) {
+      const filterLatestMessage = filterConversationsOfUser(
+        messagesOfCurrentUser
+      );
+      console.log('filterLatestMessage', filterLatestMessage);
+      setLatestMessage(filterLatestMessage);
+    }
+  },[messagesOfCurrentUser])
+
+  useEffect(() => {
+    getDataByConversation(latestMessage);
+  }, [latestMessage]);
   const handleClickSendMessage = async () => {
     if (message) {
       const formData = {

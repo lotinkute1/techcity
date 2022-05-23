@@ -52,7 +52,7 @@ function ChatBox(props) {
     console.log('conversations', conversations)
     if (conversations) {
       return conversations.map((conversation) => {
-        const { userInfo_2, message_text, conversation_id } = conversation;
+        const { userInfo_1, userInfo_2, conversation_id } = conversation;
         return (
           <li
             key={conversation_id}
@@ -62,15 +62,21 @@ function ChatBox(props) {
             <div className="chatbox__conversation-logo">
               <img
                 src={
-                  userInfo_2?.ava ||
-                  'https://static.thenounproject.com/png/363640-200.png'
+                  userInfo_1.id === currentUser.id
+                    ? userInfo_2?.ava
+                    : userInfo_1?.ava ||
+                      'https://www.seekpng.com/png/detail/73-730482_existing-user-default-avatar.png'
                 }
                 alt=""
               />
             </div>
             <div className="chatbox__conversation-content">
-              <p className="chatbox__conversation-name">{userInfo_2?.name}</p>
-              <p className="chatbox__conversation-lastest">{message_text}</p>
+              <p className="chatbox__conversation-name">
+                {userInfo_1.id === currentUser.id
+                  ? userInfo_2?.name
+                  : userInfo_1?.name}
+              </p>
+              {/* <p className="chatbox__conversation-lastest">{message_text}</p> */}
             </div>
           </li>
         );
