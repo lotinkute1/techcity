@@ -25,8 +25,8 @@ export default function Footer() {
                 <img src={truck} alt="" />
               </div>
               <div className="footer-top__item-title">
-                <h4>Chính hãng</h4>
-                <span>Sản phẩm chính hãng</span>
+                <h4>Miễn phí vận chuyển</h4>
+                <span>Theo chính sách giao hàng</span>
               </div>
             </div>
           </a>
@@ -36,8 +36,8 @@ export default function Footer() {
                 <img src={box} alt="" />
               </div>
               <div className="footer-top__item-title">
-                <h4>Chính hãng</h4>
-                <span>Sản phẩm chính hãng</span>
+                <h4>Công nghệ đóng gói</h4>
+                <span>Đóng gói theo công nghệ mới</span>
               </div>
             </div>
           </a>
@@ -50,19 +50,19 @@ export default function Footer() {
                 />
               </div>
               <div className="footer-top__item-title">
-                <h4>Chính hãng</h4>
-                <span>Sản phẩm chính hãng</span>
+                <h4>Phân phối</h4>
+                <span>Cộng tác nhiều nhà phân phối</span>
               </div>
             </div>
           </a>
         </div>
         <div className="footer-midle">
           <div className="footer-midle__item">
-            <div className="footer-midle__item-title">MONA VIETNAM</div>
+            <div className="footer-midle__item-title">TECHCITY VIETNAM</div>
             <div className="footer-midle__item-content">
               <ul>
                 <li>
-                  <a href="/#">Giới thiệu</a>
+                  <a href="/#">Giới thiệu Techcity</a>
                 </li>
                 <li>
                   <a href="/#">Khách hàng thân thiết</a>{" "}
@@ -77,28 +77,28 @@ export default function Footer() {
             </div>
           </div>
           <div className="footer-midle__item">
-            <div className="footer-midle__item-title">liên hệ</div>
+            <div className="footer-midle__item-title">Tổng đài hỗ trợ</div>
             <div className="footer-midle__item-content">
               <ul>
                 <li>
                   <a href="/#">
-                    Gọi điện mua hàng : <strong>1900 636 648</strong> (8h - 22h)
+                    Gọi mua : <strong> 1900 636 636</strong> (8h - 22h)
                   </a>
                 </li>
                 <li>
                   <a href="/#">
-                    Gọi điện khiếu nại : <strong>1900 636 648</strong> (8h -
+                    Kỹ thuật : <strong> 1900 636 642</strong> (8h -
                     22h)
                   </a>{" "}
                 </li>
                 <li>
                   <a href="/#">
-                    Gọi điện trả hàng : <strong>1900 636 648</strong> (8h - 22h)
+                    Khiếu nại : <strong>1900 636 646</strong> (8h - 22h)
                   </a>{" "}
                 </li>
                 <li>
                   <a href="/#">
-                    Gọi điện bảo hành : <strong>1900 636 648</strong> (8h - 22h)
+                    Bảo hành : <strong>1900 636 696</strong> (8h - 22h)
                   </a>{" "}
                 </li>
               </ul>
@@ -109,16 +109,16 @@ export default function Footer() {
             <div className="footer-midle__item-content">
               <ul>
                 <li>
-                  <a href="/#">Chi nhánh 1 : Lý Thường Kiệt</a>
+                  <a href="/#">Chi nhánh 1 : 03 Lê Lợi, P Chính Gián, Q Hải Châu, Đà Nẵng</a>
                 </li>
                 <li>
-                  <a href="/#">Chi nhánh 2 : Nguyễn Thị Minh Khai</a>{" "}
+                  <a href="/#">Chi nhánh 2 : 52 Ngô Nại Thịnh, P An Hải, Q Sơn Trà, Đà Nẵng</a>{" "}
                 </li>
                 <li>
-                  <a href="/#">Chi nhánh 2 : Nguyễn Thị Minh Khai</a>{" "}
+                  <a href="/#">Chi nhánh 3 : 20 Bạch Đằng, P Tân Chính, Q Hải Châu, Đà Nẵng</a>{" "}
                 </li>
                 <li>
-                  <a href="/#">Chi nhánh 2 : Nguyễn Thị Minh Khai</a>{" "}
+                  <a href="/#">Chi nhánh 4 : 69 Lý Thái Tổ, P Thạc Gián, Q Thanh Khê, Đà Nẵng</a>{" "}
                 </li>
               </ul>
             </div>
@@ -145,15 +145,15 @@ export default function Footer() {
         </div>
         <div className="footer-bottom">
           <div className="footer-bottom__title">
-            Bản quyền © 2017 bởi MONA VIET NAM
+            Bản quyền © 2022 bởi TECHCITY VIET NAM
           </div>
           <div className="footer-bottom__content">
-            Công ty Cổ Phần MONA Việt Nam Giấy phép kinh doanh số 0107875xxx do
-            sở kế hoạch và đầu tư thành phố Hồ Chí Minh cấp ngày 06/06/2016
+            Công ty Cổ Phần TECHCITY Việt Nam Giấy phép kinh doanh số 0107875xxx do
+            sở kế hoạch và đầu tư thành phố Đà Nẵng cấp ngày 01/04/2022
             <br />
-            Văn phòng HCM: 319 - C16 Lý Thường Kiệt, phường 15, quận 11, TP. HCM
+            Văn phòng Đà Nẵng: 69 Lý Thái Tổ, P Thạc Gián, Q Thanh Khê, TP Đà Nẵng
             <br />
-            Hotline :1900 636 648 | Email: mon@mona.media
+            Hotline :1900 636 648 | Email: tech@city.media
           </div>
         </div>
       </div>
