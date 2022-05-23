@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     position: "fixed !important",
     bottom: 0,
-    right: "500px",
+    right: "10px",
     backgroundColor: "#fed700 !important",
     border: 0,
   },
